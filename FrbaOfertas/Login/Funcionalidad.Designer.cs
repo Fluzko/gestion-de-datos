@@ -94,7 +94,7 @@
             this.Controls.Add(this.titulo);
             this.Controls.Add(this.groupBox1);
             this.Name = "Funcionalidad";
-            this.Text = "Form1";
+            this.Text = "Seleccion funcionalidad";
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

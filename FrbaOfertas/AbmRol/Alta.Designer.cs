@@ -130,7 +130,7 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // Nuevo
+            // Alta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -139,8 +139,8 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.btnAcceder);
             this.Controls.Add(this.groupBox1);
-            this.Name = "Nuevo";
-            this.Text = "Nuevo rol";
+            this.Name = "Alta";
+            this.Text = "Alta rol";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

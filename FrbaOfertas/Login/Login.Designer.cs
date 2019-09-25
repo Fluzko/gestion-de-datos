@@ -36,6 +36,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btnCerrar = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.LbelChofer = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -53,6 +54,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.LbelChofer);
             this.groupBox1.Controls.Add(this.txtPass);
             this.groupBox1.Controls.Add(this.txtUsername);
             this.groupBox1.Controls.Add(this.label3);
@@ -102,7 +104,7 @@
             // 
             // btnCerrar
             // 
-            this.btnCerrar.Location = new System.Drawing.Point(20, 194);
+            this.btnCerrar.Location = new System.Drawing.Point(15, 197);
             this.btnCerrar.Name = "btnCerrar";
             this.btnCerrar.Size = new System.Drawing.Size(75, 23);
             this.btnCerrar.TabIndex = 9;
@@ -111,7 +113,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(283, 194);
+            this.button1.Location = new System.Drawing.Point(283, 197);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 10;
@@ -119,17 +121,27 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // LbelChofer
+            // 
+            this.LbelChofer.AutoSize = true;
+            this.LbelChofer.Location = new System.Drawing.Point(117, 92);
+            this.LbelChofer.Name = "LbelChofer";
+            this.LbelChofer.Size = new System.Drawing.Size(124, 13);
+            this.LbelChofer.TabIndex = 20;
+            this.LbelChofer.Text = "Primera vez? Registrarse";
+            this.LbelChofer.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(378, 229);
+            this.ClientSize = new System.Drawing.Size(378, 230);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.btnCerrar);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label2);
             this.Name = "Login";
-            this.Text = "Form1";
+            this.Text = "Login";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -147,6 +159,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnCerrar;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label LbelChofer;
 
     }
 }

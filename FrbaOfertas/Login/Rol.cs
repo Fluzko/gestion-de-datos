@@ -21,5 +21,10 @@ namespace FrbaOfertas.Login
         {
 
         }
+
+        private void LbelChofer_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

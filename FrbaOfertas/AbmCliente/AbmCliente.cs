@@ -8,21 +8,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FrbaOfertas.AbmRol
+namespace FrbaOfertas.AbmCliente
 {
-    public partial class AbmRol : Form
+    public partial class AbmCliente : Form
     {
-        public AbmRol()
+        public AbmCliente()
         {
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void AbmRol_Load(object sender, EventArgs e)
+        private void clienteVolverbtn_Click(object sender, EventArgs e)
         {
 
         }

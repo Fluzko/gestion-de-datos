@@ -10,11 +10,21 @@ using System.Windows.Forms;
 
 namespace FrbaOfertas.AbmCliente
 {
-    public partial class Form1 : Form
+    public partial class Modificar : Form
     {
-        public Form1()
+        public Modificar()
         {
             InitializeComponent();
+        }
+
+        private void label16_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }
