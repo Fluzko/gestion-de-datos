@@ -1,6 +1,6 @@
 ﻿namespace FrbaOfertas.AbmRol
 {
-    partial class Form1
+    partial class AbmRol
     {
         /// <summary>
         /// Required designer variable.

@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace FrbaOfertas.AbmRol
 {
-    public partial class Form1 : Form
+    public partial class Modificar : Form
     {
-        public Form1()
+        public Modificar()
         {
             InitializeComponent();
         }
