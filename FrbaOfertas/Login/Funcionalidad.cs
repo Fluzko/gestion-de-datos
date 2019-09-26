@@ -12,14 +12,35 @@ namespace FrbaOfertas.Login
 {
     public partial class Funcionalidad : Form
     {
-        public Funcionalidad()
+        String rol;
+        public Funcionalidad(String rol)
         {
             InitializeComponent();
+            this.rol = rol;
+            Titulo.Text = this.rol;
+            loadFuncionalidades();
+        }
+
+        private void loadFuncionalidades()
+        {
+
         }
 
         private void titulo_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnAcceder_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cerrarSesion_Click(object sender, EventArgs e)
+        {
+            Login l = new Login();
+            l.Show();
+            this.Hide();
         }
     }
 }

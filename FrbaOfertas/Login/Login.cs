@@ -45,10 +45,14 @@ namespace FrbaOfertas.Login
                 return;
             }
 
+            //consulta  a la DB
             Boolean rsp = DB_Ofertas.login(this.username, this.password);
 
             if (rsp){
                 //pantalla de seleccion de rol
+                 Rol r = new Rol(this.username);
+                 r.Show();
+                this.Hide();
             }
             else{
                 if (this.intentos <= 3) { this.intentos++; }
