@@ -12,6 +12,11 @@ namespace FrbaOfertas.Login
 {
     public partial class Login : Form
     {
+        private String username;
+        private String password;
+        private String usuarioBloqueado;
+        private short intentos = 0;
+
         public Login()
         {
             InitializeComponent();
@@ -27,12 +32,61 @@ namespace FrbaOfertas.Login
 
         }
 
+        //Boton de logueo
         private void button1_Click(object sender, EventArgs e)
         {
+            if (String.IsNullOrEmpty(this.username) || String.IsNullOrEmpty(this.password)){
+                MessageBox.Show("El Usuario o la Contrasena no pueden estar vacios", "Error");
+                return;
+            }
 
+            if(this.usuarioBloqueado == this.username){
+                MessageBox.Show("Usuario: "+ this.username +" inhabilitado por multiples intentos fallidos", "Error");
+                return;
+            }
+
+            Boolean rsp = DB_Ofertas.login(this.username, this.password);
+
+            if (rsp){
+                //pantalla de seleccion de rol
+            }
+            else{
+                if (this.intentos <= 3) { this.intentos++; }
+              
+                if (this.intentos > 3)
+                {
+                    this.usuarioBloqueado = this.username;
+                    MessageBox.Show("Se ha inhabilitado el usuario: " + this.username + " por superar la cantidad de intentos", "Error");
+                    return;
+                }
+                else
+                {
+                    MessageBox.Show("Usuario o contrasena invalida, intentos restantes: "+(3 - this.intentos)+"","Error");
+                    return;
+                }
+            }
         }
 
+        //input de password
         private void txtPass_TextChanged(object sender, EventArgs e)
+        {
+            this.password = txtPass.Text;
+        }
+
+        //input de nombre de usuario
+        private void txtUsername_TextChanged(object sender, EventArgs e)
+        {
+            this.username = txtUsername.Text;
+        }
+
+        //boton cerrar
+        private void btnCerrar_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        //ir a registro
+        private void LbelChofer_Click(object sender, EventArgs e)
         {
 
         }
