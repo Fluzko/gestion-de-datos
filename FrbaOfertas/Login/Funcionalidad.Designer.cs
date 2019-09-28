@@ -97,6 +97,7 @@
             this.Controls.Add(this.groupBox1);
             this.Name = "Funcionalidad";
             this.Text = "Seleccion funcionalidad";
+            this.Load += new System.EventHandler(this.Funcionalidad_Load);
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

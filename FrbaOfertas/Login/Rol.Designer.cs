@@ -109,6 +109,7 @@
             this.Controls.Add(this.Titulo);
             this.Name = "Rol";
             this.Text = "Seleccion rol";
+            this.Load += new System.EventHandler(this.Rol_Load);
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

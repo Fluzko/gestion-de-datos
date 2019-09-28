@@ -12,18 +12,18 @@ namespace FrbaOfertas.Login
 {
     public partial class Rol : Form
     {
-        String username;
-        public Rol(String username)
+        Modelos.Usuario usuario;
+        public Rol(Modelos.Usuario usuario)
         {
             InitializeComponent();
-            this.username = username;
-            Titulo.Text = "Usuario: "+username;
+            this.usuario = usuario;
+            Titulo.Text = "Usuario: " + this.usuario.getUsername();
             loadRoles();
         }
 
         private void loadRoles()
         {
-            List<String> roles = DB_Ofertas.getRoles(this.username);
+            List<Modelos.Rol> roles = this.usuario.getRoles();
 
             if (roles.Count == 0)
             {
@@ -31,18 +31,20 @@ namespace FrbaOfertas.Login
             }
             else
             {
-                for(int i = 0; i < roles.Count(); i++){ //cargo el combobox
-                    rolescbx.Items.Add(roles.ElementAt(i)); 
-                }
+                roles.ForEach(delegate(Modelos.Rol rol){ //cargo el combobox
+                    rolescbx.Items.Add(rol);
+                });
+                rolescbx.SelectedItem = roles.First();
             }
         }
+
 
 
         private void btnEntrar_Click(object sender, EventArgs e)
         {
             if(!String.IsNullOrEmpty(rolescbx.Text)){
             //pasa a pantalla de funcionalidad
-            Funcionalidad f = new Funcionalidad(this.rolescbx.Text);
+            Funcionalidad f = new Funcionalidad((Modelos.Rol) this.rolescbx.SelectedItem);
             f.Show();
             this.Hide();
             }else{
@@ -63,6 +65,11 @@ namespace FrbaOfertas.Login
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Rol_Load(object sender, EventArgs e)
         {
 
         }

@@ -48,9 +48,9 @@ namespace FrbaOfertas.Login
             //consulta  a la DB
             Modelos.Usuario usuario = DB_Ofertas.login(this.username, this.password);
 
-            if (rsp){
+            if (!usuario.Equals(null)){
                 //pantalla de seleccion de rol
-                 Rol r = new Rol(this.username);
+                 Rol r = new Rol(usuario);
                  r.Show();
                 this.Hide();
             }
@@ -92,7 +92,7 @@ namespace FrbaOfertas.Login
         //ir a registro
         private void LbelChofer_Click(object sender, EventArgs e)
         {
-
+            //pantalla para elegir rol
         }
     }
 }

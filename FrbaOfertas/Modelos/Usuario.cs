@@ -8,7 +8,14 @@ namespace FrbaOfertas.Modelos
 {
     class Usuario
     {
-        String username;
-        String password;
+        private String username;
+        private String password;
+
+        public List<Rol> getRoles()
+        {
+            return DB_Ofertas.getRoles(this.username);
+        }
+
+        public String getUsername() { return this.username; }
     }
 }
