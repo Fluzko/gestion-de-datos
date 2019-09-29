@@ -94,5 +94,10 @@ namespace FrbaOfertas.Login
         {
             //pantalla para elegir rol
         }
+
+        private void Login_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

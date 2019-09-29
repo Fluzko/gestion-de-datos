@@ -32,12 +32,12 @@
             this.buttonFecha = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.textFN = new System.Windows.Forms.TextBox();
-            this.buttonAtras = new System.Windows.Forms.Button();
+            this.buttonVolver = new System.Windows.Forms.Button();
             this.buttonAlta = new System.Windows.Forms.Button();
-            this.buttonBorrar = new System.Windows.Forms.Button();
+            this.buttonLimpiar = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.textTel = new System.Windows.Forms.TextBox();
+            this.textTelefono = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.textMail = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -55,7 +55,7 @@
             this.label11 = new System.Windows.Forms.Label();
             this.textDpto = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
-            this.textLoc = new System.Windows.Forms.TextBox();
+            this.textLocalidad = new System.Windows.Forms.TextBox();
             this.textCP = new System.Windows.Forms.TextBox();
             this.calendario = new System.Windows.Forms.MonthCalendar();
             this.groupBox1.SuspendLayout();
@@ -67,12 +67,12 @@
             this.groupBox1.Controls.Add(this.buttonFecha);
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.textFN);
-            this.groupBox1.Controls.Add(this.buttonAtras);
+            this.groupBox1.Controls.Add(this.buttonVolver);
             this.groupBox1.Controls.Add(this.buttonAlta);
-            this.groupBox1.Controls.Add(this.buttonBorrar);
+            this.groupBox1.Controls.Add(this.buttonLimpiar);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.textTel);
+            this.groupBox1.Controls.Add(this.textTelefono);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.textMail);
             this.groupBox1.Controls.Add(this.label3);
@@ -98,6 +98,7 @@
             this.buttonFecha.TabIndex = 30;
             this.buttonFecha.Text = "Seleccionar";
             this.buttonFecha.UseVisualStyleBackColor = true;
+            this.buttonFecha.Click += new System.EventHandler(this.buttonFecha_Click);
             // 
             // label8
             // 
@@ -116,34 +117,37 @@
             this.textFN.Size = new System.Drawing.Size(111, 20);
             this.textFN.TabIndex = 27;
             this.textFN.TabStop = false;
+            this.textFN.TextChanged += new System.EventHandler(this.textFN_TextChanged);
             // 
-            // buttonAtras
+            // buttonVolver
             // 
-            this.buttonAtras.Location = new System.Drawing.Point(6, 283);
-            this.buttonAtras.Name = "buttonAtras";
-            this.buttonAtras.Size = new System.Drawing.Size(75, 23);
-            this.buttonAtras.TabIndex = 26;
-            this.buttonAtras.Text = "Volver";
-            this.buttonAtras.UseVisualStyleBackColor = true;
-            this.buttonAtras.Click += new System.EventHandler(this.buttonAtras_Click);
+            this.buttonVolver.Location = new System.Drawing.Point(6, 283);
+            this.buttonVolver.Name = "buttonVolver";
+            this.buttonVolver.Size = new System.Drawing.Size(75, 23);
+            this.buttonVolver.TabIndex = 26;
+            this.buttonVolver.Text = "Volver";
+            this.buttonVolver.UseVisualStyleBackColor = true;
+            this.buttonVolver.Click += new System.EventHandler(this.buttonVolver_Click);
             // 
             // buttonAlta
             // 
-            this.buttonAlta.Location = new System.Drawing.Point(594, 282);
+            this.buttonAlta.Location = new System.Drawing.Point(594, 281);
             this.buttonAlta.Name = "buttonAlta";
             this.buttonAlta.Size = new System.Drawing.Size(75, 23);
             this.buttonAlta.TabIndex = 25;
             this.buttonAlta.Text = "Confirmar";
             this.buttonAlta.UseVisualStyleBackColor = true;
+            this.buttonAlta.Click += new System.EventHandler(this.buttonAlta_Click);
             // 
-            // buttonBorrar
+            // buttonLimpiar
             // 
-            this.buttonBorrar.Location = new System.Drawing.Point(514, 282);
-            this.buttonBorrar.Name = "buttonBorrar";
-            this.buttonBorrar.Size = new System.Drawing.Size(75, 23);
-            this.buttonBorrar.TabIndex = 24;
-            this.buttonBorrar.Text = "Limpiar";
-            this.buttonBorrar.UseVisualStyleBackColor = true;
+            this.buttonLimpiar.Location = new System.Drawing.Point(514, 282);
+            this.buttonLimpiar.Name = "buttonLimpiar";
+            this.buttonLimpiar.Size = new System.Drawing.Size(75, 23);
+            this.buttonLimpiar.TabIndex = 24;
+            this.buttonLimpiar.Text = "Limpiar";
+            this.buttonLimpiar.UseVisualStyleBackColor = true;
+            this.buttonLimpiar.Click += new System.EventHandler(this.buttonLimpiar_Click);
             // 
             // label6
             // 
@@ -163,12 +167,13 @@
             this.label5.TabIndex = 9;
             this.label5.Text = "*Teléfono:";
             // 
-            // textTel
+            // textTelefono
             // 
-            this.textTel.Location = new System.Drawing.Point(495, 70);
-            this.textTel.Name = "textTel";
-            this.textTel.Size = new System.Drawing.Size(161, 20);
-            this.textTel.TabIndex = 8;
+            this.textTelefono.Location = new System.Drawing.Point(495, 70);
+            this.textTelefono.Name = "textTelefono";
+            this.textTelefono.Size = new System.Drawing.Size(161, 20);
+            this.textTelefono.TabIndex = 8;
+            this.textTelefono.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textDNI_KeyPress);
             // 
             // label4
             // 
@@ -202,6 +207,7 @@
             this.textDNI.Name = "textDNI";
             this.textDNI.Size = new System.Drawing.Size(130, 20);
             this.textDNI.TabIndex = 4;
+            this.textDNI.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textDNI_KeyPress);
             // 
             // label2
             // 
@@ -234,6 +240,7 @@
             this.textNombre.Name = "textNombre";
             this.textNombre.Size = new System.Drawing.Size(260, 20);
             this.textNombre.TabIndex = 0;
+            this.textNombre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textNombre_KeyPress);
             // 
             // groupBox2
             // 
@@ -245,7 +252,7 @@
             this.groupBox2.Controls.Add(this.label11);
             this.groupBox2.Controls.Add(this.textDpto);
             this.groupBox2.Controls.Add(this.label12);
-            this.groupBox2.Controls.Add(this.textLoc);
+            this.groupBox2.Controls.Add(this.textLocalidad);
             this.groupBox2.Controls.Add(this.textCP);
             this.groupBox2.Location = new System.Drawing.Point(15, 137);
             this.groupBox2.Name = "groupBox2";
@@ -294,6 +301,7 @@
             this.textPiso.Name = "textPiso";
             this.textPiso.Size = new System.Drawing.Size(41, 20);
             this.textPiso.TabIndex = 15;
+            this.textPiso.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textDNI_KeyPress);
             // 
             // label11
             // 
@@ -321,12 +329,12 @@
             this.label12.TabIndex = 22;
             this.label12.Text = "*Código Postal:";
             // 
-            // textLoc
+            // textLocalidad
             // 
-            this.textLoc.Location = new System.Drawing.Point(296, 55);
-            this.textLoc.Name = "textLoc";
-            this.textLoc.Size = new System.Drawing.Size(157, 20);
-            this.textLoc.TabIndex = 19;
+            this.textLocalidad.Location = new System.Drawing.Point(296, 55);
+            this.textLocalidad.Name = "textLocalidad";
+            this.textLocalidad.Size = new System.Drawing.Size(157, 20);
+            this.textLocalidad.TabIndex = 19;
             // 
             // textCP
             // 
@@ -334,6 +342,7 @@
             this.textCP.Name = "textCP";
             this.textCP.Size = new System.Drawing.Size(67, 20);
             this.textCP.TabIndex = 21;
+            this.textCP.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textDNI_KeyPress);
             // 
             // calendario
             // 
@@ -342,15 +351,17 @@
             this.calendario.Name = "calendario";
             this.calendario.TabIndex = 23;
             this.calendario.Visible = false;
+            this.calendario.DateChanged += new System.Windows.Forms.DateRangeEventHandler(this.calendario_DateChanged);
             // 
-            // Modificar
+            // Alta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(701, 338);
             this.Controls.Add(this.groupBox1);
-            this.Name = "Modificar";
+            this.Name = "Alta";
             this.Text = "Alta Cliente";
+            this.Load += new System.EventHandler(this.Alta_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -365,12 +376,12 @@
         private System.Windows.Forms.Button buttonFecha;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox textFN;
-        private System.Windows.Forms.Button buttonAtras;
+        private System.Windows.Forms.Button buttonVolver;
         private System.Windows.Forms.Button buttonAlta;
-        private System.Windows.Forms.Button buttonBorrar;
+        private System.Windows.Forms.Button buttonLimpiar;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textTel;
+        private System.Windows.Forms.TextBox textTelefono;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textMail;
         private System.Windows.Forms.Label label3;
@@ -388,7 +399,7 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox textDpto;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TextBox textLoc;
+        private System.Windows.Forms.TextBox textLocalidad;
         private System.Windows.Forms.TextBox textCP;
         private System.Windows.Forms.MonthCalendar calendario;
     }
