@@ -45,9 +45,7 @@ namespace FrbaOfertas.Login
             if ( !((Modelos.Funcionalidad) funcionalidadescbx.SelectedItem).Equals(null))
             {
                 //pasar al menu adecuado
-                //((Modelos.Funcionalidad) funcionalidadescbx.SelectedItem).cambiarpantalla()
-                //f.Show();
-                this.Hide();
+                ((Modelos.Funcionalidad)funcionalidadescbx.SelectedItem).changeView();
             }
             else
             {

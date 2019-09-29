@@ -8,15 +8,16 @@ namespace FrbaOfertas
 {
     class Session
     {
-        Modelos.Usuario user;
-        Modelos.Rol rol;
+        private static Modelos.Usuario user;
+        private static Modelos.Rol rol;
 
-        public Session(Modelos.Usuario user, Modelos.Rol rol) {
-            this.user = user;
-            this.rol = rol;
+
+        public static void setSession(Modelos.Usuario nuevoUser, Modelos.Rol nuevoRol) {
+            user = nuevoUser;
+            rol = nuevoRol;
         }
 
-        public Modelos.Usuario getUser() { return this.user; }
-        public Modelos.Rol getRol() { return this.rol; }
+        public static Modelos.Usuario getUser() { return user; }
+        public static Modelos.Rol getRol() { return rol; }
     }
 }

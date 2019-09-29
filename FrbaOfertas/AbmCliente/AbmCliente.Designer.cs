@@ -29,16 +29,16 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btnLista = new System.Windows.Forms.Button();
-            this.btnNuevoRol = new System.Windows.Forms.Button();
+            this.btnListaClientes = new System.Windows.Forms.Button();
+            this.btnAltaCliente = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.btnLista);
-            this.groupBox1.Controls.Add(this.btnNuevoRol);
+            this.groupBox1.Controls.Add(this.btnListaClientes);
+            this.groupBox1.Controls.Add(this.btnAltaCliente);
             this.groupBox1.Location = new System.Drawing.Point(22, 27);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(168, 110);
@@ -46,23 +46,25 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Acciones:";
             // 
-            // btnLista
+            // btnListaClientes
             // 
-            this.btnLista.Location = new System.Drawing.Point(11, 71);
-            this.btnLista.Name = "btnLista";
-            this.btnLista.Size = new System.Drawing.Size(151, 23);
-            this.btnLista.TabIndex = 1;
-            this.btnLista.Text = "Modificar Cliente";
-            this.btnLista.UseVisualStyleBackColor = true;
+            this.btnListaClientes.Location = new System.Drawing.Point(11, 71);
+            this.btnListaClientes.Name = "btnListaClientes";
+            this.btnListaClientes.Size = new System.Drawing.Size(151, 23);
+            this.btnListaClientes.TabIndex = 1;
+            this.btnListaClientes.Text = "Modificar Cliente";
+            this.btnListaClientes.UseVisualStyleBackColor = true;
+            this.btnListaClientes.Click += new System.EventHandler(this.btnListaClientes_Click);
             // 
-            // btnNuevoRol
+            // btnAltaCliente
             // 
-            this.btnNuevoRol.Location = new System.Drawing.Point(11, 29);
-            this.btnNuevoRol.Name = "btnNuevoRol";
-            this.btnNuevoRol.Size = new System.Drawing.Size(151, 23);
-            this.btnNuevoRol.TabIndex = 0;
-            this.btnNuevoRol.Text = "Alta de un nuevo Cliente";
-            this.btnNuevoRol.UseVisualStyleBackColor = true;
+            this.btnAltaCliente.Location = new System.Drawing.Point(11, 29);
+            this.btnAltaCliente.Name = "btnAltaCliente";
+            this.btnAltaCliente.Size = new System.Drawing.Size(151, 23);
+            this.btnAltaCliente.TabIndex = 0;
+            this.btnAltaCliente.Text = "Alta de un nuevo Cliente";
+            this.btnAltaCliente.UseVisualStyleBackColor = true;
+            this.btnAltaCliente.Click += new System.EventHandler(this.btnAltaCliente_Click);
             // 
             // button1
             // 
@@ -90,8 +92,8 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button btnLista;
-        private System.Windows.Forms.Button btnNuevoRol;
+        private System.Windows.Forms.Button btnListaClientes;
+        private System.Windows.Forms.Button btnAltaCliente;
         private System.Windows.Forms.Button button1;
 
     }

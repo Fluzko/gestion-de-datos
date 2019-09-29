@@ -10,6 +10,7 @@ namespace FrbaOfertas.Modelos
     {
         int id_funcionalidad;
         String funcionalidad;
+        String pantalla;
 
         public Funcionalidad(int id, String funcionalidad){
             id_funcionalidad = id;
@@ -18,5 +19,8 @@ namespace FrbaOfertas.Modelos
 
         public String getFuncionalidad() { return this.funcionalidad; }
 
+        public void changeView() {
+           
+        }
     }
 }

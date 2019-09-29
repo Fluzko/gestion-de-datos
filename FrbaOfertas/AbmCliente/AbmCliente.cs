@@ -19,7 +19,26 @@ namespace FrbaOfertas.AbmCliente
 
         private void clienteVolverbtn_Click(object sender, EventArgs e)
         {
+            //volver a la lista de funcionalidades para la sesion actual
+            Login.Funcionalidad f = new Login.Funcionalidad(Session.getRol());
+            f.Show();
+            this.Hide();
+        }
 
+        private void btnAltaCliente_Click(object sender, EventArgs e)
+        {
+            //pantalla de alta cliente
+            Alta a = new Alta();
+            a.Show();
+            this.Hide();
+        }
+
+        private void btnListaClientes_Click(object sender, EventArgs e)
+        {
+            //pantalla de modificar cliente
+            Modificar m = new Modificar();
+            m.Show();
+            this.Hide();
         }
     }
 }
