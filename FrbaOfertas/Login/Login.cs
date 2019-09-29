@@ -46,7 +46,7 @@ namespace FrbaOfertas.Login
             }
 
             //consulta  a la DB
-            Boolean rsp = DB_Ofertas.login(this.username, this.password);
+            Modelos.Usuario usuario = DB_Ofertas.login(this.username, this.password);
 
             if (rsp){
                 //pantalla de seleccion de rol
