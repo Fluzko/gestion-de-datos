@@ -34,10 +34,6 @@ namespace FrbaOfertas.AbmCliente
             }
         }
 
-        private void Alta_Load(object sender, EventArgs e)
-        {
-
-        }
 
         private void buttonLimpiar_Click(object sender, EventArgs e)
         {
@@ -51,10 +47,6 @@ namespace FrbaOfertas.AbmCliente
             this.calendario.Select();  
         }
 
-        private void textFN_TextChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private void calendario_DateChanged(object sender, DateRangeEventArgs e)
         {

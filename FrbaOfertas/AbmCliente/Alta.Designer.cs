@@ -117,7 +117,6 @@
             this.textFN.Size = new System.Drawing.Size(111, 20);
             this.textFN.TabIndex = 27;
             this.textFN.TabStop = false;
-            this.textFN.TextChanged += new System.EventHandler(this.textFN_TextChanged);
             // 
             // buttonVolver
             // 
@@ -361,7 +360,6 @@
             this.Controls.Add(this.groupBox1);
             this.Name = "Alta";
             this.Text = "Alta Cliente";
-            this.Load += new System.EventHandler(this.Alta_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
