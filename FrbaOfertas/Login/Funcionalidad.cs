@@ -42,16 +42,16 @@ namespace FrbaOfertas.Login
 
         private void titulo_Click(object sender, EventArgs e)
         {
-            if (!String.IsNullOrEmpty(funcionalidadescbx.Text))
+            if ( !((Modelos.Funcionalidad) funcionalidadescbx.SelectedItem).Equals(null))
             {
                 //pasar al menu adecuado
-                
+                //((Modelos.Funcionalidad) funcionalidadescbx.SelectedItem).cambiarpantalla()
                 //f.Show();
                 this.Hide();
             }
             else
             {
-                MessageBox.Show("No se puede ingresar sin seleccionar un rol, intente con otro usuario", "Error");
+                MessageBox.Show("Elija una funcionalidad valida", "Error");
             }
         }
 
