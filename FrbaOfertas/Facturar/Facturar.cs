@@ -10,11 +10,21 @@ using System.Windows.Forms;
 
 namespace FrbaOfertas.Facturar
 {
-    public partial class Form1 : Form
+    public partial class Facturar : Form
     {
-        public Form1()
+        public Facturar()
         {
             InitializeComponent();
+        }
+
+        private void groupBox2_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnAltaCliente_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
