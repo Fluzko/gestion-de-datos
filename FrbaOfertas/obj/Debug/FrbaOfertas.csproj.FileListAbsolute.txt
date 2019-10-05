@@ -17,3 +17,21 @@ C:\Users\Facundo\Desktop\GDD\Tp\Aplicacion\FrbaOfertas\FrbaOfertas\obj\Debug\Frb
 C:\Users\Facundo\Desktop\GDD\Tp\Aplicacion\FrbaOfertas\FrbaOfertas\obj\Debug\FrbaOfertas.csproj.GenerateResource.Cache
 C:\Users\Facundo\Desktop\GDD\Tp\Aplicacion\FrbaOfertas\FrbaOfertas\obj\Debug\FrbaOfertas.exe
 C:\Users\Facundo\Desktop\GDD\Tp\Aplicacion\FrbaOfertas\FrbaOfertas\obj\Debug\FrbaOfertas.pdb
+D:\UTN\Tercer Año\Gestión de Datos\gestion-de-datos\FrbaOfertas\bin\Debug\FrbaOfertas.exe.config
+D:\UTN\Tercer Año\Gestión de Datos\gestion-de-datos\FrbaOfertas\obj\Debug\FrbaOfertas.exe
+D:\UTN\Tercer Año\Gestión de Datos\gestion-de-datos\FrbaOfertas\obj\Debug\FrbaOfertas.csprojResolveAssemblyReference.cache
+D:\UTN\Tercer Año\Gestión de Datos\gestion-de-datos\FrbaOfertas\obj\Debug\FrbaOfertas.AbmCliente.AbmCliente.resources
+D:\UTN\Tercer Año\Gestión de Datos\gestion-de-datos\FrbaOfertas\obj\Debug\FrbaOfertas.AbmCliente.Alta.resources
+D:\UTN\Tercer Año\Gestión de Datos\gestion-de-datos\FrbaOfertas\obj\Debug\FrbaOfertas.AbmCliente.Modificar.resources
+D:\UTN\Tercer Año\Gestión de Datos\gestion-de-datos\FrbaOfertas\obj\Debug\FrbaOfertas.AbmRol.AbmRol.resources
+D:\UTN\Tercer Año\Gestión de Datos\gestion-de-datos\FrbaOfertas\obj\Debug\FrbaOfertas.AbmRol.Alta.resources
+D:\UTN\Tercer Año\Gestión de Datos\gestion-de-datos\FrbaOfertas\obj\Debug\FrbaOfertas.AbmRol.Modificar.resources
+D:\UTN\Tercer Año\Gestión de Datos\gestion-de-datos\FrbaOfertas\obj\Debug\FrbaOfertas.AbmRol.Listar.resources
+D:\UTN\Tercer Año\Gestión de Datos\gestion-de-datos\FrbaOfertas\obj\Debug\FrbaOfertas.ComprarOferta.ComprarOferta.resources
+D:\UTN\Tercer Año\Gestión de Datos\gestion-de-datos\FrbaOfertas\obj\Debug\FrbaOfertas.CrearOferta.Form1.resources
+D:\UTN\Tercer Año\Gestión de Datos\gestion-de-datos\FrbaOfertas\obj\Debug\FrbaOfertas.Login.Funcionalidad.resources
+D:\UTN\Tercer Año\Gestión de Datos\gestion-de-datos\FrbaOfertas\obj\Debug\FrbaOfertas.Login.Login.resources
+D:\UTN\Tercer Año\Gestión de Datos\gestion-de-datos\FrbaOfertas\obj\Debug\FrbaOfertas.Login.Rol.resources
+D:\UTN\Tercer Año\Gestión de Datos\gestion-de-datos\FrbaOfertas\obj\Debug\FrbaOfertas.Properties.Resources.resources
+D:\UTN\Tercer Año\Gestión de Datos\gestion-de-datos\FrbaOfertas\obj\Debug\FrbaOfertas.Registro.Registro.resources
+D:\UTN\Tercer Año\Gestión de Datos\gestion-de-datos\FrbaOfertas\obj\Debug\FrbaOfertas.csproj.GenerateResource.Cache
