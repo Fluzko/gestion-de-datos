@@ -226,3 +226,27 @@ UPDATE Clientes SET credito = montoF
 			ON Cargas.username = Clientes.username
 			GROUP BY Clientes.username
 	) Montos WHERE Clientes.username = Montos.username
+
+
+INSERT INTO Roles(id_rol, nombre, habilitado)
+VALUES
+  (1, 'Cliente',1),
+  (2, 'Proveedor',1),
+  (3, 'Admisnitrador',1)
+
+
+INSERT INTO Funcionalidades(id_func, nombre, descripcion,habilitado)
+VALUES
+  (1, 'ABM Rol','Permite gestionar roles del sistema',1),
+  (3, 'ABM Cliente','Permite gestionar los clientes registrados',1),
+  (3, 'ABM Proveedor','Permite gestionar los proveedores registrados',1),	
+  (4, 'Cargar credito','Permite cargar credito en la cuenta',1),
+  (5, 'Gestionar ofertas','Permite crear y dar de baja nuevas ofertas',1),
+  (6, 'Comprar oferta','Permite comprar una oferta',1),
+  (7, 'Consumir oferta','Permite canjear la oferta',1),
+  (8, 'Facturar a proveedor','Permite facturar en un periodo de tiempo a un proveedor',1),
+  (9, 'Listado estadistico','Permite ver estadisticas diversas',1)
+
+
+
+
