@@ -182,10 +182,47 @@ CREATE TABLE Renglones (
 	cant NUMERIC
 )
 
+INSERT INTO TiposPago (nombre)
+	SELECT DISTINCT Tipo_Pago_Desc
+		FROM gd_esquema.Maestra
+		WHERE Tipo_Pago_Desc IS NOT NULL
+
+INSERT INTO Rubros (nombre, habilitado)
+	SELECT DISTINCT Provee_Rubro, 1
+		FROM gd_esquema.Maestra
+		WHERE Provee_Rubro IS NOT NULL
+
 INSERT INTO Usuarios (username, password, habilitado)
-	(SELECT DISTINCT CONCAT(LOWER(Cli_Nombre), '_', LOWER(Cli_Apellido)), 1234, 1 FROM gd_esquema.Maestra)
+	SELECT DISTINCT CONCAT(LOWER(Cli_Nombre), '_', LOWER(Cli_Apellido)), 1234, 1
+		FROM gd_esquema.Maestra
+		WHERE Cli_Nombre IS NOT NULL AND Cli_Apellido IS NOT NULL
 
+INSERT INTO Clientes (username, nombre, apellido, dni, mail, telefono, fecha_nac, habilitado)
+	SELECT DISTINCT CONCAT(LOWER(Cli_Nombre), '_', LOWER(Cli_Apellido)), Cli_Nombre, Cli_Apellido, Cli_Dni, Cli_Mail, Cli_Telefono, Cli_Fecha_Nac, 1
+		FROM gd_esquema.Maestra
+		WHERE Cli_Nombre IS NOT NULL AND Cli_Apellido IS NOT NULL
 
-INSERT INTO Clientes (username, nombre, apellido, dni, mail, telefono, fecha_nac)
-	(SELECT DISTINCT CONCAT(LOWER(Cli_Nombre), '_', LOWER(Cli_Apellido)), Cli_Nombre, Cli_Apellido, Cli_Dni, Cli_Mail, Cli_Telefono, Cli_Fecha_Nac
-		FROM gd_esquema.Maestra)
+INSERT INTO Usuarios (username, password, habilitado)
+	SELECT DISTINCT Provee_CUIT, 1234, 1
+		FROM gd_esquema.Maestra
+		WHERE Provee_CUIT IS NOT NULL
+
+INSERT INTO Proveedores (username, razon_social, telefono, cuit, rubro, habilitado)
+	SELECT DISTINCT Provee_CUIT, Provee_RS, Provee_Telefono, Provee_CUIT, (SELECT id_rubro FROM Rubros WHERE nombre = Provee_Rubro), 1
+		FROM gd_esquema.Maestra
+		WHERE Provee_CUIT IS NOT NULL
+
+INSERT INTO Cargas (username, tipo_pago, fecha, monto)
+	SELECT c.username, tp.id_tipo, m.Carga_Fecha, m.Carga_Credito
+		FROM gd_esquema.Maestra m
+		JOIN Clientes c ON c.dni = m.Cli_Dni
+		JOIN TiposPago tp ON tp.nombre = m.Tipo_Pago_Desc
+
+UPDATE Clientes SET credito = montoF
+	FROM (
+		SELECT Clientes.username as username, ISNULL(SUM(monto), 0) as montoF
+			FROM Clientes
+			LEFT JOIN Cargas
+			ON Cargas.username = Clientes.username
+			GROUP BY Clientes.username
+	) Montos WHERE Clientes.username = Montos.username
