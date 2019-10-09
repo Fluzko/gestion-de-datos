@@ -238,7 +238,7 @@ VALUES
 INSERT INTO Funcionalidades(id_func, nombre, descripcion,habilitado)
 VALUES
   (1, 'ABM Rol','Permite gestionar roles del sistema',1),
-  (3, 'ABM Cliente','Permite gestionar los clientes registrados',1),
+  (2, 'ABM Cliente','Permite gestionar los clientes registrados',1),
   (3, 'ABM Proveedor','Permite gestionar los proveedores registrados',1),	
   (4, 'Cargar credito','Permite cargar credito en la cuenta',1),
   (5, 'Gestionar ofertas','Permite crear y dar de baja nuevas ofertas',1),
@@ -248,5 +248,34 @@ VALUES
   (9, 'Listado estadistico','Permite ver estadisticas diversas',1)
 
 
+INSERT INTO Rol_Usuario (id_rol, username)
+	SELECT DISTINCT 1, Cli_Dni from gd_esquema.Maestra
 
+INSERT INTO Rol_Usuario (id_rol, username)
+	SELECT DISTINCT 2,
+		CONCAT(	SUBSTRING(Provee_CUIT,1, 2),
+				SUBSTRING(Provee_CUIT,4,8),
+				SUBSTRING(Provee_CUIT, 13,13))
+FROM gd_esquema.Maestra
+WHERE Provee_CUIT is not null
 
+/*Funcionalidades de cliente*/
+INSERT Rol_Funcionalidad (id_rol, id_funcionalidad)
+VALUES
+	(1,4),
+	(1,6),
+	(1,7)
+
+/*Funcionalidades proveedor*/
+INSERT Rol_Funcionalidad (id_rol, id_funcionalidad)
+VALUES
+	(2,5)
+
+/*Funcionalidades Admin*/
+INSERT Rol_Funcionalidad (id_rol, id_funcionalidad)
+VALUES
+	(3,1),
+	(3,2),
+	(3,3),
+	(3,8),
+	(3,9)
