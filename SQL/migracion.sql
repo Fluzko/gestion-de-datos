@@ -193,17 +193,21 @@ INSERT INTO Rubros (nombre, habilitado)
 		WHERE Provee_Rubro IS NOT NULL
 
 INSERT INTO Usuarios (username, password, habilitado)
-	SELECT DISTINCT CONCAT(LOWER(Cli_Nombre), '_', LOWER(Cli_Apellido)), 1234, 1
+	SELECT DISTINCT Cli_Dni, 1234, 1
 		FROM gd_esquema.Maestra
 		WHERE Cli_Nombre IS NOT NULL AND Cli_Apellido IS NOT NULL
 
 INSERT INTO Clientes (username, nombre, apellido, dni, mail, telefono, fecha_nac, habilitado)
-	SELECT DISTINCT CONCAT(LOWER(Cli_Nombre), '_', LOWER(Cli_Apellido)), Cli_Nombre, Cli_Apellido, Cli_Dni, Cli_Mail, Cli_Telefono, Cli_Fecha_Nac, 1
+	SELECT DISTINCT Cli_Dni, Cli_Nombre, Cli_Apellido, Cli_Dni, Cli_Mail, Cli_Telefono, Cli_Fecha_Nac, 1
 		FROM gd_esquema.Maestra
 		WHERE Cli_Nombre IS NOT NULL AND Cli_Apellido IS NOT NULL
 
 INSERT INTO Usuarios (username, password, habilitado)
-	SELECT DISTINCT Provee_CUIT, 1234, 1
+	SELECT DISTINCT CONCAT(	SUBSTRING(Provee_CUIT,1, 2),
+							SUBSTRING(Provee_CUIT,4,8),
+							SUBSTRING(Provee_CUIT, 13,13)), 
+					1234, 
+					1
 		FROM gd_esquema.Maestra
 		WHERE Provee_CUIT IS NOT NULL
 
@@ -257,7 +261,7 @@ INSERT INTO Rol_Usuario (id_rol, username)
 				SUBSTRING(Provee_CUIT,4,8),
 				SUBSTRING(Provee_CUIT, 13,13))
 FROM gd_esquema.Maestra
-WHERE Provee_CUIT is not null
+WHERE Provee_CUIT IS NOT NULL
 
 /*Funcionalidades de cliente*/
 INSERT Rol_Funcionalidad (id_rol, id_funcionalidad)
