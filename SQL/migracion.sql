@@ -291,32 +291,29 @@ VALUES
 
 
 INSERT INTO Ofertas (descripcion, fecha_pub, fecha_vec, username, precio_rebajado, precio_lista, stock, max_cliente)
-	SELECT distinct	Oferta_Descripcion, 
+	SELECT DISTINCT	Oferta_Descripcion, 
 			Oferta_Fecha, 
 			Oferta_Fecha_Venc, 
 			CONCAT(	SUBSTRING(Provee_CUIT,1, 2), SUBSTRING(Provee_CUIT,4,8), SUBSTRING(Provee_CUIT, 13,13)), 
 			Oferta_Precio, 
 			Oferta_Precio_Ficticio, 
-			sum(Oferta_Cantidad), 
-			sum(Oferta_Cantidad) 
+			SUM(Oferta_Cantidad), 
+			SUM(Oferta_Cantidad) 
 	FROM gd_esquema.Maestra
-	WHERE Oferta_Descripcion is not null 
-	group by Oferta_Descripcion, Oferta_Fecha, Oferta_Fecha_Venc, Oferta_Precio, Oferta_Precio_Ficticio,Provee_CUIT   
+	WHERE Oferta_Descripcion IS NOT NULL
+	GROUP BY Oferta_Descripcion, Oferta_Fecha, Oferta_Fecha_Venc, Oferta_Precio, Oferta_Precio_Ficticio,Provee_CUIT   
 
 
-INSERT INTO Cupones ( username, fecha_compra, id_oferta)
-	SELECT distinct 
-					Cli_Dni,
-					Oferta_Fecha_Compra,
-					id_oferta
-					from Ofertas o
-			JOIN gd_esquema.Maestra m on
-				o.descripcion = m.Oferta_Descripcion
-				and m.Oferta_Fecha = o.fecha_pub 
-				and m.Oferta_Fecha_Venc = o.fecha_vec 
-				and CONCAT(	SUBSTRING(Provee_CUIT,1, 2), SUBSTRING(Provee_CUIT,4,8), SUBSTRING(Provee_CUIT, 13,13)) =  o.username
-				and o.precio_lista = m.Oferta_Precio_Ficticio
-				and o.precio_rebajado = m.Oferta_Precio 
-				group by Oferta_Codigo, Oferta_Fecha_Compra, Cli_Dni, id_oferta
-				having Oferta_Codigo is not null 
+INSERT INTO Cupones (username, fecha_compra, id_oferta)
+	SELECT DISTINCT Cli_Dni, Oferta_Fecha_Compra, id_oferta
+	FROM Ofertas o
+	JOIN gd_esquema.Maestra m ON
+		o.descripcion = m.Oferta_Descripcion
+		AND m.Oferta_Fecha = o.fecha_pub 
+		AND m.Oferta_Fecha_Venc = o.fecha_vec 
+		AND CONCAT(	SUBSTRING(Provee_CUIT,1, 2), SUBSTRING(Provee_CUIT,4,8), SUBSTRING(Provee_CUIT, 13,13)) =  o.username
+		AND o.precio_lista = m.Oferta_Precio_Ficticio
+		AND o.precio_rebajado = m.Oferta_Precio 
+		GROUP BY Oferta_Codigo, Oferta_Fecha_Compra, Cli_Dni, id_oferta
+		HAVING Oferta_Codigo IS NOT NULL
 
