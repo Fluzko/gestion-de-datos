@@ -162,7 +162,9 @@ CREATE TABLE Cupones (
 	username NVARCHAR(255) FOREIGN KEY REFERENCES Clientes,
 	id_oferta NUMERIC FOREIGN KEY REFERENCES Ofertas,
 	fecha_compra DATETIME,
-	canjeado BIT
+	fecha_entrega DATETIME,
+	codigo_legacy NVARCHAR(255),
+	facturado NUMERIC
 )
 
 ----ENTREGAS----
@@ -173,7 +175,7 @@ CREATE TABLE Entregas (
 
 ----FACTURAS----
 CREATE TABLE Facturas (
-	id_factura NUMERIC PRIMARY KEY IDENTITY(1, 1),
+	id_factura NUMERIC PRIMARY KEY IDENTITY(153131,1),
 	monto DECIMAL(12, 2),
 	username NVARCHAR(255) FOREIGN KEY REFERENCES Proveedores,
 	fecha DATETIME
@@ -291,29 +293,66 @@ VALUES
 
 
 INSERT INTO Ofertas (descripcion, fecha_pub, fecha_vec, username, precio_rebajado, precio_lista, stock, max_cliente)
-	SELECT DISTINCT	Oferta_Descripcion, 
+	SELECT distinct	Oferta_Descripcion, 
 			Oferta_Fecha, 
 			Oferta_Fecha_Venc, 
 			CONCAT(	SUBSTRING(Provee_CUIT,1, 2), SUBSTRING(Provee_CUIT,4,8), SUBSTRING(Provee_CUIT, 13,13)), 
 			Oferta_Precio, 
 			Oferta_Precio_Ficticio, 
-			SUM(Oferta_Cantidad), 
-			SUM(Oferta_Cantidad) 
+			sum(Oferta_Cantidad), 
+			sum(Oferta_Cantidad) 
 	FROM gd_esquema.Maestra
-	WHERE Oferta_Descripcion IS NOT NULL
-	GROUP BY Oferta_Descripcion, Oferta_Fecha, Oferta_Fecha_Venc, Oferta_Precio, Oferta_Precio_Ficticio,Provee_CUIT   
+	WHERE Oferta_Descripcion is not null 
+	group by Oferta_Descripcion, Oferta_Fecha, Oferta_Fecha_Venc, Oferta_Precio, Oferta_Precio_Ficticio,Provee_CUIT   
 
 
-INSERT INTO Cupones (username, fecha_compra, id_oferta)
-	SELECT DISTINCT Cli_Dni, Oferta_Fecha_Compra, id_oferta
-	FROM Ofertas o
-	JOIN gd_esquema.Maestra m ON
-		o.descripcion = m.Oferta_Descripcion
-		AND m.Oferta_Fecha = o.fecha_pub 
-		AND m.Oferta_Fecha_Venc = o.fecha_vec 
-		AND CONCAT(	SUBSTRING(Provee_CUIT,1, 2), SUBSTRING(Provee_CUIT,4,8), SUBSTRING(Provee_CUIT, 13,13)) =  o.username
-		AND o.precio_lista = m.Oferta_Precio_Ficticio
-		AND o.precio_rebajado = m.Oferta_Precio 
-		GROUP BY Oferta_Codigo, Oferta_Fecha_Compra, Cli_Dni, id_oferta
-		HAVING Oferta_Codigo IS NOT NULL
+INSERT INTO Cupones ( username, fecha_compra, id_oferta, fecha_entrega, codigo_legacy, facturado)
+	SELECT distinct 
+					Cli_Dni,
+					Oferta_Fecha_Compra,
+					id_oferta,
+					Oferta_Entregado_Fecha,
+					Oferta_Codigo,
+					0
+					from Ofertas o
+			JOIN gd_esquema.Maestra m on
+				o.descripcion = m.Oferta_Descripcion
+				AND m.Oferta_Fecha = o.fecha_pub 
+				AND m.Oferta_Fecha_Venc = o.fecha_vec 
+				AND CONCAT(	SUBSTRING(Provee_CUIT,1, 2), SUBSTRING(Provee_CUIT,4,8), SUBSTRING(Provee_CUIT, 13,13)) =  o.username
+				AND o.precio_lista = m.Oferta_Precio_Ficticio
+				AND o.precio_rebajado = m.Oferta_Precio 
+				group by Oferta_Codigo, Oferta_Fecha_Compra, Cli_Dni, id_oferta, Oferta_Entregado_Fecha
+				having Oferta_Codigo IS NOT NULL
+
+
+INSERT INTO Facturas (fecha,username)
+	SELECT DISTINCT Factura_Fecha, CONCAT(	SUBSTRING(Provee_CUIT,1, 2), SUBSTRING(Provee_CUIT,4,8), SUBSTRING(Provee_CUIT, 13,13)) 
+	FROM gd_esquema.Maestra
+	WHERE Factura_Nro IS NOT NULL AND Factura_Fecha IS NOT NULL
+	ORDER BY 1 ASC
+
+
+INSERT INTO Renglones (id_factura,id_oferta,cant)
+	SELECT Factura_Nro, id_oferta, count(Oferta_Codigo)
+	FROM gd_esquema.Maestra
+	JOIN Cupones c ON
+		Oferta_Codigo = c.codigo_legacy
+	WHERE Factura_Nro is not null
+	GROUP BY  Factura_Nro, id_oferta
+
+	
+UPDATE Facturas SET monto = montoF
+	FROM (
+		SELECT Renglones.id_factura as id_factura, SUM(0.1*(Ofertas.precio_rebajado * Renglones.cant)) as montoF
+			FROM Renglones
+			JOIN Ofertas
+			ON Ofertas.id_oferta = Renglones.id_oferta
+			Group by Renglones.id_factura
+	) Montos WHERE Facturas.id_factura = Montos.id_factura
+
+
+UPDATE Cupones SET facturado = 1
+	FROM(SELECT Oferta_Codigo as codigo FROM gd_esquema.Maestra WHERE Factura_Nro IS NOT NULL) facturados
+	WHERE facturados.codigo = Cupones.codigo_legacy
 
