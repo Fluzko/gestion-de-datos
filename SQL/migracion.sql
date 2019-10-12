@@ -24,6 +24,8 @@ IF OBJECT_ID('Clientes', 'U') IS NOT NULL
 	DROP TABLE Clientes
 IF OBJECT_ID('Direcciones', 'U') IS NOT NULL
 	DROP TABLE Direcciones
+IF OBJECT_ID('Ciudades', 'U') IS NOT NULL
+	DROP TABLE Ciudades
 IF OBJECT_ID('Funcionalidades', 'U') IS NOT NULL
 	DROP TABLE Funcionalidades
 IF OBJECT_ID('Roles', 'U') IS NOT NULL
@@ -40,16 +42,18 @@ CREATE TABLE Usuarios (
 	habilitado BIT
 )
 
+----CIUDADES----
+CREATE TABLE Ciudades (
+	id_ciudad NUMERIC PRIMARY KEY IDENTITY(1, 1),
+	nombre NVARCHAR(255)
+)
+
+
 ----DIRECCIONES----
 CREATE TABLE Direcciones (
 	id_direccion NUMERIC PRIMARY KEY IDENTITY(1, 1),
-	calle NVARCHAR(255),
-	numero NUMERIC,
-	piso NUMERIC,
-	dpto NUMERIC,
-	cod_pos NUMERIC,
-	pais NVARCHAR(255),
-	ciudad NVARCHAR(255)
+	direccion NVARCHAR(255),
+	ciudad NUMERIC FOREIGN KEY REFERENCES Ciudades
 )
 
 ----CLIENTES----
@@ -154,7 +158,7 @@ CREATE TABLE Ofertas (
 
 ----CUPONES----
 CREATE TABLE Cupones (
-	id_cupon NUMERIC PRIMARY KEY IDENTITY(1, 1),
+	id_cupon NUMERIC PRIMARY KEY IDENTITY(1,1),
 	username NVARCHAR(255) FOREIGN KEY REFERENCES Clientes,
 	id_oferta NUMERIC FOREIGN KEY REFERENCES Ofertas,
 	fecha_compra DATETIME,
@@ -212,7 +216,9 @@ INSERT INTO Usuarios (username, password, habilitado)
 		WHERE Provee_CUIT IS NOT NULL
 
 INSERT INTO Proveedores (username, razon_social, telefono, cuit, rubro, habilitado)
-	SELECT DISTINCT Provee_CUIT, Provee_RS, Provee_Telefono, Provee_CUIT, (SELECT id_rubro FROM Rubros WHERE nombre = Provee_Rubro), 1
+	SELECT DISTINCT CONCAT(	SUBSTRING(Provee_CUIT,1, 2),
+							SUBSTRING(Provee_CUIT,4,8),
+							SUBSTRING(Provee_CUIT, 13,13)), Provee_RS, Provee_Telefono, Provee_CUIT, (SELECT id_rubro FROM Rubros WHERE nombre = Provee_Rubro), 1
 		FROM gd_esquema.Maestra
 		WHERE Provee_CUIT IS NOT NULL
 
@@ -232,54 +238,85 @@ UPDATE Clientes SET credito = montoF
 	) Montos WHERE Clientes.username = Montos.username
 
 
-INSERT INTO Roles(id_rol, nombre, habilitado)
+INSERT INTO Roles(nombre, habilitado)
 VALUES
-  (1, 'Cliente',1),
-  (2, 'Proveedor',1),
-  (3, 'Admisnitrador',1)
+  ('Cliente',1),
+  ('Proveedor',1),
+  ('Admisnitrador',1)
 
 
-INSERT INTO Funcionalidades(id_func, nombre, descripcion,habilitado)
+INSERT INTO Funcionalidades(nombre, descripcion,habilitado)
 VALUES
-  (1, 'ABM Rol','Permite gestionar roles del sistema',1),
-  (2, 'ABM Cliente','Permite gestionar los clientes registrados',1),
-  (3, 'ABM Proveedor','Permite gestionar los proveedores registrados',1),	
-  (4, 'Cargar credito','Permite cargar credito en la cuenta',1),
-  (5, 'Gestionar ofertas','Permite crear y dar de baja nuevas ofertas',1),
-  (6, 'Comprar oferta','Permite comprar una oferta',1),
-  (7, 'Consumir oferta','Permite canjear la oferta',1),
-  (8, 'Facturar a proveedor','Permite facturar en un periodo de tiempo a un proveedor',1),
-  (9, 'Listado estadistico','Permite ver estadisticas diversas',1)
+  ('ABM Rol','Permite gestionar roles del sistema',1),
+  ('ABM Cliente','Permite gestionar los clientes registrados',1),
+  ('ABM Proveedor','Permite gestionar los proveedores registrados',1),	
+  ('Cargar credito','Permite cargar credito en la cuenta',1),
+  ('Gestionar ofertas','Permite crear y dar de baja nuevas ofertas',1),
+  ('Comprar oferta','Permite comprar una oferta',1),
+  ('Consumir oferta','Permite canjear la oferta',1),
+  ('Facturar a proveedor','Permite facturar en un periodo de tiempo a un proveedor',1),
+  ('Listado estadistico','Permite ver estadisticas diversas',1)
 
 
 INSERT INTO Rol_Usuario (id_rol, username)
-	SELECT DISTINCT 1, Cli_Dni from gd_esquema.Maestra
+	SELECT DISTINCT 1, c.username from Clientes c
+	WHERE c.habilitado = 1
 
 INSERT INTO Rol_Usuario (id_rol, username)
 	SELECT DISTINCT 2,
-		CONCAT(	SUBSTRING(Provee_CUIT,1, 2),
-				SUBSTRING(Provee_CUIT,4,8),
-				SUBSTRING(Provee_CUIT, 13,13))
-FROM gd_esquema.Maestra
-WHERE Provee_CUIT IS NOT NULL
+		p.username
+FROM Proveedores p
+WHERE p.habilitado = 1
 
 /*Funcionalidades de cliente*/
-INSERT Rol_Funcionalidad (id_rol, id_funcionalidad)
+INSERT INTO Rol_Funcionalidad (id_rol, id_func)
 VALUES
 	(1,4),
 	(1,6),
 	(1,7)
 
 /*Funcionalidades proveedor*/
-INSERT Rol_Funcionalidad (id_rol, id_funcionalidad)
+INSERT INTO Rol_Funcionalidad (id_rol, id_func)
 VALUES
 	(2,5)
 
 /*Funcionalidades Admin*/
-INSERT Rol_Funcionalidad (id_rol, id_funcionalidad)
+INSERT INTO Rol_Funcionalidad (id_rol, id_func)
 VALUES
 	(3,1),
 	(3,2),
 	(3,3),
 	(3,8),
 	(3,9)
+
+
+INSERT INTO Ofertas (descripcion, fecha_pub, fecha_vec, username, precio_rebajado, precio_lista, stock, max_cliente)
+	SELECT distinct	Oferta_Descripcion, 
+			Oferta_Fecha, 
+			Oferta_Fecha_Venc, 
+			CONCAT(	SUBSTRING(Provee_CUIT,1, 2), SUBSTRING(Provee_CUIT,4,8), SUBSTRING(Provee_CUIT, 13,13)), 
+			Oferta_Precio, 
+			Oferta_Precio_Ficticio, 
+			sum(Oferta_Cantidad), 
+			sum(Oferta_Cantidad) 
+	FROM gd_esquema.Maestra
+	WHERE Oferta_Descripcion is not null 
+	group by Oferta_Descripcion, Oferta_Fecha, Oferta_Fecha_Venc, Oferta_Precio, Oferta_Precio_Ficticio,Provee_CUIT   
+
+
+INSERT INTO Cupones ( username, fecha_compra, id_oferta)
+	SELECT distinct 
+					Cli_Dni,
+					Oferta_Fecha_Compra,
+					id_oferta
+					from Ofertas o
+			JOIN gd_esquema.Maestra m on
+				o.descripcion = m.Oferta_Descripcion
+				and m.Oferta_Fecha = o.fecha_pub 
+				and m.Oferta_Fecha_Venc = o.fecha_vec 
+				and CONCAT(	SUBSTRING(Provee_CUIT,1, 2), SUBSTRING(Provee_CUIT,4,8), SUBSTRING(Provee_CUIT, 13,13)) =  o.username
+				and o.precio_lista = m.Oferta_Precio_Ficticio
+				and o.precio_rebajado = m.Oferta_Precio 
+				group by Oferta_Codigo, Oferta_Fecha_Compra, Cli_Dni, id_oferta
+				having Oferta_Codigo is not null 
+
