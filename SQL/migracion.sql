@@ -12,8 +12,6 @@ IF OBJECT_ID('Renglones', 'U') IS NOT NULL
 	DROP TABLE Renglones
 IF OBJECT_ID('Facturas', 'U') IS NOT NULL
 	DROP TABLE Facturas
-IF OBJECT_ID('Entregas', 'U') IS NOT NULL
-	DROP TABLE Entregas
 IF OBJECT_ID('Cupones', 'U') IS NOT NULL
 	DROP TABLE Cupones
 IF OBJECT_ID('Ofertas', 'U') IS NOT NULL
@@ -38,78 +36,83 @@ IF OBJECT_ID('Rubros', 'U') IS NOT NULL
 ----USUARIO----
 CREATE TABLE Usuarios (
 	username NVARCHAR(255) PRIMARY KEY,
-	password NVARCHAR(255),
-	habilitado BIT
+	password NVARCHAR(255) NOT NULL,
+	habilitado BIT DEFAULT 1
 )
+
 
 ----CIUDADES----
 CREATE TABLE Ciudades (
 	id_ciudad NUMERIC PRIMARY KEY IDENTITY(1, 1),
-	nombre NVARCHAR(255)
+	nombre NVARCHAR(255) NOT NULL UNIQUE
 )
 
 
 ----DIRECCIONES----
 CREATE TABLE Direcciones (
 	id_direccion NUMERIC PRIMARY KEY IDENTITY(1, 1),
-	direccion NVARCHAR(255),
-	ciudad NUMERIC FOREIGN KEY REFERENCES Ciudades
+	direccion NVARCHAR(255) NOT NULL,
+	ciudad NUMERIC FOREIGN KEY REFERENCES Ciudades NOT NULL
 )
 
 ----CLIENTES----
 CREATE TABLE Clientes (
 	username NVARCHAR(255) PRIMARY KEY FOREIGN KEY REFERENCES Usuarios,
-	nombre NVARCHAR(255),
-	apellido NVARCHAR(255),
-	dni DECIMAL(8,0),
+	nombre NVARCHAR(255) NOT NULL,
+	apellido NVARCHAR(255) NOT NULL,
+	dni DECIMAL(8,0) NOT NULL,
 	mail NVARCHAR(255),
 	telefono NUMERIC,
 	id_direccion NUMERIC FOREIGN KEY REFERENCES Direcciones,
-	fecha_nac DATETIME,
-	credito DECIMAL(12, 2),
-	habilitado BIT
+	fecha_nac DATETIME NOT NULL,
+	credito DECIMAL(12, 2) DEFAULT 0,
+	habilitado BIT DEFAULT 1
 )
 
 ----RUBROS----
 CREATE TABLE Rubros (
 	id_rubro NUMERIC PRIMARY KEY IDENTITY(1, 1),
-	nombre NVARCHAR(255),
-	habilitado BIT
+	nombre NVARCHAR(255) UNIQUE NOT NULL,
+	habilitado BIT DEFAULT 1
 )
+
+
 
 ----PROVEEDORES----
 CREATE TABLE Proveedores (
 	username NVARCHAR(255) PRIMARY KEY FOREIGN KEY REFERENCES Usuarios,
-	razon_social NVARCHAR(255),
+	razon_social NVARCHAR(255) NOT NULL UNIQUE,
 	telefono NUMERIC,
+	mail NVARCHAR(255),
 	id_direccion NUMERIC FOREIGN KEY REFERENCES Direcciones,
-	cuit NCHAR(13),
-	rubro NUMERIC FOREIGN KEY REFERENCES Rubros,
+	cuit NCHAR(13) NOT NULL UNIQUE,
+	rubro NUMERIC FOREIGN KEY REFERENCES Rubros NOT NULL,
 	nombre_contacto VARCHAR(255),
-	habilitado BIT
+	habilitado BIT DEFAULT 1
 )
+
 
 ----ROLES----
 CREATE TABLE Roles (
 	id_rol NUMERIC PRIMARY KEY IDENTITY(1, 1),
-	nombre NVARCHAR(255),
-	habilitado BIT
+	nombre NVARCHAR(255) UNIQUE NOT NULL,
+	habilitado BIT DEFAULT 1
 )
 
 ----ROL_USUARIO----
 CREATE TABLE Rol_Usuario (
 	id_rol NUMERIC FOREIGN KEY REFERENCES Roles,
 	username NVARCHAR(255) FOREIGN KEY REFERENCES Usuarios,	
-	habilitado BIT,
+	habilitado BIT DEFAULT 1,
 	PRIMARY KEY (id_rol, username)
 ) 
 
 ----FUNCIONALIDADES----
 CREATE TABLE Funcionalidades (
 	id_func NUMERIC PRIMARY KEY IDENTITY(1, 1),
-	nombre NVARCHAR(255),
-	descripcion NVARCHAR(255),
-	habilitado BIT
+	nombre NVARCHAR(255) UNIQUE NOT NULL,
+	descripcion NVARCHAR(255) DEFAULT 'Sin descripcion',
+	habilitado BIT DEFAULT 1
 )
 
 ----ROL_FUNCIONALIDAD----
@@ -122,70 +125,66 @@ CREATE TABLE Rol_Funcionalidad (
 ----TIPOS_PAGO----
 CREATE TABLE TiposPago (
 	id_tipo NUMERIC PRIMARY KEY IDENTITY(1, 1),
-	nombre NVARCHAR(255)
+	nombre NVARCHAR(255) UNIQUE NOT NULL
 )
 
 ----TARJETAS----
 CREATE TABLE Tarjetas (
 	numero NCHAR(16) PRIMARY KEY,
-	vencimiento DATE,
-	titular NCHAR(20),
-	codigo_verif NCHAR(3)
+	vencimiento DATE NOT NULL,
+	titular NCHAR(20) NOT NULL,
+	codigo_verif NCHAR(3) NOT NULL
 )
 
 ----CARGAS----
 CREATE TABLE Cargas (
 	id_carga NUMERIC PRIMARY KEY IDENTITY(1, 1),
-	username NVARCHAR(255) FOREIGN KEY REFERENCES Clientes,
-	tipo_pago NUMERIC FOREIGN KEY REFERENCES TiposPago,
-	fecha DATETIME,
-	monto DECIMAL(12,2),
+	username NVARCHAR(255) FOREIGN KEY REFERENCES Clientes NOT NULL,
+	tipo_pago NUMERIC FOREIGN KEY REFERENCES TiposPago NOT NULL,
+	fecha DATETIME NOT NULL,
+	monto DECIMAL(12,2) NOT NULL DEFAULT 0,
 	tarjeta_num NCHAR(16) FOREIGN KEY REFERENCES Tarjetas
 )
 
 ----OFERTAS----
 CREATE TABLE Ofertas (
 	id_oferta NUMERIC PRIMARY KEY IDENTITY(1, 1),
-	descripcion NVARCHAR(255),
-	fecha_pub DATETIME,
-	fecha_vec DATETIME,
-	username NVARCHAR(255) FOREIGN KEY REFERENCES Proveedores,
-	precio_rebajado DECIMAL(12,2),
-	precio_lista DECIMAL(12,2),
-	stock NUMERIC,
-	max_cliente NUMERIC
+	descripcion NVARCHAR(255) NOT NULL,
+	fecha_pub DATE NOT NULL,
+	fecha_vec DATE NOT NULL,
+	username NVARCHAR(255) FOREIGN KEY REFERENCES Proveedores NOT NULL,
+	precio_rebajado DECIMAL(12,2) NOT NULL,
+	precio_lista DECIMAL(12,2) NOT NULL,
+	stock NUMERIC NOT NULL,
+	max_cliente NUMERIC NOT NULL
 )
+
 
 ----CUPONES----
 CREATE TABLE Cupones (
 	id_cupon NUMERIC PRIMARY KEY IDENTITY(1,1),
-	username NVARCHAR(255) FOREIGN KEY REFERENCES Clientes,
-	id_oferta NUMERIC FOREIGN KEY REFERENCES Ofertas,
-	fecha_compra DATETIME,
+	username NVARCHAR(255) FOREIGN KEY REFERENCES Clientes NOT NULL,
+	id_oferta NUMERIC FOREIGN KEY REFERENCES Ofertas NOT NULL,
+	fecha_compra DATETIME NOT NULL,
 	fecha_entrega DATETIME,
 	codigo_legacy NVARCHAR(255),
-	facturado NUMERIC
+	facturado BIT NOT NULL DEFAULT 0
 )
 
-----ENTREGAS----
-CREATE TABLE Entregas (
-	id_cupon NUMERIC PRIMARY KEY FOREIGN KEY REFERENCES Cupones,
-	fecha DATETIME
-)
 
 ----FACTURAS----
 CREATE TABLE Facturas (
 	id_factura NUMERIC PRIMARY KEY IDENTITY(153131,1),
-	monto DECIMAL(12, 2),
-	username NVARCHAR(255) FOREIGN KEY REFERENCES Proveedores,
-	fecha DATETIME
+	monto DECIMAL(12, 2) NOT NULL,
+	username NVARCHAR(255) FOREIGN KEY REFERENCES Proveedores NOT NULL,
+	fecha DATETIME NOT NULL
 )
 
 ----RENGLONES----
 CREATE TABLE Renglones (
 	id_factura NUMERIC FOREIGN KEY REFERENCES Facturas,
 	id_oferta NUMERIC FOREIGN KEY REFERENCES Ofertas,
-	cant NUMERIC
+	cant NUMERIC NOT NULL DEFAULT 1
 )
 
 INSERT INTO TiposPago (nombre)
@@ -326,8 +325,8 @@ INSERT INTO Cupones ( username, fecha_compra, id_oferta, fecha_entrega, codigo_l
 				having Oferta_Codigo IS NOT NULL
 
 
-INSERT INTO Facturas (fecha,username)
-	SELECT DISTINCT Factura_Fecha, CONCAT(	SUBSTRING(Provee_CUIT,1, 2), SUBSTRING(Provee_CUIT,4,8), SUBSTRING(Provee_CUIT, 13,13)) 
+INSERT INTO Facturas (fecha,username,monto)
+	SELECT DISTINCT Factura_Fecha, CONCAT(	SUBSTRING(Provee_CUIT,1, 2), SUBSTRING(Provee_CUIT,4,8), SUBSTRING(Provee_CUIT, 13,13)),0 
 	FROM gd_esquema.Maestra
 	WHERE Factura_Nro IS NOT NULL AND Factura_Fecha IS NOT NULL
 	ORDER BY 1 ASC
@@ -356,3 +355,5 @@ UPDATE Cupones SET facturado = 1
 	FROM(SELECT Oferta_Codigo as codigo FROM gd_esquema.Maestra WHERE Factura_Nro IS NOT NULL) facturados
 	WHERE facturados.codigo = Cupones.codigo_legacy
 
+
+ALTER TABLE Cupones DROP COLUMN codigo_legacy
