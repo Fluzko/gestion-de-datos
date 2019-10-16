@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace FrbaOfertas.Modelos
 {
-    class Usuario
+    public class Usuario
     {
         private String username;
-        private String password;
+
+        public Usuario(String username){
+            this.username = username;
+        }
 
         public List<Rol> getRoles()
         {

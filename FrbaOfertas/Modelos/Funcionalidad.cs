@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FrbaOfertas.Modelos
 {
-    class Funcionalidad
+    public class Funcionalidad
     {
         int id_funcionalidad;
         String funcionalidad;

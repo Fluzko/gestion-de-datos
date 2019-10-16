@@ -48,7 +48,7 @@ namespace FrbaOfertas.Login
             //consulta  a la DB
             Modelos.Usuario usuario = DB_Ofertas.login(this.username, this.password);
 
-            if (!usuario.Equals(null)){
+            if (usuario != null){
                 //pantalla de seleccion de rol
                  Rol r = new Rol(usuario);
                  r.Show();

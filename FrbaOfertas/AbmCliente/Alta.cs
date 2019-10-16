@@ -85,7 +85,9 @@ namespace FrbaOfertas.AbmCliente
                 return;
             }
 
-            bool alta = DB_Ofertas.altaCliente( this.textNombre.Text,
+            bool alta = true; 
+                
+                /*DB_Ofertas.altaCliente( this.textNombre.Text,
                                                 this.textApellido.Text,
                                                 this.textMail.Text,
                                                 int.Parse(this.textTelefono.Text),
@@ -95,7 +97,7 @@ namespace FrbaOfertas.AbmCliente
                                                 this.textDpto.Text,
                                                 this.textLocalidad.Text,
                                                 int.Parse(this.textCP.Text),
-                                                int.Parse(this.textDNI.Text));
+                                                int.Parse(this.textDNI.Text));*/
 
             if (alta)
             {

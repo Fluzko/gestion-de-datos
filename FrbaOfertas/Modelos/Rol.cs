@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FrbaOfertas.Modelos
 {
-    class Rol
+    public class Rol
     {
         int id_rol;
         String nombre;
@@ -18,8 +18,9 @@ namespace FrbaOfertas.Modelos
         }
 
         public String getNombre() { return nombre; }
+
         public List<Modelos.Funcionalidad> getFuncionalidades(){
-            return DB_Ofertas.getFuncionalidades(this.nombre);
+            return DB_Ofertas.getFuncionalidades(this.id_rol);
         }
     }
 }
