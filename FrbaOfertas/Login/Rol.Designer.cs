@@ -28,13 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.Titulo = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnCerrarSesion = new System.Windows.Forms.Button();
             this.rolescbx = new System.Windows.Forms.ComboBox();
             this.btnEntrar = new System.Windows.Forms.Button();
             this.LbelChofer = new System.Windows.Forms.Label();
+            this.rolBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.rolBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // Titulo
@@ -79,7 +82,7 @@
             this.rolescbx.Name = "rolescbx";
             this.rolescbx.Size = new System.Drawing.Size(305, 21);
             this.rolescbx.TabIndex = 1;
-            this.rolescbx.SelectedIndexChanged += new System.EventHandler(this.Roles_SelectedIndexChanged);
+            this.rolescbx.SelectedIndexChanged += new System.EventHandler(this.rolescbx_SelectedIndexChanged);
             // 
             // btnEntrar
             // 
@@ -99,6 +102,10 @@
             this.LbelChofer.Size = new System.Drawing.Size(0, 13);
             this.LbelChofer.TabIndex = 19;
             // 
+            // rolBindingSource
+            // 
+            this.rolBindingSource.DataSource = typeof(FrbaOfertas.Modelos.Rol);
+            // 
             // Rol
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -111,6 +118,7 @@
             this.Text = "Seleccion rol";
             this.Load += new System.EventHandler(this.Rol_Load);
             this.groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.rolBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -124,5 +132,6 @@
         private System.Windows.Forms.ComboBox rolescbx;
         private System.Windows.Forms.Button btnEntrar;
         private System.Windows.Forms.Label LbelChofer;
+        private System.Windows.Forms.BindingSource rolBindingSource;
     }
 }

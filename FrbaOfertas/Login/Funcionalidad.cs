@@ -13,18 +13,19 @@ namespace FrbaOfertas.Login
     public partial class Funcionalidad : Form
     {
         Modelos.Rol rol;
-     
+        List<Modelos.Funcionalidad> funcionalidades;
+
         public Funcionalidad(Modelos.Rol rol)
         {
             InitializeComponent();
             this.rol = rol;
-            Titulo.Text = "Rol: " + rol.getNombre();
+            Titulo.Text = "Rol: " + rol.nombre;
             loadFuncionalidades();
         }
 
         private void loadFuncionalidades()
         {
-            List<Modelos.Funcionalidad> funcionalidades = this.rol.getFuncionalidades();
+            funcionalidades = this.rol.getFuncionalidades();
 
             if (funcionalidades.Count == 0)
             {
@@ -32,10 +33,10 @@ namespace FrbaOfertas.Login
             }
             else
             {
-                funcionalidades.ForEach(delegate(Modelos.Funcionalidad funcionalidad)
-                { //cargo el combobox
-                    funcionalidadescbx.Items.Add(rol);
-                });
+                funcionalidadescbx.DataSource = funcionalidades;
+                funcionalidadescbx.DisplayMember = "nombre";
+                funcionalidadescbx.ValueMember = "id_rol";
+
                 funcionalidadescbx.SelectedItem = funcionalidades.First();
             }
         }
@@ -45,7 +46,9 @@ namespace FrbaOfertas.Login
             if ( !((Modelos.Funcionalidad) funcionalidadescbx.SelectedItem).Equals(null))
             {
                 //pasar al menu adecuado
-                ((Modelos.Funcionalidad)funcionalidadescbx.SelectedItem).changeView();
+                Modelos.Funcionalidad funcionalidad = funcionalidades.Where(func => func.funcionalidad == funcionalidadescbx.Text).ToList().First();
+                funcionalidad.changeView();
+                this.Hide();
             }
             else
             {

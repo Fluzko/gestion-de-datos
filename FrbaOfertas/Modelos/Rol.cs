@@ -8,8 +8,8 @@ namespace FrbaOfertas.Modelos
 {
     public class Rol
     {
-        int id_rol;
-        String nombre;
+        public int id_rol  { get; set; }
+        public String nombre { get; set; }
 
         public Rol(int id, String nombre)
         {
@@ -17,7 +17,6 @@ namespace FrbaOfertas.Modelos
             this.nombre = nombre;
         }
 
-        public String getNombre() { return nombre; }
 
         public List<Modelos.Funcionalidad> getFuncionalidades(){
             return DB_Ofertas.getFuncionalidades(this.id_rol);

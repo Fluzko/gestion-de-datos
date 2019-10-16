@@ -13,28 +13,31 @@ namespace FrbaOfertas.Login
     public partial class Rol : Form
     {
         Modelos.Usuario usuario;
+        List<Modelos.Rol> roles;
+
         public Rol(Modelos.Usuario usuario)
         {
             InitializeComponent();
             this.usuario = usuario;
             Titulo.Text = "Usuario: " + this.usuario.getUsername();
-            loadRoles();
+            this.loadRoles();
         }
 
         private void loadRoles()
         {
-            List<Modelos.Rol> roles = this.usuario.getRoles();
-
+            this.roles = this.usuario.getRoles();
+            
             if (roles.Count == 0)
             {
                 MessageBox.Show("El usuario no tiene roles asignados", "Aviso");
             }
             else
             {
-                roles.ForEach(delegate(Modelos.Rol rol){ //cargo el combobox
-                    rolescbx.Items.Add(rol);
-                });
-                rolescbx.SelectedItem = roles.First();
+                rolescbx.DataSource = roles;
+                rolescbx.DisplayMember = "nombre";
+                rolescbx.ValueMember = "id_rol";
+
+                rolescbx.SelectedItem = roles.First();   
             }
         }
 
@@ -44,18 +47,16 @@ namespace FrbaOfertas.Login
         {
             if(!String.IsNullOrEmpty(rolescbx.Text)){
             //pasa a pantalla de funcionalidad
-            Funcionalidad f = new Funcionalidad((Modelos.Rol) this.rolescbx.SelectedItem);
+            Funcionalidad f = new Funcionalidad((Modelos.Rol)roles.Where(rol => rol.nombre == rolescbx.Text).ToList().First());
+            
             f.Show();
             this.Hide();
+            
             }else{
                 MessageBox.Show("No se puede ingresar sin seleccionar un rol, intente con otro usuario","Error");
             }
         }
 
-        private void Roles_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private void btnCerrarSesion_Click(object sender, EventArgs e)
         {
@@ -70,6 +71,11 @@ namespace FrbaOfertas.Login
         }
 
         private void Rol_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void rolescbx_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
