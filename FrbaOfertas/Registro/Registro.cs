@@ -23,5 +23,17 @@ namespace FrbaOfertas.Registro
             l.Show();
             this.Hide();
         }
+
+        private void btnAltaCliente_Click(object sender, EventArgs e)
+        {
+            (new AbmCliente.Alta()).Show();
+            this.Hide();
+        }
+
+        private void btnListaClientes_Click(object sender, EventArgs e)
+        {
+            //(new AbmProveedor.Alta()).Show();
+            this.Hide();
+        }
     }
 }
