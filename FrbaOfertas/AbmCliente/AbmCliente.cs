@@ -48,7 +48,8 @@ namespace FrbaOfertas.AbmCliente
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            (new Login.Funcionalidad(Session.getRol())).Show();
+            this.Hide();
         }
     }
 }

@@ -58,8 +58,14 @@
             this.textLocalidad = new System.Windows.Forms.TextBox();
             this.textCP = new System.Windows.Forms.TextBox();
             this.calendario = new System.Windows.Forms.MonthCalendar();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.textUsuario = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.textContra = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -83,12 +89,12 @@
             this.groupBox1.Controls.Add(this.textNombre);
             this.groupBox1.Controls.Add(this.groupBox2);
             this.groupBox1.Controls.Add(this.calendario);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(12, 136);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(675, 312);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Ingrese sus datos personales:";
+            this.groupBox1.Text = "Datos personales";
             // 
             // buttonFecha
             // 
@@ -223,6 +229,7 @@
             this.textApellido.Name = "textApellido";
             this.textApellido.Size = new System.Drawing.Size(260, 20);
             this.textApellido.TabIndex = 2;
+            this.textApellido.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textNombre_KeyPress);
             // 
             // label1
             // 
@@ -318,6 +325,7 @@
             this.textDpto.Name = "textDpto";
             this.textDpto.Size = new System.Drawing.Size(41, 20);
             this.textDpto.TabIndex = 17;
+            this.textDpto.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textNombre_KeyPress);
             // 
             // label12
             // 
@@ -352,11 +360,58 @@
             this.calendario.Visible = false;
             this.calendario.DateChanged += new System.Windows.Forms.DateRangeEventHandler(this.calendario_DateChanged);
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.label14);
+            this.groupBox3.Controls.Add(this.textContra);
+            this.groupBox3.Controls.Add(this.label13);
+            this.groupBox3.Controls.Add(this.textUsuario);
+            this.groupBox3.Location = new System.Drawing.Point(12, 12);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(245, 100);
+            this.groupBox3.TabIndex = 2;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Usuario y contraseña";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(19, 23);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(46, 13);
+            this.label13.TabIndex = 32;
+            this.label13.Text = "Usuario:";
+            // 
+            // textUsuario
+            // 
+            this.textUsuario.Location = new System.Drawing.Point(68, 20);
+            this.textUsuario.Name = "textUsuario";
+            this.textUsuario.Size = new System.Drawing.Size(158, 20);
+            this.textUsuario.TabIndex = 31;
+            this.textUsuario.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(1, 68);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(64, 13);
+            this.label14.TabIndex = 34;
+            this.label14.Text = "Contraseña:";
+            // 
+            // textContra
+            // 
+            this.textContra.Location = new System.Drawing.Point(68, 65);
+            this.textContra.Name = "textContra";
+            this.textContra.Size = new System.Drawing.Size(158, 20);
+            this.textContra.TabIndex = 33;
+            // 
             // Alta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(701, 338);
+            this.ClientSize = new System.Drawing.Size(717, 460);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
             this.Name = "Alta";
             this.Text = "Alta Cliente";
@@ -364,6 +419,8 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -400,5 +457,10 @@
         private System.Windows.Forms.TextBox textLocalidad;
         private System.Windows.Forms.TextBox textCP;
         private System.Windows.Forms.MonthCalendar calendario;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox textContra;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox textUsuario;
     }
 }

@@ -85,7 +85,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button1);
             this.Name = "AbmCliente";
-            this.Text = "Form1";
+            this.Text = "Clientes";
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
 

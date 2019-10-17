@@ -47,8 +47,10 @@ namespace FrbaOfertas.Login
         {
             if(!String.IsNullOrEmpty(rolescbx.Text)){
             //pasa a pantalla de funcionalidad
-            Funcionalidad f = new Funcionalidad((Modelos.Rol)roles.Where(rol => rol.nombre == rolescbx.Text).ToList().First());
-            
+            Modelos.Rol r = roles.Where(rol => rol.nombre == rolescbx.Text).ToList().First();
+            Funcionalidad f = new Funcionalidad(r);
+
+            Session.setSession(usuario,r);
             f.Show();
             this.Hide();
             

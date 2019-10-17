@@ -86,7 +86,6 @@
             this.Titulo.Size = new System.Drawing.Size(58, 23);
             this.Titulo.TabIndex = 7;
             this.Titulo.Text = "Un rol";
-            this.Titulo.Click += new System.EventHandler(this.titulo_Click);
             // 
             // Funcionalidad
             // 

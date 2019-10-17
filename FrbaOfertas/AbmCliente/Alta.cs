@@ -68,6 +68,8 @@ namespace FrbaOfertas.AbmCliente
             this.textLocalidad.Clear();
             this.textCP.Clear();
             this.textDNI.Clear();
+            this.textUsuario.Clear();
+            this.textContra.Clear();
         }
 
         private void buttonAlta_Click(object sender, EventArgs e)
@@ -80,24 +82,24 @@ namespace FrbaOfertas.AbmCliente
             }
 
             //valido formato de mails
-            if (validateEmail(this.textMail.Text)){
+            if (!validateEmail(this.textMail.Text)){
                 MessageBox.Show("Formato invalido de Email", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            bool alta = true; 
-                
-                /*DB_Ofertas.altaCliente( this.textNombre.Text,
+            bool alta = DB_Ofertas.altaCliente( this.textUsuario.Text,
+                                                this.textContra.Text,
+                                                this.textNombre.Text,
                                                 this.textApellido.Text,
                                                 this.textMail.Text,
-                                                int.Parse(this.textTelefono.Text),
+                                                this.textTelefono.Text,
                                                 Convert.ToDateTime(this.textFN.Text),
                                                 this.textCalle.Text,
-                                                int.Parse(this.textPiso.Text),
+                                                this.textPiso.Text,
                                                 this.textDpto.Text,
                                                 this.textLocalidad.Text,
-                                                int.Parse(this.textCP.Text),
-                                                int.Parse(this.textDNI.Text));*/
+                                                this.textCP.Text,
+                                                this.textDNI.Text);
 
             if (alta)
             {
@@ -125,7 +127,9 @@ namespace FrbaOfertas.AbmCliente
             this.textDpto.Text,
             this.textLocalidad.Text,
             this.textCP.Text,
-            this.textDNI.Text};
+            this.textDNI.Text,
+            this.textUsuario.Text,
+            this.textContra.Text};
             return i;
         }
 
@@ -140,6 +144,11 @@ namespace FrbaOfertas.AbmCliente
         private void textNombre_KeyPress(object sender, KeyPressEventArgs e)
         {
             Validar.letras(e);
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
         }
 
 

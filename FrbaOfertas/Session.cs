@@ -12,9 +12,10 @@ namespace FrbaOfertas
         private static Modelos.Rol rol;
 
 
-        public static void setSession(Modelos.Usuario nuevoUser, Modelos.Rol nuevoRol) {
-            user = nuevoUser;
-            rol = nuevoRol;
+        public static void setSession(Modelos.Usuario u, Modelos.Rol r)
+        {
+            user = u;
+            rol = r;
         }
 
         public static Modelos.Usuario getUser() { return user; }

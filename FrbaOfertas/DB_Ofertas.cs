@@ -5,6 +5,8 @@ using System.Text;
 using System.Data.SqlClient;
 using System.Data;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+
 
 namespace FrbaOfertas
 {
@@ -92,10 +94,89 @@ namespace FrbaOfertas
                 return null;
             }
         }
-    //    public static bool altaCliente( String nombre, String apellido, String mail, int telefono, DateTime fechaNac,
-      //                              String calle, int piso, String dpto, String localidad, int cp, int dni){
-      
-        //}
+
+        public static bool altaCliente(String usuario, String contra, String nombre, String apellido, String mail, String telefono, DateTime fechaNac,
+                                        String calle, String piso, String dpto, String localidad, String cp, String dni)
+        {
+
+            setCmd("select count(username) from Usuarios where username = '" + usuario + "'");
+            reader = cmd.ExecuteReader();
+            reader.Read();
+
+            //chequeo existencia de nombre de usuario
+            if (reader.GetInt32(0) != 0)
+            {
+                MessageBox.Show("Este usuario ya existe", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                reader.Close();
+                return false;
+            }
+            reader.Close();
+
+
+
+            // chequeo unicidad de mail
+            setCmd("select count(mail) from Clientes where mail= '" + mail + "'");
+            reader = cmd.ExecuteReader();
+            reader.Read();
+            int cantidadMailCliente = reader.GetInt32(0);
+            reader.Close();
+
+            setCmd("select count(mail) from Proveedores where mail= '" + mail + "'");
+            reader = cmd.ExecuteReader();
+            reader.Read();
+            int cantidadMailProveedor = reader.GetInt32(0);
+            reader.Close();
+
+            if (cantidadMailCliente != 0 || cantidadMailProveedor != 0)
+            {
+                MessageBox.Show("Este email ya se encuentra registrado", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            // chequeo unicidad dni
+            setCmd("select count(dni) from Clientes where dni = '" + dni + "'");
+            reader = cmd.ExecuteReader();
+            reader.Read();
+            int cantidadDniCliente = reader.GetInt32(0);
+            reader.Close();
+
+            if (cantidadDniCliente != 0)
+            {
+                MessageBox.Show("Ya hay un cliente asociado a este Dni. Contacte con un adminsitrador", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+
+            setCmd("insert into Usuarios (username,password,habilitado)" +
+                   "values ('"+usuario+"','"+contra+"',1)");
+            cmd.ExecuteNonQuery();
+
+            setCmd("select id_ciudad from Ciudades where nombre = '"+ localidad +"'");
+            reader = cmd.ExecuteReader();
+            reader.Read();
+            int idLocalidad = reader.GetInt32(0);
+            reader.Close();
+
+            setCmd("insert into Direcciones (direccion, cp, piso, dpto, ciudad)" +
+                    "values ('" + calle + "','" + cp + "','" + piso + "','" + dpto + "'," + idLocalidad + ")");
+            cmd.ExecuteNonQuery();
+
+            setCmd("select id_direccion from Direcciones where direccion = '"+calle+"' and cp = "+cp+" and piso = "+piso+" and dpto = '"+dpto+"' and ciudad = '"+idLocalidad+"'");
+            reader = cmd.ExecuteReader();
+            reader.Read();
+            int idDireccion = reader.GetInt32(0);
+            reader.Close();
+
+            setCmd("insert into Clientes (username,nombre,apellido,dni,mail,telefono,id_direccion,fecha_nac,credito,habilitado)" +
+                "values ('"+ usuario +"','"+ nombre +"','"+ apellido +"',"+ dni +",'"+ mail +"',"+ telefono +","+ idDireccion +",'"+ fechaNac.ToShortDateString() +
+                   "',200.00,1)");
+            cmd.ExecuteNonQuery();
+
+            return true;
+
+
+
+        }
                                                 
                                               
     }

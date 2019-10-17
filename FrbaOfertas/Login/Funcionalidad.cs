@@ -34,16 +34,17 @@ namespace FrbaOfertas.Login
             else
             {
                 funcionalidadescbx.DataSource = funcionalidades;
-                funcionalidadescbx.DisplayMember = "nombre";
-                funcionalidadescbx.ValueMember = "id_rol";
+                funcionalidadescbx.DisplayMember = "funcionalidad";
+                funcionalidadescbx.ValueMember = "id_funcionalidad";
 
                 funcionalidadescbx.SelectedItem = funcionalidades.First();
             }
         }
 
-        private void titulo_Click(object sender, EventArgs e)
+
+        private void btnAcceder_Click(object sender, EventArgs e)
         {
-            if ( !((Modelos.Funcionalidad) funcionalidadescbx.SelectedItem).Equals(null))
+            if (!((Modelos.Funcionalidad)funcionalidadescbx.SelectedItem).Equals(null))
             {
                 //pasar al menu adecuado
                 Modelos.Funcionalidad funcionalidad = funcionalidades.Where(func => func.funcionalidad == funcionalidadescbx.Text).ToList().First();
@@ -54,11 +55,6 @@ namespace FrbaOfertas.Login
             {
                 MessageBox.Show("Elija una funcionalidad valida", "Error");
             }
-        }
-
-        private void btnAcceder_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void cerrarSesion_Click(object sender, EventArgs e)

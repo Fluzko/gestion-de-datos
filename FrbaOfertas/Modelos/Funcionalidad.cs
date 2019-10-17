@@ -14,14 +14,10 @@ namespace FrbaOfertas.Modelos
         public Funcionalidad(int id, String funcionalidad){
             id_funcionalidad = id;
             this.funcionalidad = funcionalidad;
-            this.setPantalla();
         }
+
 
         public void changeView() {
-           
-        }
-
-        private void setPantalla() {
             switch(id_funcionalidad){
                 case 1:
                     (new AbmRol.AbmRol()).Show();
@@ -29,6 +25,7 @@ namespace FrbaOfertas.Modelos
                 
                 case 2:
                     (new AbmCliente.AbmCliente()).Show();
+                    
                     break;
 
                 case 3:
