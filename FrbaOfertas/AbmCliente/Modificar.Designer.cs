@@ -50,7 +50,6 @@
             this.label15 = new System.Windows.Forms.Label();
             this.textNombre = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.comboHabilitado = new System.Windows.Forms.ComboBox();
             this.btnModificar = new System.Windows.Forms.Button();
@@ -66,7 +65,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.buttonBuscar = new System.Windows.Forms.Button();
             this.clientesGrid = new System.Windows.Forms.DataGridView();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.buttonFecha = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
+            this.textFN = new System.Windows.Forms.TextBox();
+            this.calendario = new System.Windows.Forms.MonthCalendar();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.clientesGrid)).BeginInit();
             this.SuspendLayout();
@@ -280,15 +282,6 @@
             this.label11.TabIndex = 67;
             this.label11.Text = "* campos obligatorios";
             // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(28, 221);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(115, 13);
-            this.label10.TabIndex = 65;
-            this.label10.Text = "*Fecha de Nacimiento:";
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -444,22 +437,54 @@
             this.clientesGrid.TabIndex = 57;
             this.clientesGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.clientesGrid_CellClick);
             // 
-            // dateTimePicker1
+            // buttonFecha
             // 
-            this.dateTimePicker1.CustomFormat = "yyyy/MM/dd";
-            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker1.Location = new System.Drawing.Point(149, 215);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(226, 20);
-            this.dateTimePicker1.TabIndex = 89;
-            this.dateTimePicker1.Value = new System.DateTime(2019, 10, 18, 0, 0, 0, 0);
+            this.buttonFecha.Enabled = false;
+            this.buttonFecha.Location = new System.Drawing.Point(272, 219);
+            this.buttonFecha.Name = "buttonFecha";
+            this.buttonFecha.Size = new System.Drawing.Size(75, 23);
+            this.buttonFecha.TabIndex = 92;
+            this.buttonFecha.Text = "Seleccionar";
+            this.buttonFecha.UseVisualStyleBackColor = true;
+            this.buttonFecha.Click += new System.EventHandler(this.buttonFecha_Click);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(30, 224);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(115, 13);
+            this.label10.TabIndex = 91;
+            this.label10.Text = "*Fecha de Nacimiento:";
+            // 
+            // textFN
+            // 
+            this.textFN.Enabled = false;
+            this.textFN.Location = new System.Drawing.Point(155, 221);
+            this.textFN.Name = "textFN";
+            this.textFN.ReadOnly = true;
+            this.textFN.Size = new System.Drawing.Size(111, 20);
+            this.textFN.TabIndex = 90;
+            this.textFN.TabStop = false;
+            // 
+            // calendario
+            // 
+            this.calendario.FirstDayOfWeek = System.Windows.Forms.Day.Sunday;
+            this.calendario.Location = new System.Drawing.Point(272, 219);
+            this.calendario.Name = "calendario";
+            this.calendario.TabIndex = 89;
+            this.calendario.Visible = false;
+            this.calendario.DateSelected += new System.Windows.Forms.DateRangeEventHandler(this.calendario_DateSelected);
+            this.calendario.Leave += new System.EventHandler(this.calendario_Leave);
             // 
             // Modificar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(730, 580);
-            this.Controls.Add(this.dateTimePicker1);
+            this.Controls.Add(this.buttonFecha);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.textFN);
             this.Controls.Add(this.buttonCerrar);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.textCalle);
@@ -482,12 +507,12 @@
             this.Controls.Add(this.label15);
             this.Controls.Add(this.textNombre);
             this.Controls.Add(this.label11);
-            this.Controls.Add(this.label10);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.comboHabilitado);
             this.Controls.Add(this.btnModificar);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.clientesGrid);
+            this.Controls.Add(this.calendario);
             this.Name = "Modificar";
             this.Text = "Modificar Cliente";
             this.groupBox1.ResumeLayout(false);
@@ -522,7 +547,6 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.TextBox textNombre;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox comboHabilitado;
         private System.Windows.Forms.Button btnModificar;
@@ -538,7 +562,10 @@
         private System.Windows.Forms.TextBox textEmailB;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Button buttonLimpiar;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.Button buttonFecha;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox textFN;
+        private System.Windows.Forms.MonthCalendar calendario;
 
     }
 }

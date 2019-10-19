@@ -366,7 +366,8 @@
             this.calendario.Name = "calendario";
             this.calendario.TabIndex = 23;
             this.calendario.Visible = false;
-            this.calendario.DateChanged += new System.Windows.Forms.DateRangeEventHandler(this.calendario_DateChanged);
+            this.calendario.DateSelected += new System.Windows.Forms.DateRangeEventHandler(this.calendario_DateSelected);
+            this.calendario.Leave += new System.EventHandler(this.calendario_Leave);
             // 
             // groupBox3
             // 

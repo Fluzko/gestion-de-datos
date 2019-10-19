@@ -18,7 +18,14 @@ namespace FrbaOfertas
 
         public static void setCmd(String query)
         {
-            cmd.CommandText = query;
+            cmd = new SqlCommand(query);
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = connection;
+        }
+
+        public static void newsetCmd(String query)
+        {
+            cmd = new SqlCommand(query);
             cmd.CommandType = CommandType.Text;
             cmd.Connection = connection;
         }
@@ -26,7 +33,11 @@ namespace FrbaOfertas
 
         public static Modelos.Usuario login(String username, String password) {
             
-            setCmd("SELECT username, password from Usuarios WHERE username = '" + username + "' AND password = '" + password + "' AND habilitado = 1");
+            setCmd("SELECT username, password from Usuarios WHERE username = @username AND password = @password AND habilitado = 1");
+            cmd.Parameters.AddWithValue("@username", username);
+            cmd.Parameters.AddWithValue("@password", password);
+            
+            
             //password = hashbytes('SHA2_256', '" + password + "')
             reader = cmd.ExecuteReader();
             
@@ -47,7 +58,9 @@ namespace FrbaOfertas
 
         public static List<Modelos.Rol> getRoles(String usuario) {
             
-            setCmd("SELECT r.id_rol, r.nombre from Roles r JOIN Rol_Usuario ru ON ru.id_rol = r.id_rol WHERE ru.username = '"+ usuario +"' and r.habilitado = 1");
+            setCmd("SELECT r.id_rol, r.nombre from Roles r JOIN Rol_Usuario ru ON ru.id_rol = r.id_rol WHERE ru.username = @usuario and r.habilitado = 1");
+
+            cmd.Parameters.AddWithValue("@usuario", usuario);
 
             reader = cmd.ExecuteReader();
 
@@ -73,7 +86,9 @@ namespace FrbaOfertas
 
         public static List<Modelos.Funcionalidad> getFuncionalidades(int id_rol) {
             
-            setCmd("SELECT f.id_func,f.nombre, f.descripcion FROM Funcionalidades f JOIN Rol_Funcionalidad rf ON rf.id_func = f.id_func WHERE rf.id_rol =" + id_rol + " AND habilitado = 1 ");
+            setCmd("SELECT f.id_func,f.nombre, f.descripcion FROM Funcionalidades f JOIN Rol_Funcionalidad rf ON rf.id_func = f.id_func WHERE rf.id_rol = @rol AND habilitado = 1 ");
+
+            cmd.Parameters.AddWithValue("@rol", id_rol);
 
             reader = cmd.ExecuteReader();
 
@@ -95,11 +110,14 @@ namespace FrbaOfertas
             }
         }
 
-        public static bool altaCliente(String usuario, String contra, String nombre, String apellido, String mail, String telefono, DateTime fechaNac,
+        public static bool altaCliente(String username, String contra, String nombre, String apellido, String mail, String telefono, DateTime fechaNac,
                                         String calle, String piso, String dpto, String localidad, String cp, String dni)
         {
 
-            setCmd("select count(username) from Usuarios where username = '" + usuario + "'");
+            setCmd("select count(username) from Usuarios where username = @username");
+
+            cmd.Parameters.AddWithValue("@username", username);
+
             reader = cmd.ExecuteReader();
             reader.Read();
 
@@ -115,13 +133,20 @@ namespace FrbaOfertas
 
 
             // chequeo unicidad de mail
-            setCmd("select count(mail) from Clientes where mail= '" + mail + "'");
+            setCmd("select count(mail) from Clientes where mail = @mail");
+
+            cmd.Parameters.AddWithValue("@mail", mail);
+
             reader = cmd.ExecuteReader();
             reader.Read();
             int cantidadMailCliente = reader.GetInt32(0);
             reader.Close();
 
             setCmd("select count(mail) from Proveedores where mail= '" + mail + "'");
+
+            cmd.Parameters.AddWithValue("@mail", mail);
+
+
             reader = cmd.ExecuteReader();
             reader.Read();
             int cantidadMailProveedor = reader.GetInt32(0);
@@ -134,7 +159,10 @@ namespace FrbaOfertas
             }
 
             // chequeo unicidad dni
-            setCmd("select count(dni) from Clientes where dni = '" + dni + "'");
+            setCmd("select count(dni) from Clientes where dni = @dni");
+
+            cmd.Parameters.AddWithValue("@dni", dni);
+
             reader = cmd.ExecuteReader();
             reader.Read();
             int cantidadDniCliente = reader.GetInt32(0);
@@ -148,28 +176,56 @@ namespace FrbaOfertas
 
 
             setCmd("insert into Usuarios (username,password,habilitado)" +
-                   "values ('"+usuario+"','"+contra+"',1)");
+                   "values (@username, @password, 1)");
+
+            cmd.Parameters.AddWithValue("@username", username);
+            cmd.Parameters.AddWithValue("@password", contra);
+
             cmd.ExecuteNonQuery();
 
-            setCmd("select id_ciudad from Ciudades where nombre = '"+ localidad +"'");
+            setCmd("select id_ciudad from Ciudades where nombre = @localidad");
+
+            cmd.Parameters.AddWithValue("@localidad", localidad);
             reader = cmd.ExecuteReader();
             reader.Read();
             int idLocalidad = reader.GetInt32(0);
             reader.Close();
 
             setCmd("insert into Direcciones (direccion, cp, piso, dpto, ciudad)" +
-                    "values ('" + calle + "','" + cp + "','" + piso + "','" + dpto + "'," + idLocalidad + ")");
+                    "values (@calle, @cp, @piso, @dpto, @idLocalidad)");
+
+            cmd.Parameters.AddWithValue("@calle", calle);
+            cmd.Parameters.AddWithValue("@cp", cp);
+            cmd.Parameters.AddWithValue("@piso", piso);
+            cmd.Parameters.AddWithValue("@dpto", dpto);
+            cmd.Parameters.AddWithValue("@idLocalidad", idLocalidad);
             cmd.ExecuteNonQuery();
 
-            setCmd("select id_direccion from Direcciones where direccion = '"+calle+"' and cp = "+cp+" and piso = "+piso+" and dpto = '"+dpto+"' and ciudad = '"+idLocalidad+"'");
+            setCmd("select id_direccion from Direcciones where direccion = @calle and cp = @cp and piso = @piso and dpto = @dpto and ciudad = @idLocalidad");
+
+            cmd.Parameters.AddWithValue("@calle", calle);
+            cmd.Parameters.AddWithValue("@cp", cp);
+            cmd.Parameters.AddWithValue("@piso", piso);
+            cmd.Parameters.AddWithValue("@dpto", dpto);
+            cmd.Parameters.AddWithValue("@idLocalidad", idLocalidad);
+
             reader = cmd.ExecuteReader();
             reader.Read();
             int idDireccion = reader.GetInt32(0);
             reader.Close();
 
             setCmd("insert into Clientes (username,nombre,apellido,dni,mail,telefono,id_direccion,fecha_nac,credito,habilitado)" +
-                "values ('"+ usuario +"','"+ nombre +"','"+ apellido +"',"+ dni +",'"+ mail +"',"+ telefono +","+ idDireccion +",'"+ fechaNac.ToShortDateString() +
-                   "',200.00,1)");
+                "values (@username, @nombre, @apellido, @dni, @mail, @telefono, @idDireccion, @fechaNac,200.00,1)");
+
+            cmd.Parameters.AddWithValue("@username", username);
+            cmd.Parameters.AddWithValue("@nombre", nombre);
+            cmd.Parameters.AddWithValue("@apellido", apellido);
+            cmd.Parameters.AddWithValue("@dni", dni);
+            cmd.Parameters.AddWithValue("@mail", mail);
+            cmd.Parameters.AddWithValue("@telefono", telefono);
+            cmd.Parameters.AddWithValue("@idDireccion", idDireccion);
+            cmd.Parameters.AddWithValue("@fechaNac", fechaNac);
+
             cmd.ExecuteNonQuery();
 
             return true;
@@ -228,9 +284,13 @@ namespace FrbaOfertas
                     "JOIN Direcciones d ON c.id_direccion = d.id_direccion " +
                     "JOIN Ciudades ci ON ci.id_ciudad = d.ciudad " +
                     "WHERE "+ 
-                    "c.nombre LIKE '%"+ nombre +"%' AND "+
-                    "c.apellido LIKE '%"+ apellido +"%' AND "+
-                    "c.mail LIKE '%"+ mail +"%'");
+                    "c.nombre LIKE '%@nombre%' AND "+
+                    "c.apellido LIKE '%@apellido%' AND "+
+                    "c.mail LIKE '%@mail%'");
+
+            cmd.Parameters.AddWithValue("@nombre", nombre);
+            cmd.Parameters.AddWithValue("@apellido", apellido);
+            cmd.Parameters.AddWithValue("@mail", mail);
             
             reader = cmd.ExecuteReader();
 
@@ -276,10 +336,15 @@ namespace FrbaOfertas
                     "JOIN Direcciones d ON c.id_direccion = d.id_direccion " +
                     "JOIN Ciudades ci ON ci.id_ciudad = d.ciudad " +
                     "WHERE " +
-                    "c.nombre LIKE '%" + nombre + "%' AND " +
-                    "c.apellido LIKE '%" + apellido + "%' AND " +
-                    "c.mail LIKE '%" + mail + "%' AND "+
-                    "c.dni = "+ dni);
+                    "c.nombre LIKE '%@nombre%' AND " +
+                    "c.apellido LIKE '%@apellido%' AND " +
+                    "c.mail LIKE '%@mail%' AND "+
+                    "c.dni = @dni");
+
+            cmd.Parameters.AddWithValue("@nombre", nombre);
+            cmd.Parameters.AddWithValue("@apellido", apellido);
+            cmd.Parameters.AddWithValue("@mail", mail);
+            cmd.Parameters.AddWithValue("@dni", dni);
 
             reader = cmd.ExecuteReader();
 
@@ -317,18 +382,31 @@ namespace FrbaOfertas
         }  
      
             public static void updateCliente(Modelos.Cliente cliente){
-                setCmd("UPDATE Clientes SET" + 
-                        " nombre = '" + cliente.Nombre +"',"+
-                        " apellido  = '" + cliente.Apellido +"',"+ 
-                        " dni = " + cliente.Dni + ","+
-                        " mail  = '" + cliente.Mail +"',"+
-                        " telefono = " + cliente.Telefono + ","+
-                        " fecha_nac = '" + cliente.FechaNac.ToShortDateString() + "', " +
-                        " credito = " + cliente.Credito + ", "+
-                        " habilitado  = '" + cliente.habilitado.ToString() + "'" +
-                        " WHERE username = '" + cliente.Username +"'");
 
-                
+                newsetCmd("UPDATE Clientes SET "+
+                                     "nombre = @nombre, "+
+                                     "apellido = @apellido, "+
+                                     "dni = @dni, "+
+                                     "mail = @mail, "+
+                                     "telefono = @telefono, "+
+                                     "fecha_nac = @fechanac, "+
+                                     "credito = @credito, "+
+                                     "habilitado = @habilitado "+
+                                     "WHERE username = @username");
+
+                cmd.Parameters.AddWithValue("@nombre", cliente.Nombre);
+                cmd.Parameters.AddWithValue("@apellido",cliente.Apellido);
+                cmd.Parameters.AddWithValue("@dni",cliente.Dni);
+                cmd.Parameters.AddWithValue("@mail",cliente.Mail);
+                cmd.Parameters.AddWithValue("@telefono",cliente.Telefono);
+                cmd.Parameters.AddWithValue("@fechanac",cliente.FechaNac);
+                cmd.Parameters.AddWithValue("@credito",cliente.Credito);
+                cmd.Parameters.AddWithValue("@habilitado",cliente.habilitado);
+                cmd.Parameters.AddWithValue("@username",cliente.Username);
+
+                cmd.CommandType = CommandType.Text;
+                cmd.Connection = connection;
+   
                 if (cmd.ExecuteNonQuery() == 0)
                 {
                     MessageBox.Show("Ocurrio un error al actualizar los datos", "Actualizar cliente", MessageBoxButtons.OK, MessageBoxIcon.Error);

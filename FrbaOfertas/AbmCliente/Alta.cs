@@ -59,12 +59,6 @@ namespace FrbaOfertas.AbmCliente
         }
 
 
-        private void calendario_DateChanged(object sender, DateRangeEventArgs e)
-        {
-            textFN.Text = calendario.SelectionRange.Start.ToShortDateString();
-            calendario.Hide();
-        }
-
         private void cleanInputs()
         {
             //limpio todos los campos
@@ -151,6 +145,17 @@ namespace FrbaOfertas.AbmCliente
         private void textNombre_KeyPress(object sender, KeyPressEventArgs e)
         {
             Validar.letras(e);
+        }
+
+        private void calendario_Leave(object sender, EventArgs e)
+        {
+            this.calendario.Hide();
+        }
+
+        private void calendario_DateSelected(object sender, DateRangeEventArgs e)
+        {
+            textFN.Text = calendario.SelectionRange.Start.ToShortDateString();
+            calendario.Hide();
         }
 
 
