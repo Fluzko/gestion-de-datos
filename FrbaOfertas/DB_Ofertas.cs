@@ -181,7 +181,7 @@ namespace FrbaOfertas
 
             setCmd("SELECT c.username, c.nombre, c.apellido, c.dni, c.mail, c.telefono, d.direccion, d.cp, d.piso, d.dpto, ci.nombre, c.fecha_nac, c.credito, c.habilitado " +
                    "FROM Clientes c " +
-                   "JOIN Direcciones d ON c.id_direccion = d.id_direccion "+
+                   "JOIN Direcciones d ON c.id_direccion = d.id_direccion " +
                    "JOIN Ciudades ci ON ci.id_ciudad = d.ciudad ");
             reader = cmd.ExecuteReader();
 
@@ -196,20 +196,20 @@ namespace FrbaOfertas
             while (reader.Read())
             {
                 Modelos.Cliente cliente = new Modelos.Cliente();
-                    cliente.Username = reader.GetString(0);
-                    cliente.Nombre = reader.GetString(1);
-                    cliente.Apellido = reader.GetString(2);
-                    cliente.Dni = reader.GetInt32(3);
-                    cliente.Mail = reader.GetString(4);
-                    cliente.Telefono = reader.GetInt32(5);
-                    cliente.Direccion = reader.GetString(6);
-                    cliente.Cp = reader.GetInt32(7);
-                    cliente.Piso = reader.GetInt32(8);
-                    cliente.Dpto = reader.GetString(9);
-                    cliente.Localidad = reader.GetString(10);
-                    cliente.FechaNac = reader.GetDateTime(11);
-                    cliente.Credito = reader.GetDecimal(12);
-                    cliente.habilitado = reader.GetBoolean(13);
+                cliente.Username = reader.GetString(0);
+                cliente.Nombre = reader.GetString(1);
+                cliente.Apellido = reader.GetString(2);
+                cliente.Dni = reader.GetInt32(3);
+                cliente.Mail = reader.GetString(4);
+                cliente.Telefono = reader.GetInt32(5);
+                cliente.Direccion = reader.GetString(6);
+                cliente.Cp = reader.GetInt32(7);
+                cliente.Piso = reader.GetInt32(8);
+                cliente.Dpto = reader.GetString(9);
+                cliente.Localidad = reader.GetString(10);
+                cliente.FechaNac = reader.GetDateTime(11);
+                cliente.Credito = reader.GetDecimal(12);
+                cliente.habilitado = reader.GetBoolean(13);
 
                 clientes.Add(cliente);
             }
@@ -217,7 +217,6 @@ namespace FrbaOfertas
             reader.Close();
             return clientes;
         }
-
 
         public static List<Modelos.Cliente> getClientes(String nombre, String apellido, String mail)
         {
@@ -316,29 +315,64 @@ namespace FrbaOfertas
             return clientes;
         }  
      
-            public static void updateCliente(Modelos.Cliente cliente){
-                setCmd("UPDATE Clientes SET" + 
-                        " nombre = '" + cliente.Nombre +"',"+
-                        " apellido  = '" + cliente.Apellido +"',"+ 
-                        " dni = " + cliente.Dni + ","+
-                        " mail  = '" + cliente.Mail +"',"+
-                        " telefono = " + cliente.Telefono + ","+
-                        " fecha_nac = '" + cliente.FechaNac.ToShortDateString() + "', " +
-                        " credito = " + cliente.Credito + ", "+
-                        " habilitado  = '" + cliente.habilitado.ToString() + "'" +
-                        " WHERE username = '" + cliente.Username +"'");
+        public static void updateCliente(Modelos.Cliente cliente){
+            setCmd("UPDATE Clientes SET" + 
+                    " nombre = '" + cliente.Nombre +"',"+
+                    " apellido  = '" + cliente.Apellido +"',"+ 
+                    " dni = " + cliente.Dni + ","+
+                    " mail  = '" + cliente.Mail +"',"+
+                    " telefono = " + cliente.Telefono + ","+
+                    " fecha_nac = '" + cliente.FechaNac.ToShortDateString() + "', " +
+                    " credito = " + cliente.Credito + ", "+
+                    " habilitado  = '" + cliente.habilitado.ToString() + "'" +
+                    " WHERE username = '" + cliente.Username +"'");
 
                 
-                if (cmd.ExecuteNonQuery() == 0)
-                {
-                    MessageBox.Show("Ocurrio un error al actualizar los datos", "Actualizar cliente", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                MessageBox.Show("Cliente actualizado con exito", "Actualizar cliente", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (cmd.ExecuteNonQuery() == 0)
+            {
+                MessageBox.Show("Ocurrio un error al actualizar los datos", "Actualizar cliente", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
+            }
+
+            MessageBox.Show("Cliente actualizado con exito", "Actualizar cliente", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return;
     
 
-            }                                 
+        }
+
+        public static List<Modelos.Oferta> getOfertas()
+        {
+            List<Modelos.Oferta> ofertas = null;
+
+            setCmd("SELECT o.id_oferta, p.razon_social, o.descripcion, o.fecha_pub, o.fecha_vec, o.precio_rebajado, o.max_cliente " +
+                    "FROM Ofertas o " +
+                    "JOIN Proveedores p ON p.username = o.username");
+            reader = cmd.ExecuteReader();
+
+            if (!reader.HasRows)
+            {
+                reader.Close();
+                return ofertas;
+            }
+
+            ofertas = new List<Modelos.Oferta>();
+
+            while (reader.Read())
+            {
+                Modelos.Oferta oferta = new Modelos.Oferta();
+                oferta.Id = reader.GetInt32(0);
+                oferta.Proveedor = reader.GetString(1);
+                oferta.Descripcion = reader.GetString(2);
+                oferta.FechaPublicacion = reader.GetDateTime(3).Date;
+                oferta.FechaVencimiento = reader.GetDateTime(4).Date;
+                oferta.Precio = reader.GetDecimal(5);
+                oferta.MaxPorCliente = reader.GetInt32(6);
+
+                ofertas.Add(oferta);
+            }
+
+            reader.Close();
+            return ofertas;
+        }              
     }
 }

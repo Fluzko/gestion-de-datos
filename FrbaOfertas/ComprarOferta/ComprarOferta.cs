@@ -15,51 +15,38 @@ namespace FrbaOfertas.ComprarOferta
         public ComprarOferta()
         {
             InitializeComponent();
+            Decoracion.Reorganizar(this);
+            List<Modelos.Oferta> ofertas = DB_Ofertas.getOfertas();
+            showOfertas(ofertas);
         }
 
-        private void gridOfertas_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void showOfertas(List<Modelos.Oferta> ofertas)
         {
-
+            gridOfertas.DataSource = ofertas;
+            gridOfertas.AutoResizeColumns();
+            gridOfertas.Rows[0].Selected = true;
         }
 
-        private void lblOfertas_Click(object sender, EventArgs e)
+        private void gridOfertas_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            int i = e.RowIndex;
+            DataGridViewRow selectedRow = gridOfertas.Rows[i];
+            Modelos.Oferta oferta = ((Modelos.Oferta)selectedRow.DataBoundItem);
         }
 
         private void grpFiltros_Enter(object sender, EventArgs e)
         {
-
+            btnFiltrar_Click(sender, e);
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void btnComprar_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void label1_Click_1(object sender, EventArgs e)
+        private void btnFiltrar_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click_2(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
+            
         }
     }
 }
