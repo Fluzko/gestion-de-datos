@@ -52,8 +52,8 @@ CREATE TABLE Ciudades (
 CREATE TABLE Direcciones (
 	id_direccion INTEGER PRIMARY KEY IDENTITY(1, 1),
 	direccion NVARCHAR(255) NOT NULL,
-	cp INTEGER,
-	piso INTEGER,
+	cp NVARCHAR(5),
+	piso NVARCHAR(2),
 	dpto NVARCHAR(2),
 	ciudad INTEGER FOREIGN KEY REFERENCES Ciudades NOT NULL
 )
@@ -205,10 +205,23 @@ INSERT INTO Usuarios (username, password, habilitado)
 		FROM gd_esquema.Maestra
 		WHERE Cli_Nombre IS NOT NULL AND Cli_Apellido IS NOT NULL
 
-INSERT INTO Clientes (username, nombre, apellido, dni, mail, telefono, fecha_nac, habilitado)
-	SELECT DISTINCT Cli_Dni, Cli_Nombre, Cli_Apellido, Cli_Dni, Cli_Mail, Cli_Telefono, Cli_Fecha_Nac, 1
+INSERT INTO Ciudades(nombre) 
+	SELECT DISTINCT Cli_Ciudad FROM gd_esquema.Maestra
+
+INSERT INTO Direcciones (direccion,ciudad,cp,dpto,piso)
+	SELECT DISTINCT m.Cli_Direccion, c.id_ciudad, '-', '-', '-' FROM gd_esquema.Maestra m
+	JOIN Ciudades c ON c.nombre = m.Cli_Ciudad
+	
+
+INSERT INTO Clientes (username, nombre, apellido, dni, mail, telefono, fecha_nac, habilitado,id_direccion)
+	SELECT DISTINCT Cli_Dni, UPPER(Cli_Nombre), UPPER(Cli_Apellido), Cli_Dni, Cli_Mail, Cli_Telefono, Cli_Fecha_Nac, 1, d.id_direccion
 		FROM gd_esquema.Maestra
+		JOIN Direcciones d ON Cli_Direccion = d.direccion
+		JOIN Ciudades c ON d.ciudad = c.id_ciudad
 		WHERE Cli_Nombre IS NOT NULL AND Cli_Apellido IS NOT NULL
+
+UPDATE Clientes SET habilitado = 0
+WHERE mail like '% %'
 
 INSERT INTO Usuarios (username, password, habilitado)
 	SELECT DISTINCT CONCAT(	SUBSTRING(Provee_CUIT,1, 2),
@@ -246,7 +259,7 @@ INSERT INTO Roles(nombre, habilitado)
 VALUES
   ('Cliente',1),
   ('Proveedor',1),
-  ('Admisnitrador',1)
+  ('Administrador',1)
 
 
 INSERT INTO Funcionalidades(nombre, descripcion,habilitado)
@@ -295,7 +308,7 @@ VALUES
 
 
 INSERT INTO Ofertas (descripcion, fecha_pub, fecha_vec, username, precio_rebajado, precio_lista, stock, max_cliente)
-	SELECT distinct	Oferta_Descripcion, 
+	SELECT DISTINCT	Oferta_Descripcion, 
 			Oferta_Fecha, 
 			Oferta_Fecha_Venc, 
 			CONCAT(	SUBSTRING(Provee_CUIT,1, 2), SUBSTRING(Provee_CUIT,4,8), SUBSTRING(Provee_CUIT, 13,13)), 
@@ -305,27 +318,27 @@ INSERT INTO Ofertas (descripcion, fecha_pub, fecha_vec, username, precio_rebajad
 			sum(Oferta_Cantidad) 
 	FROM gd_esquema.Maestra
 	WHERE Oferta_Descripcion is not null 
-	group by Oferta_Descripcion, Oferta_Fecha, Oferta_Fecha_Venc, Oferta_Precio, Oferta_Precio_Ficticio,Provee_CUIT   
+	GROUP BY Oferta_Descripcion, Oferta_Fecha, Oferta_Fecha_Venc, Oferta_Precio, Oferta_Precio_Ficticio,Provee_CUIT   
 
 
 INSERT INTO Cupones ( username, fecha_compra, id_oferta, fecha_entrega, codigo_legacy, facturado)
-	SELECT distinct 
+	SELECT DISTINCT 
 					Cli_Dni,
 					Oferta_Fecha_Compra,
 					id_oferta,
 					Oferta_Entregado_Fecha,
 					Oferta_Codigo,
 					0
-					from Ofertas o
-			JOIN gd_esquema.Maestra m on
+					FROM Ofertas o
+			JOIN gd_esquema.Maestra m ON
 				o.descripcion = m.Oferta_Descripcion
 				AND m.Oferta_Fecha = o.fecha_pub 
 				AND m.Oferta_Fecha_Venc = o.fecha_vec 
 				AND CONCAT(	SUBSTRING(Provee_CUIT,1, 2), SUBSTRING(Provee_CUIT,4,8), SUBSTRING(Provee_CUIT, 13,13)) =  o.username
 				AND o.precio_lista = m.Oferta_Precio_Ficticio
 				AND o.precio_rebajado = m.Oferta_Precio 
-				group by Oferta_Codigo, Oferta_Fecha_Compra, Cli_Dni, id_oferta, Oferta_Entregado_Fecha
-				having Oferta_Codigo IS NOT NULL
+				GROUP BY Oferta_Codigo, Oferta_Fecha_Compra, Cli_Dni, id_oferta, Oferta_Entregado_Fecha
+				HAVING Oferta_Codigo IS NOT NULL
 
 
 INSERT INTO Facturas (fecha,username,monto)
@@ -361,6 +374,7 @@ UPDATE Cupones SET facturado = 1
 
 ALTER TABLE Cupones DROP COLUMN codigo_legacy
 
+
 INSERT INTO Usuarios (username,password,habilitado)
 VALUES				 ('admin','w23e',1 )
 
@@ -368,8 +382,10 @@ INSERT INTO Rol_Usuario (id_rol,username,habilitado)
 VALUES					(3,'admin',1)
 
 
-insert into Ciudades (nombre) values('ba')
 
+select * from Clientes order by id_direccion
+
+/*
 
 insert into Usuarios (username,password,habilitado) values('facundo','facu',1)
 
@@ -378,8 +394,9 @@ insert into Direcciones (ciudad,cp,direccion,dpto,piso) values (1,1822,'veracruz
 insert into Clientes (username,nombre,apellido,dni,mail,telefono,id_direccion,fecha_nac,credito,habilitado)
 values ('facundo', 'Facundo','Luzko',40571956,'fluzko@gmail.com',1167672254,1,'2013-10-10',200.00,1)
 select * from Clientes
+*/
 
-
+/*
 SELECT	c.nombre, c.apellido, c.dni, c.mail, c.telefono, d.direccion, d.cp, d.piso, d.dpto, ci.nombre, c.fecha_nac, c.credito
                    FROM Clientes c 
                    JOIN Direcciones d ON c.id_direccion = d.id_direccion 
@@ -390,3 +407,5 @@ SELECT	c.nombre, c.apellido, c.dni, c.mail, c.telefono, d.direccion, d.cp, d.pis
 
 	
 	update Clientes SET habilitado = 'false' where username = 'facundo'
+
+*/
