@@ -86,6 +86,7 @@
             this.Controls.Add(this.button1);
             this.Name = "AbmCliente";
             this.Text = "Clientes";
+            this.Load += new System.EventHandler(this.AbmCliente_Load);
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
 

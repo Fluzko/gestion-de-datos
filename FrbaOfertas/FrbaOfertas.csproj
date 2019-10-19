@@ -92,7 +92,9 @@
     <Compile Include="AbmRol\Alta.Designer.cs">
       <DependentUpon>Alta.cs</DependentUpon>
     </Compile>
+    <Compile Include="Decoracion.cs" />
     <Compile Include="ConectorDB.cs" />
+    <Compile Include="Modelos\Cliente.cs" />
     <Compile Include="Registro\Registro.cs">
       <SubType>Form</SubType>
     </Compile>

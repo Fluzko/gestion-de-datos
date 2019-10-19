@@ -18,6 +18,7 @@ namespace FrbaOfertas.Login
         public Rol(Modelos.Usuario usuario)
         {
             InitializeComponent();
+            Decoracion.Reorganizar(this);
             this.usuario = usuario;
             Titulo.Text = "Usuario: " + this.usuario.getUsername();
             this.loadRoles();

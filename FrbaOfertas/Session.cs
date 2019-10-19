@@ -8,8 +8,8 @@ namespace FrbaOfertas
 {
     class Session
     {
-        private static Modelos.Usuario user;
-        private static Modelos.Rol rol;
+        private static Modelos.Usuario user = null;
+        private static Modelos.Rol rol = null;
 
 
         public static void setSession(Modelos.Usuario u, Modelos.Rol r)
@@ -20,5 +20,14 @@ namespace FrbaOfertas
 
         public static Modelos.Usuario getUser() { return user; }
         public static Modelos.Rol getRol() { return rol; }
+
+        public static bool isNull()
+        {
+            if(user == null && rol == null)
+                return true;
+            else 
+                return false;
+        
+        }
     }
 }

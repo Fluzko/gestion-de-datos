@@ -59,10 +59,10 @@
             this.textCP = new System.Windows.Forms.TextBox();
             this.calendario = new System.Windows.Forms.MonthCalendar();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.textUsuario = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
             this.textContra = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.textUsuario = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -175,6 +175,7 @@
             // textTelefono
             // 
             this.textTelefono.Location = new System.Drawing.Point(495, 70);
+            this.textTelefono.MaxLength = 11;
             this.textTelefono.Name = "textTelefono";
             this.textTelefono.Size = new System.Drawing.Size(161, 20);
             this.textTelefono.TabIndex = 8;
@@ -192,6 +193,7 @@
             // textMail
             // 
             this.textMail.Location = new System.Drawing.Point(273, 70);
+            this.textMail.MaxLength = 255;
             this.textMail.Name = "textMail";
             this.textMail.Size = new System.Drawing.Size(158, 20);
             this.textMail.TabIndex = 6;
@@ -208,7 +210,7 @@
             // textDNI
             // 
             this.textDNI.Location = new System.Drawing.Point(73, 70);
-            this.textDNI.MaxLength = 9;
+            this.textDNI.MaxLength = 8;
             this.textDNI.Name = "textDNI";
             this.textDNI.Size = new System.Drawing.Size(130, 20);
             this.textDNI.TabIndex = 4;
@@ -226,6 +228,7 @@
             // textApellido
             // 
             this.textApellido.Location = new System.Drawing.Point(396, 38);
+            this.textApellido.MaxLength = 255;
             this.textApellido.Name = "textApellido";
             this.textApellido.Size = new System.Drawing.Size(260, 20);
             this.textApellido.TabIndex = 2;
@@ -243,6 +246,7 @@
             // textNombre
             // 
             this.textNombre.Location = new System.Drawing.Point(73, 38);
+            this.textNombre.MaxLength = 255;
             this.textNombre.Name = "textNombre";
             this.textNombre.Size = new System.Drawing.Size(260, 20);
             this.textNombre.TabIndex = 0;
@@ -270,6 +274,7 @@
             // textCalle
             // 
             this.textCalle.Location = new System.Drawing.Point(80, 30);
+            this.textCalle.MaxLength = 255;
             this.textCalle.Name = "textCalle";
             this.textCalle.Size = new System.Drawing.Size(544, 20);
             this.textCalle.TabIndex = 13;
@@ -304,6 +309,7 @@
             // textPiso
             // 
             this.textPiso.Location = new System.Drawing.Point(80, 55);
+            this.textPiso.MaxLength = 2;
             this.textPiso.Name = "textPiso";
             this.textPiso.Size = new System.Drawing.Size(41, 20);
             this.textPiso.TabIndex = 15;
@@ -321,7 +327,7 @@
             // textDpto
             // 
             this.textDpto.Location = new System.Drawing.Point(175, 55);
-            this.textDpto.MaxLength = 1;
+            this.textDpto.MaxLength = 2;
             this.textDpto.Name = "textDpto";
             this.textDpto.Size = new System.Drawing.Size(41, 20);
             this.textDpto.TabIndex = 17;
@@ -339,6 +345,7 @@
             // textLocalidad
             // 
             this.textLocalidad.Location = new System.Drawing.Point(296, 55);
+            this.textLocalidad.MaxLength = 255;
             this.textLocalidad.Name = "textLocalidad";
             this.textLocalidad.Size = new System.Drawing.Size(157, 20);
             this.textLocalidad.TabIndex = 19;
@@ -346,6 +353,7 @@
             // textCP
             // 
             this.textCP.Location = new System.Drawing.Point(557, 55);
+            this.textCP.MaxLength = 6;
             this.textCP.Name = "textCP";
             this.textCP.Size = new System.Drawing.Size(67, 20);
             this.textCP.TabIndex = 21;
@@ -373,23 +381,6 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Usuario y contraseña";
             // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(19, 23);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(46, 13);
-            this.label13.TabIndex = 32;
-            this.label13.Text = "Usuario:";
-            // 
-            // textUsuario
-            // 
-            this.textUsuario.Location = new System.Drawing.Point(68, 20);
-            this.textUsuario.Name = "textUsuario";
-            this.textUsuario.Size = new System.Drawing.Size(158, 20);
-            this.textUsuario.TabIndex = 31;
-            this.textUsuario.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
-            // 
             // label14
             // 
             this.label14.AutoSize = true;
@@ -402,9 +393,28 @@
             // textContra
             // 
             this.textContra.Location = new System.Drawing.Point(68, 65);
+            this.textContra.MaxLength = 255;
             this.textContra.Name = "textContra";
+            this.textContra.PasswordChar = '*';
             this.textContra.Size = new System.Drawing.Size(158, 20);
             this.textContra.TabIndex = 33;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(19, 23);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(46, 13);
+            this.label13.TabIndex = 32;
+            this.label13.Text = "Usuario:";
+            // 
+            // textUsuario
+            // 
+            this.textUsuario.Location = new System.Drawing.Point(68, 20);
+            this.textUsuario.MaxLength = 255;
+            this.textUsuario.Name = "textUsuario";
+            this.textUsuario.Size = new System.Drawing.Size(158, 20);
+            this.textUsuario.TabIndex = 31;
             // 
             // Alta
             // 

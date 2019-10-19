@@ -15,6 +15,7 @@ namespace FrbaOfertas.Registro
         public Registro()
         {
             InitializeComponent();
+            Decoracion.Reorganizar(this);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -35,5 +36,6 @@ namespace FrbaOfertas.Registro
             //(new AbmProveedor.Alta()).Show();
             this.Hide();
         }
+
     }
 }

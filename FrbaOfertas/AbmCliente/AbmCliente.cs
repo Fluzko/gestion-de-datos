@@ -15,6 +15,7 @@ namespace FrbaOfertas.AbmCliente
         public AbmCliente()
         {
             InitializeComponent();
+            Decoracion.Reorganizar(this);
         }
 
         private void clienteVolverbtn_Click(object sender, EventArgs e)
@@ -50,6 +51,11 @@ namespace FrbaOfertas.AbmCliente
         {
             (new Login.Funcionalidad(Session.getRol())).Show();
             this.Hide();
+        }
+
+        private void AbmCliente_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

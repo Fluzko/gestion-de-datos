@@ -173,11 +173,172 @@ namespace FrbaOfertas
             cmd.ExecuteNonQuery();
 
             return true;
-
-
-
         }
-                                                
-                                              
+
+        public static List<Modelos.Cliente> getClientes()
+        {
+            List<Modelos.Cliente> clientes = null;
+
+            setCmd("SELECT c.username, c.nombre, c.apellido, c.dni, c.mail, c.telefono, d.direccion, d.cp, d.piso, d.dpto, ci.nombre, c.fecha_nac, c.credito, c.habilitado " +
+                   "FROM Clientes c " +
+                   "JOIN Direcciones d ON c.id_direccion = d.id_direccion "+
+                   "JOIN Ciudades ci ON ci.id_ciudad = d.ciudad ");
+            reader = cmd.ExecuteReader();
+
+            if (!reader.HasRows)
+            {
+                reader.Close();
+                return clientes;
+            }
+
+            clientes = new List<Modelos.Cliente>();
+
+            while (reader.Read())
+            {
+                Modelos.Cliente cliente = new Modelos.Cliente();
+                    cliente.Username = reader.GetString(0);
+                    cliente.Nombre = reader.GetString(1);
+                    cliente.Apellido = reader.GetString(2);
+                    cliente.Dni = reader.GetInt32(3);
+                    cliente.Mail = reader.GetString(4);
+                    cliente.Telefono = reader.GetInt32(5);
+                    cliente.Direccion = reader.GetString(6);
+                    cliente.Cp = reader.GetInt32(7);
+                    cliente.Piso = reader.GetInt32(8);
+                    cliente.Dpto = reader.GetString(9);
+                    cliente.Localidad = reader.GetString(10);
+                    cliente.FechaNac = reader.GetDateTime(11);
+                    cliente.Credito = reader.GetDecimal(12);
+                    cliente.habilitado = reader.GetBoolean(13);
+
+                clientes.Add(cliente);
+            }
+
+            reader.Close();
+            return clientes;
+        }
+
+
+        public static List<Modelos.Cliente> getClientes(String nombre, String apellido, String mail)
+        {
+            List<Modelos.Cliente> clientes = null;
+
+            setCmd("SELECT c.username, c.nombre, c.apellido, c.dni, c.mail, c.telefono, d.direccion, d.cp, d.piso, d.dpto, ci.nombre, c.fecha_nac, c.credito, c.habilitado " +
+                    "FROM Clientes c " +
+                    "JOIN Direcciones d ON c.id_direccion = d.id_direccion " +
+                    "JOIN Ciudades ci ON ci.id_ciudad = d.ciudad " +
+                    "WHERE "+ 
+                    "c.nombre LIKE '%"+ nombre +"%' AND "+
+                    "c.apellido LIKE '%"+ apellido +"%' AND "+
+                    "c.mail LIKE '%"+ mail +"%'");
+            
+            reader = cmd.ExecuteReader();
+
+            if (!reader.HasRows)
+            {
+                reader.Close();
+                return clientes;
+            }
+
+            clientes = new List<Modelos.Cliente>();
+
+            while (reader.Read())
+            {
+                Modelos.Cliente cliente = new Modelos.Cliente();
+                cliente.Username = reader.GetString(0);
+                cliente.Nombre = reader.GetString(1);
+                cliente.Apellido = reader.GetString(2);
+                cliente.Dni = reader.GetInt32(3);
+                cliente.Mail = reader.GetString(4);
+                cliente.Telefono = reader.GetInt32(5);
+                cliente.Direccion = reader.GetString(6);
+                cliente.Cp = reader.GetInt32(7);
+                cliente.Piso = reader.GetInt32(8);
+                cliente.Dpto = reader.GetString(9);
+                cliente.Localidad = reader.GetString(10);
+                cliente.FechaNac = reader.GetDateTime(11);
+                cliente.Credito = reader.GetDecimal(12);
+                cliente.habilitado = reader.GetBoolean(13);
+
+                clientes.Add(cliente);
+            }
+
+            reader.Close();
+            return clientes;
+        }
+
+        public static List<Modelos.Cliente> getClientes(String nombre, String apellido, String mail, String dni)
+        {
+            List<Modelos.Cliente> clientes = null;
+
+            setCmd("SELECT c.username, c.nombre, c.apellido, c.dni, c.mail, c.telefono, d.direccion, d.cp, d.piso, d.dpto, ci.nombre, c.fecha_nac, c.credito, c.habilitado " +
+                    "FROM Clientes c " +
+                    "JOIN Direcciones d ON c.id_direccion = d.id_direccion " +
+                    "JOIN Ciudades ci ON ci.id_ciudad = d.ciudad " +
+                    "WHERE " +
+                    "c.nombre LIKE '%" + nombre + "%' AND " +
+                    "c.apellido LIKE '%" + apellido + "%' AND " +
+                    "c.mail LIKE '%" + mail + "%' AND "+
+                    "c.dni = "+ dni);
+
+            reader = cmd.ExecuteReader();
+
+            if (!reader.HasRows)
+            {
+                reader.Close();
+                return clientes;
+            }
+
+            clientes = new List<Modelos.Cliente>();
+
+            while (reader.Read())
+            {
+                Modelos.Cliente cliente = new Modelos.Cliente();
+                cliente.Username = reader.GetString(0);
+                cliente.Nombre = reader.GetString(1);
+                cliente.Apellido = reader.GetString(2);
+                cliente.Dni = reader.GetInt32(3);
+                cliente.Mail = reader.GetString(4);
+                cliente.Telefono = reader.GetInt32(5);
+                cliente.Direccion = reader.GetString(6);
+                cliente.Cp = reader.GetInt32(7);
+                cliente.Piso = reader.GetInt32(8);
+                cliente.Dpto = reader.GetString(9);
+                cliente.Localidad = reader.GetString(10);
+                cliente.FechaNac = reader.GetDateTime(11);
+                cliente.Credito = reader.GetDecimal(12);
+                cliente.habilitado = reader.GetBoolean(13);
+
+                clientes.Add(cliente);
+            }
+
+            reader.Close();
+            return clientes;
+        }  
+     
+            public static void updateCliente(Modelos.Cliente cliente){
+                setCmd("UPDATE Clientes SET" + 
+                        " nombre = '" + cliente.Nombre +"',"+
+                        " apellido  = '" + cliente.Apellido +"',"+ 
+                        " dni = " + cliente.Dni + ","+
+                        " mail  = '" + cliente.Mail +"',"+
+                        " telefono = " + cliente.Telefono + ","+
+                        " fecha_nac = '" + cliente.FechaNac.ToShortDateString() + "', " +
+                        " credito = " + cliente.Credito + ", "+
+                        " habilitado  = '" + cliente.habilitado.ToString() + "'" +
+                        " WHERE username = '" + cliente.Username +"'");
+
+                
+                if (cmd.ExecuteNonQuery() == 0)
+                {
+                    MessageBox.Show("Ocurrio un error al actualizar los datos", "Actualizar cliente", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                MessageBox.Show("Cliente actualizado con exito", "Actualizar cliente", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+    
+
+            }                                 
     }
 }

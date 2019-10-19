@@ -18,6 +18,7 @@ namespace FrbaOfertas.Login
         public Funcionalidad(Modelos.Rol rol)
         {
             InitializeComponent();
+            Decoracion.Reorganizar(this);
             this.rol = rol;
             Titulo.Text = "Rol: " + rol.nombre;
             loadFuncionalidades();

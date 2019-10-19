@@ -20,6 +20,7 @@ namespace FrbaOfertas.Login
         public Login()
         {
             InitializeComponent();
+            Decoracion.Reorganizar(this);
             Session.setSession(null,null);
         }
 
@@ -93,7 +94,8 @@ namespace FrbaOfertas.Login
         //ir a registro
         private void LbelChofer_Click(object sender, EventArgs e)
         {
-            //pantalla para elegir rol
+            (new Registro.Registro()).Show();
+            this.Hide();
         }
 
         private void Login_Load(object sender, EventArgs e)

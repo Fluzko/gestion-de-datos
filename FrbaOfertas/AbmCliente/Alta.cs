@@ -18,16 +18,27 @@ namespace FrbaOfertas.AbmCliente
         public Alta()
         {
             InitializeComponent();
+            Decoracion.Reorganizar(this);
         }
 
         private void buttonVolver_Click(object sender, EventArgs e)
         {
             DialogResult boton = MessageBox.Show("Si vuelve se borraran todos los datos ingresados", "Alerta", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
             if (boton == DialogResult.OK){
-                AbmCliente a = new AbmCliente();
-                a.Show();
-                this.cleanInputs();
-                this.Hide();
+                if (Session.isNull())
+                {
+                    Registro.Registro a = new Registro.Registro();
+                    a.Show();
+                    this.cleanInputs();
+                    this.Hide();
+                }
+                else
+                {
+                    AbmCliente a = new AbmCliente();
+                    a.Show();
+                    this.cleanInputs();
+                    this.Hide();
+                }
             }
             else{
                 //se deberia quedar en esta pantalla
@@ -82,7 +93,7 @@ namespace FrbaOfertas.AbmCliente
             }
 
             //valido formato de mails
-            if (!validateEmail(this.textMail.Text)){
+            if (!Validar.validateEmail(this.textMail.Text)){
                 MessageBox.Show("Formato invalido de Email", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -109,10 +120,6 @@ namespace FrbaOfertas.AbmCliente
  
         }
 
-        bool validateEmail(String email)
-        {
-                return Regex.IsMatch(email, @"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$",RegexOptions.IgnoreCase);
-        }
 
         private String[] loadInputs()
         {
@@ -145,13 +152,6 @@ namespace FrbaOfertas.AbmCliente
         {
             Validar.letras(e);
         }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-
 
 
     }

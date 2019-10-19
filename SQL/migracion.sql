@@ -43,16 +43,19 @@ CREATE TABLE Usuarios (
 
 ----CIUDADES----
 CREATE TABLE Ciudades (
-	id_ciudad NUMERIC PRIMARY KEY IDENTITY(1, 1),
+	id_ciudad INTEGER PRIMARY KEY IDENTITY(1, 1),
 	nombre NVARCHAR(255) NOT NULL UNIQUE
 )
 
 
 ----DIRECCIONES----
 CREATE TABLE Direcciones (
-	id_direccion NUMERIC PRIMARY KEY IDENTITY(1, 1),
+	id_direccion INTEGER PRIMARY KEY IDENTITY(1, 1),
 	direccion NVARCHAR(255) NOT NULL,
-	ciudad NUMERIC FOREIGN KEY REFERENCES Ciudades NOT NULL
+	cp INTEGER,
+	piso INTEGER,
+	dpto NVARCHAR(2),
+	ciudad INTEGER FOREIGN KEY REFERENCES Ciudades NOT NULL
 )
 
 ----CLIENTES----
@@ -60,10 +63,10 @@ CREATE TABLE Clientes (
 	username NVARCHAR(255) PRIMARY KEY FOREIGN KEY REFERENCES Usuarios,
 	nombre NVARCHAR(255) NOT NULL,
 	apellido NVARCHAR(255) NOT NULL,
-	dni DECIMAL(8,0) NOT NULL,
+	dni INTEGER NOT NULL,
 	mail NVARCHAR(255),
-	telefono NUMERIC,
-	id_direccion NUMERIC FOREIGN KEY REFERENCES Direcciones,
+	telefono INTEGER,
+	id_direccion INTEGER FOREIGN KEY REFERENCES Direcciones,
 	fecha_nac DATETIME NOT NULL,
 	credito DECIMAL(12, 2) DEFAULT 0,
 	habilitado BIT DEFAULT 1
@@ -71,7 +74,7 @@ CREATE TABLE Clientes (
 
 ----RUBROS----
 CREATE TABLE Rubros (
-	id_rubro NUMERIC PRIMARY KEY IDENTITY(1, 1),
+	id_rubro INTEGER PRIMARY KEY IDENTITY(1, 1),
 	nombre NVARCHAR(255) UNIQUE NOT NULL,
 	habilitado BIT DEFAULT 1
 )
@@ -82,11 +85,11 @@ CREATE TABLE Rubros (
 CREATE TABLE Proveedores (
 	username NVARCHAR(255) PRIMARY KEY FOREIGN KEY REFERENCES Usuarios,
 	razon_social NVARCHAR(255) NOT NULL UNIQUE,
-	telefono NUMERIC,
+	telefono INTEGER,
 	mail NVARCHAR(255),
-	id_direccion NUMERIC FOREIGN KEY REFERENCES Direcciones,
+	id_direccion INTEGER FOREIGN KEY REFERENCES Direcciones,
 	cuit NCHAR(13) NOT NULL UNIQUE,
-	rubro NUMERIC FOREIGN KEY REFERENCES Rubros NOT NULL,
+	rubro INTEGER FOREIGN KEY REFERENCES Rubros NOT NULL,
 	nombre_contacto VARCHAR(255),
 	habilitado BIT DEFAULT 1
 )
@@ -94,14 +97,14 @@ CREATE TABLE Proveedores (
 
 ----ROLES----
 CREATE TABLE Roles (
-	id_rol NUMERIC PRIMARY KEY IDENTITY(1, 1),
+	id_rol INTEGER PRIMARY KEY IDENTITY(1, 1),
 	nombre NVARCHAR(255) UNIQUE NOT NULL,
 	habilitado BIT DEFAULT 1
 )
 
 ----ROL_USUARIO----
 CREATE TABLE Rol_Usuario (
-	id_rol NUMERIC FOREIGN KEY REFERENCES Roles,
+	id_rol INTEGER FOREIGN KEY REFERENCES Roles,
 	username NVARCHAR(255) FOREIGN KEY REFERENCES Usuarios,	
 	habilitado BIT DEFAULT 1,
 	PRIMARY KEY (id_rol, username)
@@ -109,7 +112,7 @@ CREATE TABLE Rol_Usuario (
 
 ----FUNCIONALIDADES----
 CREATE TABLE Funcionalidades (
-	id_func NUMERIC PRIMARY KEY IDENTITY(1, 1),
+	id_func INTEGER PRIMARY KEY IDENTITY(1, 1),
 	nombre NVARCHAR(255) UNIQUE NOT NULL,
 	descripcion NVARCHAR(255) DEFAULT 'Sin descripcion',
 	habilitado BIT DEFAULT 1
@@ -117,14 +120,14 @@ CREATE TABLE Funcionalidades (
 
 ----ROL_FUNCIONALIDAD----
 CREATE TABLE Rol_Funcionalidad (
-	id_rol NUMERIC FOREIGN KEY REFERENCES ROLES,
-	id_func NUMERIC FOREIGN KEY REFERENCES Funcionalidades,
+	id_rol INTEGER FOREIGN KEY REFERENCES ROLES,
+	id_func INTEGER FOREIGN KEY REFERENCES Funcionalidades,
 	PRIMARY KEY (id_rol, id_func)
 )
 
 ----TIPOS_PAGO----
 CREATE TABLE TiposPago (
-	id_tipo NUMERIC PRIMARY KEY IDENTITY(1, 1),
+	id_tipo INTEGER PRIMARY KEY IDENTITY(1, 1),
 	nombre NVARCHAR(255) UNIQUE NOT NULL
 )
 
@@ -138,9 +141,9 @@ CREATE TABLE Tarjetas (
 
 ----CARGAS----
 CREATE TABLE Cargas (
-	id_carga NUMERIC PRIMARY KEY IDENTITY(1, 1),
+	id_carga INTEGER PRIMARY KEY IDENTITY(1, 1),
 	username NVARCHAR(255) FOREIGN KEY REFERENCES Clientes NOT NULL,
-	tipo_pago NUMERIC FOREIGN KEY REFERENCES TiposPago NOT NULL,
+	tipo_pago INTEGER FOREIGN KEY REFERENCES TiposPago NOT NULL,
 	fecha DATETIME NOT NULL,
 	monto DECIMAL(12,2) NOT NULL DEFAULT 0,
 	tarjeta_num NCHAR(16) FOREIGN KEY REFERENCES Tarjetas
@@ -148,23 +151,23 @@ CREATE TABLE Cargas (
 
 ----OFERTAS----
 CREATE TABLE Ofertas (
-	id_oferta NUMERIC PRIMARY KEY IDENTITY(1, 1),
+	id_oferta INTEGER PRIMARY KEY IDENTITY(1, 1),
 	descripcion NVARCHAR(255) NOT NULL,
 	fecha_pub DATE NOT NULL,
 	fecha_vec DATE NOT NULL,
 	username NVARCHAR(255) FOREIGN KEY REFERENCES Proveedores NOT NULL,
 	precio_rebajado DECIMAL(12,2) NOT NULL,
 	precio_lista DECIMAL(12,2) NOT NULL,
-	stock NUMERIC NOT NULL,
-	max_cliente NUMERIC NOT NULL
+	stock INTEGER NOT NULL,
+	max_cliente INTEGER NOT NULL
 )
 
 
 ----CUPONES----
 CREATE TABLE Cupones (
-	id_cupon NUMERIC PRIMARY KEY IDENTITY(1,1),
+	id_cupon INTEGER PRIMARY KEY IDENTITY(1,1),
 	username NVARCHAR(255) FOREIGN KEY REFERENCES Clientes NOT NULL,
-	id_oferta NUMERIC FOREIGN KEY REFERENCES Ofertas NOT NULL,
+	id_oferta INTEGER FOREIGN KEY REFERENCES Ofertas NOT NULL,
 	fecha_compra DATETIME NOT NULL,
 	fecha_entrega DATETIME,
 	codigo_legacy NVARCHAR(255),
@@ -174,7 +177,7 @@ CREATE TABLE Cupones (
 
 ----FACTURAS----
 CREATE TABLE Facturas (
-	id_factura NUMERIC PRIMARY KEY IDENTITY(153131,1),
+	id_factura INTEGER PRIMARY KEY IDENTITY(153131,1),
 	monto DECIMAL(12, 2) NOT NULL,
 	username NVARCHAR(255) FOREIGN KEY REFERENCES Proveedores NOT NULL,
 	fecha DATETIME NOT NULL
@@ -182,8 +185,8 @@ CREATE TABLE Facturas (
 
 ----RENGLONES----
 CREATE TABLE Renglones (
-	id_factura NUMERIC FOREIGN KEY REFERENCES Facturas,
-	id_oferta NUMERIC FOREIGN KEY REFERENCES Ofertas,
+	id_factura INTEGER FOREIGN KEY REFERENCES Facturas,
+	id_oferta INTEGER FOREIGN KEY REFERENCES Ofertas,
 	cant NUMERIC NOT NULL DEFAULT 1
 )
 
@@ -357,3 +360,33 @@ UPDATE Cupones SET facturado = 1
 
 
 ALTER TABLE Cupones DROP COLUMN codigo_legacy
+
+INSERT INTO Usuarios (username,password,habilitado)
+VALUES				 ('admin','w23e',1 )
+
+INSERT INTO Rol_Usuario (id_rol,username,habilitado)
+VALUES					(3,'admin',1)
+
+
+insert into Ciudades (nombre) values('ba')
+
+
+insert into Usuarios (username,password,habilitado) values('facundo','facu',1)
+
+insert into Direcciones (ciudad,cp,direccion,dpto,piso) values (1,1822,'veracruz 2455','a',1)
+
+insert into Clientes (username,nombre,apellido,dni,mail,telefono,id_direccion,fecha_nac,credito,habilitado)
+values ('facundo', 'Facundo','Luzko',40571956,'fluzko@gmail.com',1167672254,1,'2013-10-10',200.00,1)
+select * from Clientes
+
+
+SELECT	c.nombre, c.apellido, c.dni, c.mail, c.telefono, d.direccion, d.cp, d.piso, d.dpto, ci.nombre, c.fecha_nac, c.credito
+                   FROM Clientes c 
+                   JOIN Direcciones d ON c.id_direccion = d.id_direccion 
+                   JOIN Ciudades ci ON ci.id_ciudad = d.ciudad
+                   WHERE c.habilitado = 1 AND c.nombre LIKE 	 
+
+				   select * from Clientes
+
+	
+	update Clientes SET habilitado = 'false' where username = 'facundo'
