@@ -19,6 +19,8 @@ namespace FrbaOfertas.AbmCliente
         {
             InitializeComponent();
             Decoracion.Reorganizar(this);
+            textNombre.CharacterCasing = CharacterCasing.Upper;
+            textApellido.CharacterCasing = CharacterCasing.Upper;
         }
 
         private void buttonVolver_Click(object sender, EventArgs e)

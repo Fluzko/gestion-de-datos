@@ -259,8 +259,8 @@ namespace FrbaOfertas
                     cliente.Mail = reader.GetString(4);
                     cliente.Telefono = reader.GetInt32(5);
                     cliente.Direccion = reader.GetString(6);
-                    cliente.Cp = reader.GetInt32(7);
-                    cliente.Piso = reader.GetInt32(8);
+                    cliente.Cp = reader.GetString(7);
+                    cliente.Piso = reader.GetString(8);
                     cliente.Dpto = reader.GetString(9);
                     cliente.Localidad = reader.GetString(10);
                     cliente.FechaNac = reader.GetDateTime(11);
@@ -312,8 +312,8 @@ namespace FrbaOfertas
                 cliente.Mail = reader.GetString(4);
                 cliente.Telefono = reader.GetInt32(5);
                 cliente.Direccion = reader.GetString(6);
-                cliente.Cp = reader.GetInt32(7);
-                cliente.Piso = reader.GetInt32(8);
+                cliente.Cp = reader.GetString(7);
+                cliente.Piso = reader.GetString(8);
                 cliente.Dpto = reader.GetString(9);
                 cliente.Localidad = reader.GetString(10);
                 cliente.FechaNac = reader.GetDateTime(11);
@@ -366,8 +366,8 @@ namespace FrbaOfertas
                 cliente.Mail = reader.GetString(4);
                 cliente.Telefono = reader.GetInt32(5);
                 cliente.Direccion = reader.GetString(6);
-                cliente.Cp = reader.GetInt32(7);
-                cliente.Piso = reader.GetInt32(8);
+                cliente.Cp = reader.GetString(7);
+                cliente.Piso = reader.GetString(8);
                 cliente.Dpto = reader.GetString(9);
                 cliente.Localidad = reader.GetString(10);
                 cliente.FechaNac = reader.GetDateTime(11);

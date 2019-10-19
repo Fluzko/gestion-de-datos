@@ -223,7 +223,6 @@
             this.textMail.Name = "textMail";
             this.textMail.Size = new System.Drawing.Size(260, 20);
             this.textMail.TabIndex = 73;
-            this.textMail.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textNombreB_KeyPress);
             // 
             // textDNI
             // 
@@ -349,7 +348,6 @@
             this.textEmailB.Name = "textEmailB";
             this.textEmailB.Size = new System.Drawing.Size(177, 20);
             this.textEmailB.TabIndex = 8;
-            this.textEmailB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textNombreB_KeyPress);
             // 
             // label17
             // 

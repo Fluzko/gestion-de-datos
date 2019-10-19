@@ -20,6 +20,10 @@ namespace FrbaOfertas.AbmCliente
             Decoracion.Reorganizar(this);
             comboHabilitado.Items.Add("Habilitado");
             comboHabilitado.Items.Add("Deshabilitado");
+            textApellidoB.CharacterCasing = CharacterCasing.Upper;
+            textNombreB.CharacterCasing = CharacterCasing.Upper;
+            textNombre.CharacterCasing = CharacterCasing.Upper;
+            textApellido.CharacterCasing = CharacterCasing.Upper;
         }
 
 
@@ -44,7 +48,7 @@ namespace FrbaOfertas.AbmCliente
 
                 if (clientes == null)
                 {
-                    MessageBox.Show("No hay clientes que coincidan con su busqueda", "Alta cliente", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("No hay clientes que coincidan con su busqueda", "Modificar cliente", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
 
@@ -65,7 +69,7 @@ namespace FrbaOfertas.AbmCliente
 
                 if (clientes == null)
                 {
-                    MessageBox.Show("No hay clientes que coincidan con su busqueda", "Alta cliente", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("No hay clientes que coincidan con su busqueda", "Modificar cliente", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
 
@@ -84,7 +88,7 @@ namespace FrbaOfertas.AbmCliente
 
                 if (clientes == null)
                 {
-                    MessageBox.Show("No hay clientes que coincidan con su busqueda", "Alta cliente", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("No hay clientes que coincidan con su busqueda", "Modificar cliente", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
 
@@ -185,6 +189,12 @@ namespace FrbaOfertas.AbmCliente
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
+            if (!Validar.validateEmail(textMail.Text))
+            {
+                MessageBox.Show("Formato de email invalido", "Modificar cliente", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             Modelos.Cliente clienteUpdate = new Modelos.Cliente();
             clienteUpdate.Username = username;
             clienteUpdate.Nombre = textNombre.Text;
@@ -194,9 +204,9 @@ namespace FrbaOfertas.AbmCliente
             clienteUpdate.FechaNac = Convert.ToDateTime(this.textFN.Text);
             clienteUpdate.Telefono = int.Parse(textTel.Text);
             clienteUpdate.Direccion = textCalle.Text;
-            clienteUpdate.Cp = int.Parse(textCP.Text);
+            clienteUpdate.Cp = textCP.Text;
             clienteUpdate.Dpto = textDpto.Text;
-            clienteUpdate.Piso = int.Parse(textPiso.Text);
+            clienteUpdate.Piso = textPiso.Text;
             clienteUpdate.Localidad = textLoc.Text;
             clienteUpdate.habilitado = habilitadoToBool(comboHabilitado.SelectedItem.ToString());
 
