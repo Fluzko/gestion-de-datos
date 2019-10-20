@@ -383,7 +383,7 @@ namespace FrbaOfertas
      
             public static void updateCliente(Modelos.Cliente cliente){
 
-                newsetCmd("UPDATE Clientes SET "+
+                setCmd("UPDATE Clientes SET "+
                                      "nombre = @nombre, "+
                                      "apellido = @apellido, "+
                                      "dni = @dni, "+
@@ -415,8 +415,77 @@ namespace FrbaOfertas
 
                 MessageBox.Show("Cliente actualizado con exito", "Actualizar cliente", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
-    
+            }          
+        
+        public static List<Modelos.Proveedor> getProveedoresFacturacion()
+        {
+            setCmd("SELECT username, razon_social FROM Proveedores WHERE habilitado = 1 ORDER BY 2");
 
-            }                                 
+            reader = cmd.ExecuteReader();
+
+            if (!reader.HasRows)
+            {
+                MessageBox.Show("No hay ningun proveedor habilitado en el sistema", "Facturar", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                reader.Close();
+                return null;
+            }
+
+            List<Modelos.Proveedor> proveedores = new List<Modelos.Proveedor>();
+            
+            while(reader.Read()){
+                Modelos.Proveedor proveedor = new Modelos.Proveedor();
+                
+                proveedor.username = reader.GetString(0);
+                proveedor.razonSocial = reader.GetString(1);
+
+                proveedores.Add(proveedor);
+            }
+
+            reader.Close();
+            return proveedores;
+        }
+
+
+        public static List<Modelos.Cupon> getCupones(String proveedor, DateTime desde, DateTime hasta)
+        {
+            setCmd("SELECT c.id_cupon, c.username, o.descripcion, c.fecha_compra "+
+                    "FROM Cupones c "+
+                    "JOIN Ofertas o ON o.id_oferta = c.id_oferta "+
+                    "WHERE c.facturado = 0 "+ 
+                    "AND o.username = @proveedor "+
+                    "AND c.fecha_compra >= @desde "+
+                    "AND c.fecha_compra <= @hasta "+
+                    "ORDER BY c.fecha_compra ASC");
+
+            cmd.Parameters.AddWithValue("@proveedor", proveedor);
+            cmd.Parameters.AddWithValue("@desde", desde);
+            cmd.Parameters.AddWithValue("@hasta", hasta);
+
+            reader = cmd.ExecuteReader();
+
+            if (!reader.HasRows)
+            {
+                reader.Close();
+                return null;
+            }
+
+
+            List<Modelos.Cupon> cupones = new List<Modelos.Cupon>();
+
+            while (reader.Read())
+            {
+                Modelos.Cupon cupon = new Modelos.Cupon();
+                
+                cupon.NumeroCupon = reader.GetInt32(0);
+                cupon.cliente = reader.GetString(1);
+                cupon.oferta = reader.GetString(2);
+                cupon.fechaCompra = reader.GetDateTime(3);
+
+                cupones.Add(cupon);
+            }
+
+            reader.Close();
+            return cupones;
+        }
     }
 }
