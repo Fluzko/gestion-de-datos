@@ -13,6 +13,10 @@ namespace FrbaOfertas.Facturar
     public partial class Facturar : Form
     {
         List<Modelos.Proveedor> proveedores;
+        Modelos.Proveedor proveedorSeleccionado;
+        List<Modelos.Cupon> cupones;
+        DateTime desde; 
+        DateTime hasta;
 
         public Facturar()
         {
@@ -52,14 +56,23 @@ namespace FrbaOfertas.Facturar
         private void btnBuscar_Click(object sender, EventArgs e)
         {
 
-            Modelos.Proveedor  prov = proveedores.Where(p => p.razonSocial == ddProveedor.Text).ToList().First(); 
+            proveedorSeleccionado = proveedores.Where(p => p.razonSocial == ddProveedor.Text).ToList().First();
 
-            List<Modelos.Cupon> cupones = DB_Ofertas.getCupones(prov.username, dateTimeDesde.Value, dateTimeHasta.Value);
+            cupones = DB_Ofertas.getCupones(proveedorSeleccionado.username, dateTimeDesde.Value, dateTimeHasta.Value);
 
             dataGridCupones.DataSource = cupones;
 
+            desde = dateTimeDesde.Value;
+            hasta = dateTimeHasta.Value;
+
             dataGridCupones.AutoResizeColumns();
 
+        }
+
+        private void btnFacturar_Click(object sender, EventArgs e)
+        {
+            bool rsp = DB_Ofertas.facturarCupones(proveedorSeleccionado, desde, hasta);
+                    
         }
 
     }

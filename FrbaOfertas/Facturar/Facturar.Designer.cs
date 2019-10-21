@@ -38,7 +38,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.dateTimeDesde = new System.Windows.Forms.DateTimePicker();
             this.ddProveedor = new System.Windows.Forms.ComboBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnFacturar = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -151,14 +151,15 @@
             this.ddProveedor.Size = new System.Drawing.Size(145, 21);
             this.ddProveedor.TabIndex = 1;
             // 
-            // button1
+            // btnFacturar
             // 
-            this.button1.Location = new System.Drawing.Point(471, 430);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 11;
-            this.button1.Text = "Facturar";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnFacturar.Location = new System.Drawing.Point(471, 430);
+            this.btnFacturar.Name = "btnFacturar";
+            this.btnFacturar.Size = new System.Drawing.Size(75, 23);
+            this.btnFacturar.TabIndex = 11;
+            this.btnFacturar.Text = "Facturar";
+            this.btnFacturar.UseVisualStyleBackColor = true;
+            this.btnFacturar.Click += new System.EventHandler(this.btnFacturar_Click);
             // 
             // groupBox2
             // 
@@ -213,7 +214,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(561, 465);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnFacturar);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.dataGridCupones);
             this.Controls.Add(this.groupBox1);
@@ -240,7 +241,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DateTimePicker dateTimeDesde;
         private System.Windows.Forms.ComboBox ddProveedor;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnFacturar;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBox1;

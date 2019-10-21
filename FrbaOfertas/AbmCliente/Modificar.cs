@@ -126,6 +126,7 @@ namespace FrbaOfertas.AbmCliente
         private void clientesGrid_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             int i = e.RowIndex;
+            
             DataGridViewRow selectedRow = clientesGrid.Rows[i];
             Modelos.Cliente cliente = ((Modelos.Cliente)selectedRow.DataBoundItem);
             username = cliente.Username;

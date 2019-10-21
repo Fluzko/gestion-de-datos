@@ -102,6 +102,7 @@
     </Compile>
     <Compile Include="Modelos\Cliente.cs" />
     <Compile Include="Modelos\Cupon.cs" />
+    <Compile Include="Modelos\Factura.cs" />
     <Compile Include="Modelos\Proveedor.cs" />
     <Compile Include="Registro\Registro.cs">
       <SubType>Form</SubType>
