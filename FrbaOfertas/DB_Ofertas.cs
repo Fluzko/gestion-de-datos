@@ -488,7 +488,7 @@ namespace FrbaOfertas
             return cupones;
         }
 
-        public static bool facturarCupones(Modelos.Proveedor proveedor, DateTime desde, DateTime hasta)
+        public static Modelos.Factura facturarCupones(Modelos.Proveedor proveedor, DateTime desde, DateTime hasta)
         {
             setCmd("INSERT INTO Facturas (username, fecha) " +
                         "VALUES (@idProveedor, @fechaActual)");
@@ -501,18 +501,19 @@ namespace FrbaOfertas
 
             setCmd("SELECT TOP 1 id_factura FROM Facturas ORDER BY 1 DESC");
             reader = cmd.ExecuteReader();
+            reader.Read();
             int idFactura = reader.GetInt32(0);
             reader.Close();
 
 
-            setCmd( "INSERT INTO Cupones (id_factura, idOferta, cant) "+
-                        "SELECT	@idFactura,o.id_oferta,count(cu.id_cupon)"+
-                        "FROM Ofertas o"+
-                        "JOIN Cupones cu ON cu.id_oferta = o.id_oferta"+
-                        "WHERE o.username = @proveedor"+
-                        "AND o.fecha_pub >= @desde"+
-                        "AND o.fecha_pub <= @hasta"+
-                        "GROUP BY o.id_oferta, o.username"+
+            setCmd( "INSERT INTO Renglones (id_factura, id_oferta, cant) "+
+                        "SELECT	@idFactura,o.id_oferta,count(cu.id_cupon) "+
+                        "FROM Ofertas o "+
+                        "JOIN Cupones cu ON cu.id_oferta = o.id_oferta "+
+                        "WHERE o.username = @proveedor "+
+                        "AND o.fecha_pub >= @desde "+
+                        "AND o.fecha_pub <= @hasta "+
+                        "GROUP BY o.id_oferta, o.username "+
                         "ORDER BY 1");
 
             cmd.Parameters.AddWithValue("@idFactura", idFactura);
@@ -522,19 +523,50 @@ namespace FrbaOfertas
 
             cmd.ExecuteNonQuery();
 
-            setCmd("UPDATE Cupones SET facturado = 1"+
-                    "FROM ( SELECT c.id_cupon as id"+
+            setCmd("UPDATE Cupones SET facturado = 1 "+
+                    "FROM ( SELECT c.id_cupon as id "+
                             "FROM Cupones c "+
                             "JOIN Ofertas o ON o.id_oferta = c.id_oferta "+
                             "WHERE c.facturado = 0 "+ 
                             "AND o.username = @proveedor "+
                             "AND c.fecha_compra >= @desde "+
-                            "AND c.fecha_compra <= @hasta ) as facturados"+
-                            "WHERE facturados.id = Cupones.id_cupon");
-            
+                            "AND c.fecha_compra <= @hasta ) as facturados "+
+                            "WHERE facturados.id = Cupones.id_cupon ");
+            cmd.Parameters.AddWithValue("@proveedor", proveedor.username);
+            cmd.Parameters.AddWithValue("@desde", desde);
+            cmd.Parameters.AddWithValue("@hasta", hasta);
+
             cmd.ExecuteNonQuery();
 
-            return true;
+
+            setCmd("SELECT SUM((r.cant * o.precio_rebajado)*0.1) FROM Renglones r "+
+                    "JOIN Ofertas o ON r.id_oferta = o.id_oferta "+
+                    "WHERE r.id_factura = @idFactura");
+            cmd.Parameters.AddWithValue("@idFactura", idFactura);
+
+            reader = cmd.ExecuteReader();
+            
+            Decimal monto = 0; 
+            if (reader.HasRows)
+            {
+                reader.Read();
+                monto = reader.GetDecimal(0);
+            }
+            reader.Close();
+
+            
+            setCmd("UPDATE Facturas SET monto = @monto WHERE id_factura = @idFactura");
+            cmd.Parameters.AddWithValue("@idFactura", idFactura);
+            cmd.Parameters.AddWithValue("@monto", monto);
+
+            cmd.ExecuteNonQuery();
+
+
+            Modelos.Factura factura = new Modelos.Factura();
+            factura.numero = idFactura;
+            factura.monto = monto;
+
+            return factura;
         }
 
     }

@@ -40,8 +40,8 @@
             this.ddProveedor = new System.Windows.Forms.ComboBox();
             this.btnFacturar = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textMonto = new System.Windows.Forms.TextBox();
+            this.textFacturaN = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridCupones)).BeginInit();
@@ -163,8 +163,8 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.textBox2);
-            this.groupBox2.Controls.Add(this.textBox1);
+            this.groupBox2.Controls.Add(this.textMonto);
+            this.groupBox2.Controls.Add(this.textFacturaN);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Location = new System.Drawing.Point(363, 14);
@@ -174,21 +174,21 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Factura:";
             // 
-            // textBox2
+            // textMonto
             // 
-            this.textBox2.Enabled = false;
-            this.textBox2.Location = new System.Drawing.Point(69, 51);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 20);
-            this.textBox2.TabIndex = 15;
+            this.textMonto.Enabled = false;
+            this.textMonto.Location = new System.Drawing.Point(69, 51);
+            this.textMonto.Name = "textMonto";
+            this.textMonto.Size = new System.Drawing.Size(100, 20);
+            this.textMonto.TabIndex = 15;
             // 
-            // textBox1
+            // textFacturaN
             // 
-            this.textBox1.Enabled = false;
-            this.textBox1.Location = new System.Drawing.Point(69, 21);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 14;
+            this.textFacturaN.Enabled = false;
+            this.textFacturaN.Location = new System.Drawing.Point(69, 21);
+            this.textFacturaN.Name = "textFacturaN";
+            this.textFacturaN.Size = new System.Drawing.Size(100, 20);
+            this.textFacturaN.TabIndex = 14;
             // 
             // label5
             // 
@@ -243,8 +243,8 @@
         private System.Windows.Forms.ComboBox ddProveedor;
         private System.Windows.Forms.Button btnFacturar;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textMonto;
+        private System.Windows.Forms.TextBox textFacturaN;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button btnBuscar;

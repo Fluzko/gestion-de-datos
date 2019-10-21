@@ -8,6 +8,7 @@ namespace FrbaOfertas.Modelos
 {
     class Factura
     {
+        public int numero { get; set; }
         public Decimal monto{ get; set; }
         public String proveedor { get; set; }
         public DateTime fecha { get; set; }

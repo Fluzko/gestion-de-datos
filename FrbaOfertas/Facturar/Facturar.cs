@@ -55,6 +55,8 @@ namespace FrbaOfertas.Facturar
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
+            textMonto.Clear();
+            textFacturaN.Clear();
 
             proveedorSeleccionado = proveedores.Where(p => p.razonSocial == ddProveedor.Text).ToList().First();
 
@@ -71,7 +73,16 @@ namespace FrbaOfertas.Facturar
 
         private void btnFacturar_Click(object sender, EventArgs e)
         {
-            bool rsp = DB_Ofertas.facturarCupones(proveedorSeleccionado, desde, hasta);
+            if (dataGridCupones.Rows != null && dataGridCupones.Rows.Count != 0)
+            {
+                Modelos.Factura factura = DB_Ofertas.facturarCupones(proveedorSeleccionado, desde, hasta);
+                dataGridCupones.DataSource = null;
+                textFacturaN.Text = factura.numero.ToString();
+                textMonto.Text = factura.monto.ToString();
+                return;
+            }
+            MessageBox.Show("No hay nada que facturar", "Facturar", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            
                     
         }
 
