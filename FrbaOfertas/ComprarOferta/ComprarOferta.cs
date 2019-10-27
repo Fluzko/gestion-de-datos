@@ -25,6 +25,7 @@ namespace FrbaOfertas.ComprarOferta
             gridOfertas.DataSource = ofertas;
             //gridOfertas.AutoResizeColumns();
             gridOfertas.Rows[0].Selected = true;
+            numCantidad.Maximum = ((Modelos.Oferta)gridOfertas.Rows[0].DataBoundItem).MaxPorCliente;
         }
 
         private void gridOfertas_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -41,7 +42,12 @@ namespace FrbaOfertas.ComprarOferta
 
         private void btnComprar_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("¿Desea comprar esta oferta?", "Compra Ofertas", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+            if (numCantidad.Value == 0)
+            {
+                MessageBox.Show("Seleccione una cantidad mayor a 0", "Compra Ofertas", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            MessageBox.Show("¿Desea comprar " + numCantidad.Value + " de estas ofertas?", "Compra Ofertas", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
         }
 
         private void btnFiltrar_Click(object sender, EventArgs e)
