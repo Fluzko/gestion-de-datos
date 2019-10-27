@@ -34,12 +34,14 @@ namespace FrbaOfertas.ComprarOferta
             {
                 DataGridViewRow selectedRow = gridOfertas.Rows[i];
                 Modelos.Oferta oferta = ((Modelos.Oferta)selectedRow.DataBoundItem);
+                MessageBox.Show("ASDASdasdas");
+                numCantidad.Maximum = oferta.MaxPorCliente;
             }
         }
 
         private void btnComprar_Click(object sender, EventArgs e)
         {
-
+            MessageBox.Show("¿Desea comprar esta oferta?", "Compra Ofertas", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
         }
 
         private void btnFiltrar_Click(object sender, EventArgs e)

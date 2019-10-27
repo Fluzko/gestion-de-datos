@@ -40,9 +40,12 @@
             this.txtProveedor = new System.Windows.Forms.TextBox();
             this.btnFiltrar = new System.Windows.Forms.Button();
             this.btnComprar = new System.Windows.Forms.Button();
+            this.lblCantidad = new System.Windows.Forms.Label();
+            this.numCantidad = new System.Windows.Forms.NumericUpDown();
             lblProveedor = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.gridOfertas)).BeginInit();
             this.grpFiltros.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numCantidad)).BeginInit();
             this.SuspendLayout();
             // 
             // lblProveedor
@@ -66,7 +69,7 @@
             this.gridOfertas.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gridOfertas.Size = new System.Drawing.Size(807, 393);
             this.gridOfertas.TabIndex = 0;
-            this.gridOfertas.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridOfertas_CellClick);
+            this.gridOfertas.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridOfertas_CellClick);
             // 
             // grpFiltros
             // 
@@ -165,11 +168,35 @@
             this.btnComprar.UseVisualStyleBackColor = true;
             this.btnComprar.Click += new System.EventHandler(this.btnComprar_Click);
             // 
+            // lblCantidad
+            // 
+            this.lblCantidad.AutoSize = true;
+            this.lblCantidad.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.lblCantidad.Location = new System.Drawing.Point(526, 140);
+            this.lblCantidad.Name = "lblCantidad";
+            this.lblCantidad.Size = new System.Drawing.Size(68, 17);
+            this.lblCantidad.TabIndex = 8;
+            this.lblCantidad.Text = "Cantidad:";
+            // 
+            // numCantidad
+            // 
+            this.numCantidad.Location = new System.Drawing.Point(600, 140);
+            this.numCantidad.Maximum = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.numCantidad.Name = "numCantidad";
+            this.numCantidad.Size = new System.Drawing.Size(120, 20);
+            this.numCantidad.TabIndex = 9;
+            // 
             // ComprarOferta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(831, 576);
+            this.Controls.Add(this.numCantidad);
+            this.Controls.Add(this.lblCantidad);
             this.Controls.Add(this.btnComprar);
             this.Controls.Add(this.btnFiltrar);
             this.Controls.Add(this.grpFiltros);
@@ -179,7 +206,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridOfertas)).EndInit();
             this.grpFiltros.ResumeLayout(false);
             this.grpFiltros.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numCantidad)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -196,5 +225,7 @@
         private System.Windows.Forms.Label lblDescripcion;
         private System.Windows.Forms.Button btnFiltrar;
         private System.Windows.Forms.Button btnComprar;
+        private System.Windows.Forms.Label lblCantidad;
+        private System.Windows.Forms.NumericUpDown numCantidad;
     }
 }
