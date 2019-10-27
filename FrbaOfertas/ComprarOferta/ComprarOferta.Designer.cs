@@ -45,13 +45,25 @@
             this.grpFiltros.SuspendLayout();
             this.SuspendLayout();
             // 
+            // lblProveedor
+            // 
+            lblProveedor.AutoSize = true;
+            lblProveedor.Location = new System.Drawing.Point(6, 34);
+            lblProveedor.Name = "lblProveedor";
+            lblProveedor.Size = new System.Drawing.Size(74, 17);
+            lblProveedor.TabIndex = 0;
+            lblProveedor.Text = "Proveedor";
+            // 
             // gridOfertas
             // 
             this.gridOfertas.AllowUserToResizeRows = false;
+            this.gridOfertas.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.gridOfertas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridOfertas.Location = new System.Drawing.Point(12, 171);
+            this.gridOfertas.MultiSelect = false;
             this.gridOfertas.Name = "gridOfertas";
             this.gridOfertas.ReadOnly = true;
+            this.gridOfertas.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gridOfertas.Size = new System.Drawing.Size(807, 393);
             this.gridOfertas.TabIndex = 0;
             this.gridOfertas.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridOfertas_CellClick);
@@ -73,7 +85,6 @@
             this.grpFiltros.TabIndex = 2;
             this.grpFiltros.TabStop = false;
             this.grpFiltros.Text = "Filtros";
-            this.grpFiltros.Enter += new System.EventHandler(this.grpFiltros_Enter);
             // 
             // txtDescripcion
             // 
@@ -97,6 +108,7 @@
             this.txtPrecioMax.Name = "txtPrecioMax";
             this.txtPrecioMax.Size = new System.Drawing.Size(295, 23);
             this.txtPrecioMax.TabIndex = 5;
+            this.txtPrecioMax.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPrecioMax_KeyPress);
             // 
             // lblPrecioMax
             // 
@@ -113,6 +125,7 @@
             this.txtPrecioMin.Name = "txtPrecioMin";
             this.txtPrecioMin.Size = new System.Drawing.Size(295, 23);
             this.txtPrecioMin.TabIndex = 3;
+            this.txtPrecioMin.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPrecioMin_KeyPress);
             // 
             // lblPrecioMin
             // 
@@ -129,15 +142,6 @@
             this.txtProveedor.Name = "txtProveedor";
             this.txtProveedor.Size = new System.Drawing.Size(295, 23);
             this.txtProveedor.TabIndex = 1;
-            // 
-            // lblProveedor
-            // 
-            lblProveedor.AutoSize = true;
-            lblProveedor.Location = new System.Drawing.Point(6, 34);
-            lblProveedor.Name = "lblProveedor";
-            lblProveedor.Size = new System.Drawing.Size(74, 17);
-            lblProveedor.TabIndex = 0;
-            lblProveedor.Text = "Proveedor";
             // 
             // btnFiltrar
             // 

@@ -23,20 +23,18 @@ namespace FrbaOfertas.ComprarOferta
         private void showOfertas(List<Modelos.Oferta> ofertas)
         {
             gridOfertas.DataSource = ofertas;
-            gridOfertas.AutoResizeColumns();
+            //gridOfertas.AutoResizeColumns();
             gridOfertas.Rows[0].Selected = true;
         }
 
         private void gridOfertas_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             int i = e.RowIndex;
-            DataGridViewRow selectedRow = gridOfertas.Rows[i];
-            Modelos.Oferta oferta = ((Modelos.Oferta)selectedRow.DataBoundItem);
-        }
-
-        private void grpFiltros_Enter(object sender, EventArgs e)
-        {
-            btnFiltrar_Click(sender, e);
+            if (i >= 0)
+            {
+                DataGridViewRow selectedRow = gridOfertas.Rows[i];
+                Modelos.Oferta oferta = ((Modelos.Oferta)selectedRow.DataBoundItem);
+            }
         }
 
         private void btnComprar_Click(object sender, EventArgs e)
@@ -46,7 +44,47 @@ namespace FrbaOfertas.ComprarOferta
 
         private void btnFiltrar_Click(object sender, EventArgs e)
         {
-            
+            List<Modelos.Oferta> ofertas;
+            String[] searchables = loadSearchInputs();
+
+            if (searchables.All(searchable => string.IsNullOrEmpty(searchable) || string.IsNullOrWhiteSpace(searchable)))
+            {
+                ofertas = DB_Ofertas.getOfertas();
+                showOfertas(ofertas);
+                return;
+            }
+
+            MessageBox.Show("o.descripcion LIKE %" + txtDescripcion.Text + "%");
+
+            ofertas = DB_Ofertas.getOfertasWithCondition(txtProveedor.Text, txtDescripcion.Text, txtPrecioMin.Text, txtPrecioMax.Text);
+            if (ofertas == null)
+            {
+                MessageBox.Show("No hay ofertas que coincidan con su busqueda", "Compra Ofertas", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            showOfertas(ofertas);
+            return;
+        }
+
+        private String[] loadSearchInputs()
+        {
+            String[] i = {
+                            this.txtProveedor.Text,
+                            this.txtDescripcion.Text,
+                            this.txtPrecioMin.Text,
+                            this.txtPrecioMax.Text
+                         };
+            return i;
+        }
+
+        private void txtPrecioMin_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validar.numerico(e);
+        }
+
+        private void txtPrecioMax_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validar.numerico(e);
         }
     }
 }

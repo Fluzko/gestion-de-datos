@@ -373,6 +373,72 @@ namespace FrbaOfertas
 
             reader.Close();
             return ofertas;
-        }              
+        }
+
+        public static List<Modelos.Oferta> getOfertasWithCondition(String raz_soc, String desc, String precioMin, String precioMax)
+        {
+            List<Modelos.Oferta> ofertas = null;
+
+            String conditions = "";
+
+            if (!string.IsNullOrEmpty(raz_soc) && !string.IsNullOrWhiteSpace(raz_soc))
+            {
+                if (conditions.Length > 0)
+                    conditions += " AND ";
+                conditions += "p.razon_social LIKE '%" + raz_soc + "%'";
+            }
+
+            if (!string.IsNullOrEmpty(desc) && !string.IsNullOrWhiteSpace(desc))
+            {
+                if (conditions.Length > 0)
+                    conditions += " AND ";
+                conditions += "o.descripcion LIKE '%" + desc + "%'";
+            }
+
+            if (!string.IsNullOrEmpty(precioMin) && !string.IsNullOrWhiteSpace(precioMin))
+            {
+                if (conditions.Length > 0)
+                    conditions += " AND ";
+                conditions += "o.precio_rebajado >= " + precioMin;
+            }
+
+            if (!string.IsNullOrEmpty(precioMax) && !string.IsNullOrWhiteSpace(precioMax))
+            {
+                if (conditions.Length > 0)
+                    conditions += " AND ";
+                conditions += "o.precio_rebajado <= " + precioMax;
+            }
+
+            setCmd("SELECT o.id_oferta, p.razon_social, o.descripcion, o.fecha_pub, o.fecha_vec, o.precio_rebajado, o.max_cliente " +
+                    "FROM Ofertas o " +
+                    "JOIN Proveedores p ON p.username = o.username " +
+                    "WHERE " + conditions);
+            reader = cmd.ExecuteReader();
+
+            if (!reader.HasRows)
+            {
+                reader.Close();
+                return ofertas;
+            }
+
+            ofertas = new List<Modelos.Oferta>();
+
+            while (reader.Read())
+            {
+                Modelos.Oferta oferta = new Modelos.Oferta();
+                oferta.Id = reader.GetInt32(0);
+                oferta.Proveedor = reader.GetString(1);
+                oferta.Descripcion = reader.GetString(2);
+                oferta.FechaPublicacion = reader.GetDateTime(3).Date;
+                oferta.FechaVencimiento = reader.GetDateTime(4).Date;
+                oferta.Precio = reader.GetDecimal(5);
+                oferta.MaxPorCliente = reader.GetInt32(6);
+
+                ofertas.Add(oferta);
+            }
+
+            reader.Close();
+            return ofertas;
+        }     
     }
 }
