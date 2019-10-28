@@ -12,6 +12,8 @@ namespace FrbaOfertas.ComprarOferta
 {
     public partial class ComprarOferta : Form
     {
+        private Modelos.Oferta current;
+
         public ComprarOferta()
         {
             InitializeComponent();
@@ -25,6 +27,7 @@ namespace FrbaOfertas.ComprarOferta
             gridOfertas.DataSource = ofertas;
             //gridOfertas.AutoResizeColumns();
             gridOfertas.Rows[0].Selected = true;
+            current = getRow(0);
             numCantidad.Maximum = ((Modelos.Oferta)gridOfertas.Rows[0].DataBoundItem).MaxPorCliente;
         }
 
@@ -33,11 +36,15 @@ namespace FrbaOfertas.ComprarOferta
             int i = e.RowIndex;
             if (i >= 0)
             {
-                DataGridViewRow selectedRow = gridOfertas.Rows[i];
-                Modelos.Oferta oferta = ((Modelos.Oferta)selectedRow.DataBoundItem);
-                MessageBox.Show("ASDASdasdas");
-                numCantidad.Maximum = oferta.MaxPorCliente;
+                current = getRow(i);
+                numCantidad.Maximum = current.MaxPorCliente;
             }
+        }
+
+        private Modelos.Oferta getRow(int i)
+        {
+            DataGridViewRow selectedRow = gridOfertas.Rows[i];
+            return (Modelos.Oferta)selectedRow.DataBoundItem;
         }
 
         private void btnComprar_Click(object sender, EventArgs e)
@@ -47,7 +54,13 @@ namespace FrbaOfertas.ComprarOferta
                 MessageBox.Show("Seleccione una cantidad mayor a 0", "Compra Ofertas", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            MessageBox.Show("¿Desea comprar " + numCantidad.Value + " de estas ofertas?", "Compra Ofertas", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+
+            DialogResult res = MessageBox.Show("¿Desea comprar " + numCantidad.Value + " de estas ofertas?", "Compra Ofertas", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+            
+            if (res == DialogResult.OK)
+            {
+                DB_Ofertas.comprarOferta(Session.getUser(), current, (int)numCantidad.Value);
+            }
         }
 
         private void btnFiltrar_Click(object sender, EventArgs e)
@@ -61,8 +74,6 @@ namespace FrbaOfertas.ComprarOferta
                 showOfertas(ofertas);
                 return;
             }
-
-            MessageBox.Show("o.descripcion LIKE %" + txtDescripcion.Text + "%");
 
             ofertas = DB_Ofertas.getOfertasWithCondition(txtProveedor.Text, txtDescripcion.Text, txtPrecioMin.Text, txtPrecioMax.Text);
             if (ofertas == null)

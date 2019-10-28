@@ -439,6 +439,36 @@ namespace FrbaOfertas
 
             reader.Close();
             return ofertas;
-        }     
+        }
+
+        public static void comprarOferta(Modelos.Usuario usuario, Modelos.Oferta oferta, int cant)
+        {
+            String query = "BEGIN TRANSACTION ";
+
+            for(int i = 0; i < cant; i++)
+            {
+                query +=    "INSERT INTO Cupones (username, id_oferta, fecha_compra) " +
+                            "VALUES(@username, @oferta, CAST(@fecha AS DATETIME)) ";
+            }
+
+            query += "COMMIT";
+
+            setCmd(query);
+            cmd.Parameters.AddWithValue("@username", usuario.getUsername());
+            cmd.Parameters.AddWithValue("@oferta", oferta.Id);
+            cmd.Parameters.AddWithValue("@fecha", DateTime.Now);
+
+            try
+            {
+                reader = cmd.ExecuteReader();
+                reader.Close();
+            }
+            catch (SqlException e)
+            {
+                MessageBox.Show(e.Message, "Comprar Ofertas", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
+            return;
+        }
     }
 }
