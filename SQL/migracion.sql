@@ -52,8 +52,8 @@ CREATE TABLE Ciudades (
 CREATE TABLE Direcciones (
 	id_direccion INTEGER PRIMARY KEY IDENTITY(1, 1),
 	direccion NVARCHAR(255) NOT NULL,
-	cp NVARCHAR(5),
-	piso NVARCHAR(2),
+	cp INTEGER,
+	piso INTEGER,
 	dpto NVARCHAR(2),
 	ciudad INTEGER FOREIGN KEY REFERENCES Ciudades NOT NULL
 )
@@ -205,23 +205,10 @@ INSERT INTO Usuarios (username, password, habilitado)
 		FROM gd_esquema.Maestra
 		WHERE Cli_Nombre IS NOT NULL AND Cli_Apellido IS NOT NULL
 
-INSERT INTO Ciudades(nombre) 
-	SELECT DISTINCT Cli_Ciudad FROM gd_esquema.Maestra
-
-INSERT INTO Direcciones (direccion,ciudad,cp,dpto,piso)
-	SELECT DISTINCT m.Cli_Direccion, c.id_ciudad, '-', '-', '-' FROM gd_esquema.Maestra m
-	JOIN Ciudades c ON c.nombre = m.Cli_Ciudad
-	
-
-INSERT INTO Clientes (username, nombre, apellido, dni, mail, telefono, fecha_nac, habilitado,id_direccion)
-	SELECT DISTINCT Cli_Dni, UPPER(Cli_Nombre), UPPER(Cli_Apellido), Cli_Dni, Cli_Mail, Cli_Telefono, Cli_Fecha_Nac, 1, d.id_direccion
+INSERT INTO Clientes (username, nombre, apellido, dni, mail, telefono, fecha_nac, habilitado)
+	SELECT DISTINCT Cli_Dni, Cli_Nombre, Cli_Apellido, Cli_Dni, Cli_Mail, Cli_Telefono, Cli_Fecha_Nac, 1
 		FROM gd_esquema.Maestra
-		JOIN Direcciones d ON Cli_Direccion = d.direccion
-		JOIN Ciudades c ON d.ciudad = c.id_ciudad
 		WHERE Cli_Nombre IS NOT NULL AND Cli_Apellido IS NOT NULL
-
-UPDATE Clientes SET habilitado = 0
-WHERE mail like '% %'
 
 INSERT INTO Usuarios (username, password, habilitado)
 	SELECT DISTINCT CONCAT(	SUBSTRING(Provee_CUIT,1, 2),
@@ -374,7 +361,6 @@ UPDATE Cupones SET facturado = 1
 
 ALTER TABLE Cupones DROP COLUMN codigo_legacy
 
-
 INSERT INTO Usuarios (username,password,habilitado)
 VALUES				 ('admin','w23e',1 )
 
@@ -382,10 +368,8 @@ INSERT INTO Rol_Usuario (id_rol,username,habilitado)
 VALUES					(3,'admin',1)
 
 
+insert into Ciudades (nombre) values('ba')
 
-select * from Clientes order by id_direccion
-
-/*
 
 insert into Usuarios (username,password,habilitado) values('facundo','facu',1)
 
@@ -396,7 +380,6 @@ values ('facundo', 'Facundo','Luzko',40571956,'fluzko@gmail.com',1167672254,1,'2
 select * from Clientes
 */
 
-/*
 SELECT	c.nombre, c.apellido, c.dni, c.mail, c.telefono, d.direccion, d.cp, d.piso, d.dpto, ci.nombre, c.fecha_nac, c.credito
                    FROM Clientes c 
                    JOIN Direcciones d ON c.id_direccion = d.id_direccion 
@@ -407,5 +390,3 @@ SELECT	c.nombre, c.apellido, c.dni, c.mail, c.telefono, d.direccion, d.cp, d.pis
 
 	
 	update Clientes SET habilitado = 'false' where username = 'facundo'
-
-*/

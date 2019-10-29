@@ -31,16 +31,17 @@ namespace FrbaOfertas
         }
 
 
-        public static Modelos.Usuario login(String username, String password) {
-            
+        public static Modelos.Usuario login(String username, String password)
+        {
+
             setCmd("SELECT username, password from Usuarios WHERE username = @username AND password = @password AND habilitado = 1");
             cmd.Parameters.AddWithValue("@username", username);
             cmd.Parameters.AddWithValue("@password", password);
-            
-            
+
+
             //password = hashbytes('SHA2_256', '" + password + "')
             reader = cmd.ExecuteReader();
-            
+
             if (reader.HasRows)
             {
                 reader.Read();
@@ -56,8 +57,9 @@ namespace FrbaOfertas
         }
 
 
-        public static List<Modelos.Rol> getRoles(String usuario) {
-            
+        public static List<Modelos.Rol> getRoles(String usuario)
+        {
+
             setCmd("SELECT r.id_rol, r.nombre from Roles r JOIN Rol_Usuario ru ON ru.id_rol = r.id_rol WHERE ru.username = @usuario and r.habilitado = 1");
 
             cmd.Parameters.AddWithValue("@usuario", usuario);
@@ -74,7 +76,7 @@ namespace FrbaOfertas
                     roles.Add(rol);
                 }
                 reader.Close();
-                return roles;   
+                return roles;
             }
             else
             {
@@ -84,8 +86,9 @@ namespace FrbaOfertas
         }
 
 
-        public static List<Modelos.Funcionalidad> getFuncionalidades(int id_rol) {
-            
+        public static List<Modelos.Funcionalidad> getFuncionalidades(int id_rol)
+        {
+
             setCmd("SELECT f.id_func,f.nombre, f.descripcion FROM Funcionalidades f JOIN Rol_Funcionalidad rf ON rf.id_func = f.id_func WHERE rf.id_rol = @rol AND habilitado = 1 ");
 
             cmd.Parameters.AddWithValue("@rol", id_rol);
@@ -98,7 +101,7 @@ namespace FrbaOfertas
             {
                 while (reader.Read())
                 {
-                    funcionalidades.Add(new Modelos.Funcionalidad(reader.GetInt32(0),reader.GetString(1)));
+                    funcionalidades.Add(new Modelos.Funcionalidad(reader.GetInt32(0), reader.GetString(1)));
                 }
                 reader.Close();
                 return funcionalidades;
@@ -282,15 +285,15 @@ namespace FrbaOfertas
                     "FROM Clientes c " +
                     "JOIN Direcciones d ON c.id_direccion = d.id_direccion " +
                     "JOIN Ciudades ci ON ci.id_ciudad = d.ciudad " +
-                    "WHERE "+ 
-                    "c.nombre LIKE '%@nombre%' AND "+
-                    "c.apellido LIKE '%@apellido%' AND "+
+                    "WHERE " +
+                    "c.nombre LIKE '%@nombre%' AND " +
+                    "c.apellido LIKE '%@apellido%' AND " +
                     "c.mail LIKE '%@mail%'");
 
             cmd.Parameters.AddWithValue("@nombre", nombre);
             cmd.Parameters.AddWithValue("@apellido", apellido);
             cmd.Parameters.AddWithValue("@mail", mail);
-            
+
             reader = cmd.ExecuteReader();
 
             if (!reader.HasRows)
@@ -337,7 +340,7 @@ namespace FrbaOfertas
                     "WHERE " +
                     "c.nombre LIKE '%@nombre%' AND " +
                     "c.apellido LIKE '%@apellido%' AND " +
-                    "c.mail LIKE '%@mail%' AND "+
+                    "c.mail LIKE '%@mail%' AND " +
                     "c.dni = @dni");
 
             cmd.Parameters.AddWithValue("@nombre", nombre);
@@ -378,31 +381,6 @@ namespace FrbaOfertas
 
             reader.Close();
             return clientes;
-        }  
-
-        public static void updateCliente(Modelos.Cliente cliente){
-            setCmd("UPDATE Clientes SET" + 
-                    " nombre = '" + cliente.Nombre +"',"+
-                    " apellido  = '" + cliente.Apellido +"',"+ 
-                    " dni = " + cliente.Dni + ","+
-                    " mail  = '" + cliente.Mail +"',"+
-                    " telefono = " + cliente.Telefono + ","+
-                    " fecha_nac = '" + cliente.FechaNac.ToShortDateString() + "', " +
-                    " credito = " + cliente.Credito + ", "+
-                    " habilitado  = '" + cliente.habilitado.ToString() + "'" +
-                    " WHERE username = '" + cliente.Username +"'");
-
-                
-            if (cmd.ExecuteNonQuery() == 0)
-            {
-                MessageBox.Show("Ocurrio un error al actualizar los datos", "Actualizar cliente", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            MessageBox.Show("Cliente actualizado con exito", "Actualizar cliente", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            return;
-    
-
         }
 
         public static List<Modelos.Oferta> getOfertas()
@@ -509,19 +487,25 @@ namespace FrbaOfertas
         public static void comprarOferta(Modelos.Usuario usuario, Modelos.Oferta oferta, int cant)
         {
             String query = "BEGIN TRANSACTION ";
+            String format = "yyyy-MM-dd HH:mm:ss";
 
-            for(int i = 0; i < cant; i++)
+            for (int i = 0; i < cant; i++)
             {
-                query +=    "INSERT INTO Cupones (username, id_oferta, fecha_compra) " +
-                            "VALUES(@username, @oferta, CAST(@fecha AS DATETIME)) ";
+                query += "INSERT INTO Cupones (username, id_oferta, fecha_compra) " +
+                            "VALUES(@username, @oferta, @fecha) ";
             }
 
             query += "COMMIT";
 
             setCmd(query);
+
+            MessageBox.Show(usuario.getUsername() + oferta.Id + DateTime.Now.ToString(format));
+
             cmd.Parameters.AddWithValue("@username", usuario.getUsername());
             cmd.Parameters.AddWithValue("@oferta", oferta.Id);
-            cmd.Parameters.AddWithValue("@fecha", DateTime.Now);
+            cmd.Parameters.AddWithValue("@fecha", DateTime.Today);
+
+            MessageBox.Show(cmd.CommandText);
 
             try
             {
@@ -532,32 +516,32 @@ namespace FrbaOfertas
             {
                 MessageBox.Show(e.Message, "Comprar Ofertas", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
+
             return;
         }
 
-        public static void updateCliente(Modelos.Cliente cliente){
-
-            setCmd("UPDATE Clientes SET "+
-                                    "nombre = @nombre, "+
-                                    "apellido = @apellido, "+
-                                    "dni = @dni, "+
-                                    "mail = @mail, "+
-                                    "telefono = @telefono, "+
-                                    "fecha_nac = @fechanac, "+
-                                    "credito = @credito, "+
-                                    "habilitado = @habilitado "+
+        public static void updateCliente(Modelos.Cliente cliente)
+        {
+            setCmd("UPDATE Clientes SET " +
+                                    "nombre = @nombre, " +
+                                    "apellido = @apellido, " +
+                                    "dni = @dni, " +
+                                    "mail = @mail, " +
+                                    "telefono = @telefono, " +
+                                    "fecha_nac = @fechanac, " +
+                                    "credito = @credito, " +
+                                    "habilitado = @habilitado " +
                                     "WHERE username = @username");
 
             cmd.Parameters.AddWithValue("@nombre", cliente.Nombre);
-            cmd.Parameters.AddWithValue("@apellido",cliente.Apellido);
-            cmd.Parameters.AddWithValue("@dni",cliente.Dni);
-            cmd.Parameters.AddWithValue("@mail",cliente.Mail);
-            cmd.Parameters.AddWithValue("@telefono",cliente.Telefono);
-            cmd.Parameters.AddWithValue("@fechanac",cliente.FechaNac);
-            cmd.Parameters.AddWithValue("@credito",cliente.Credito);
-            cmd.Parameters.AddWithValue("@habilitado",cliente.habilitado);
-            cmd.Parameters.AddWithValue("@username",cliente.Username);
+            cmd.Parameters.AddWithValue("@apellido", cliente.Apellido);
+            cmd.Parameters.AddWithValue("@dni", cliente.Dni);
+            cmd.Parameters.AddWithValue("@mail", cliente.Mail);
+            cmd.Parameters.AddWithValue("@telefono", cliente.Telefono);
+            cmd.Parameters.AddWithValue("@fechanac", cliente.FechaNac);
+            cmd.Parameters.AddWithValue("@credito", cliente.Credito);
+            cmd.Parameters.AddWithValue("@habilitado", cliente.habilitado);
+            cmd.Parameters.AddWithValue("@username", cliente.Username);
 
             cmd.CommandType = CommandType.Text;
             cmd.Connection = connection;
@@ -570,8 +554,8 @@ namespace FrbaOfertas
 
             MessageBox.Show("Cliente actualizado con exito", "Actualizar cliente", MessageBoxButtons.OK, MessageBoxIcon.Information);
             return;
-        }          
-        
+        }
+
         public static List<Modelos.Proveedor> getProveedoresFacturacion()
         {
             setCmd("SELECT username, razon_social FROM Proveedores WHERE habilitado = 1 ORDER BY 2");
@@ -586,10 +570,11 @@ namespace FrbaOfertas
             }
 
             List<Modelos.Proveedor> proveedores = new List<Modelos.Proveedor>();
-            
-            while(reader.Read()){
+
+            while (reader.Read())
+            {
                 Modelos.Proveedor proveedor = new Modelos.Proveedor();
-                
+
                 proveedor.username = reader.GetString(0);
                 proveedor.razonSocial = reader.GetString(1);
 
@@ -603,13 +588,13 @@ namespace FrbaOfertas
 
         public static List<Modelos.Cupon> getCupones(String proveedor, DateTime desde, DateTime hasta)
         {
-            setCmd("SELECT c.id_cupon, c.username, o.descripcion, c.fecha_compra "+
-                    "FROM Cupones c "+
-                    "JOIN Ofertas o ON o.id_oferta = c.id_oferta "+
-                    "WHERE c.facturado = 0 "+ 
-                    "AND o.username = @proveedor "+
-                    "AND c.fecha_compra >= @desde "+
-                    "AND c.fecha_compra <= @hasta "+
+            setCmd("SELECT c.id_cupon, c.username, o.descripcion, c.fecha_compra " +
+                    "FROM Cupones c " +
+                    "JOIN Ofertas o ON o.id_oferta = c.id_oferta " +
+                    "WHERE c.facturado = 0 " +
+                    "AND o.username = @proveedor " +
+                    "AND c.fecha_compra >= @desde " +
+                    "AND c.fecha_compra <= @hasta " +
                     "ORDER BY c.fecha_compra ASC");
 
             cmd.Parameters.AddWithValue("@proveedor", proveedor);
@@ -630,7 +615,7 @@ namespace FrbaOfertas
             while (reader.Read())
             {
                 Modelos.Cupon cupon = new Modelos.Cupon();
-                
+
                 cupon.NumeroCupon = reader.GetInt32(0);
                 cupon.cliente = reader.GetString(1);
                 cupon.oferta = reader.GetString(2);
@@ -661,14 +646,14 @@ namespace FrbaOfertas
             reader.Close();
 
 
-            setCmd( "INSERT INTO Renglones (id_factura, id_oferta, cant) "+
-                        "SELECT	@idFactura,o.id_oferta,count(cu.id_cupon) "+
-                        "FROM Ofertas o "+
-                        "JOIN Cupones cu ON cu.id_oferta = o.id_oferta "+
-                        "WHERE o.username = @proveedor "+
-                        "AND o.fecha_pub >= @desde "+
-                        "AND o.fecha_pub <= @hasta "+
-                        "GROUP BY o.id_oferta, o.username "+
+            setCmd("INSERT INTO Renglones (id_factura, id_oferta, cant) " +
+                        "SELECT	@idFactura,o.id_oferta,count(cu.id_cupon) " +
+                        "FROM Ofertas o " +
+                        "JOIN Cupones cu ON cu.id_oferta = o.id_oferta " +
+                        "WHERE o.username = @proveedor " +
+                        "AND o.fecha_pub >= @desde " +
+                        "AND o.fecha_pub <= @hasta " +
+                        "GROUP BY o.id_oferta, o.username " +
                         "ORDER BY 1");
 
             cmd.Parameters.AddWithValue("@idFactura", idFactura);
@@ -678,14 +663,14 @@ namespace FrbaOfertas
 
             cmd.ExecuteNonQuery();
 
-            setCmd("UPDATE Cupones SET facturado = 1 "+
-                    "FROM ( SELECT c.id_cupon as id "+
-                            "FROM Cupones c "+
-                            "JOIN Ofertas o ON o.id_oferta = c.id_oferta "+
-                            "WHERE c.facturado = 0 "+ 
-                            "AND o.username = @proveedor "+
-                            "AND c.fecha_compra >= @desde "+
-                            "AND c.fecha_compra <= @hasta ) as facturados "+
+            setCmd("UPDATE Cupones SET facturado = 1 " +
+                    "FROM ( SELECT c.id_cupon as id " +
+                            "FROM Cupones c " +
+                            "JOIN Ofertas o ON o.id_oferta = c.id_oferta " +
+                            "WHERE c.facturado = 0 " +
+                            "AND o.username = @proveedor " +
+                            "AND c.fecha_compra >= @desde " +
+                            "AND c.fecha_compra <= @hasta ) as facturados " +
                             "WHERE facturados.id = Cupones.id_cupon ");
             cmd.Parameters.AddWithValue("@proveedor", proveedor.username);
             cmd.Parameters.AddWithValue("@desde", desde);
@@ -694,14 +679,14 @@ namespace FrbaOfertas
             cmd.ExecuteNonQuery();
 
 
-            setCmd("SELECT SUM((r.cant * o.precio_rebajado)*0.1) FROM Renglones r "+
-                    "JOIN Ofertas o ON r.id_oferta = o.id_oferta "+
+            setCmd("SELECT SUM((r.cant * o.precio_rebajado)*0.1) FROM Renglones r " +
+                    "JOIN Ofertas o ON r.id_oferta = o.id_oferta " +
                     "WHERE r.id_factura = @idFactura");
             cmd.Parameters.AddWithValue("@idFactura", idFactura);
 
             reader = cmd.ExecuteReader();
-            
-            Decimal monto = 0; 
+
+            Decimal monto = 0;
             if (reader.HasRows)
             {
                 reader.Read();
@@ -709,7 +694,7 @@ namespace FrbaOfertas
             }
             reader.Close();
 
-            
+
             setCmd("UPDATE Facturas SET monto = @monto WHERE id_factura = @idFactura");
             cmd.Parameters.AddWithValue("@idFactura", idFactura);
             cmd.Parameters.AddWithValue("@monto", monto);
