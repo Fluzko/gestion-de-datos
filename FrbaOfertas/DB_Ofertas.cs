@@ -183,31 +183,24 @@ namespace FrbaOfertas
 
             cmd.ExecuteNonQuery();
 
-            setCmd("select id_ciudad from Ciudades where nombre = @localidad");
 
-            cmd.Parameters.AddWithValue("@localidad", localidad);
-            reader = cmd.ExecuteReader();
-            reader.Read();
-            int idLocalidad = reader.GetInt32(0);
-            reader.Close();
-
-            setCmd("insert into Direcciones (direccion, cp, piso, dpto, ciudad)" +
-                    "values (@calle, @cp, @piso, @dpto, @idLocalidad)");
+            setCmd("insert into Direcciones (direccion, cp, piso, dpto, localidad)" +
+                    "values (@calle, @cp, @piso, @dpto, @localidad)");
 
             cmd.Parameters.AddWithValue("@calle", calle);
             cmd.Parameters.AddWithValue("@cp", cp);
             cmd.Parameters.AddWithValue("@piso", piso);
             cmd.Parameters.AddWithValue("@dpto", dpto);
-            cmd.Parameters.AddWithValue("@idLocalidad", idLocalidad);
+            cmd.Parameters.AddWithValue("@localidad", localidad);
             cmd.ExecuteNonQuery();
 
-            setCmd("select id_direccion from Direcciones where direccion = @calle and cp = @cp and piso = @piso and dpto = @dpto and ciudad = @idLocalidad");
+            setCmd("select id_direccion from Direcciones where direccion = @calle and cp = @cp and piso = @piso and dpto = @dpto and localidad = @localidad");
 
             cmd.Parameters.AddWithValue("@calle", calle);
             cmd.Parameters.AddWithValue("@cp", cp);
             cmd.Parameters.AddWithValue("@piso", piso);
             cmd.Parameters.AddWithValue("@dpto", dpto);
-            cmd.Parameters.AddWithValue("@idLocalidad", idLocalidad);
+            cmd.Parameters.AddWithValue("@localidad", localidad);
 
             reader = cmd.ExecuteReader();
             reader.Read();
@@ -235,10 +228,9 @@ namespace FrbaOfertas
         {
             List<Modelos.Cliente> clientes = null;
 
-            setCmd("SELECT c.username, c.nombre, c.apellido, c.dni, c.mail, c.telefono, d.direccion, d.cp, d.piso, d.dpto, ci.nombre, c.fecha_nac, c.credito, c.habilitado " +
+            setCmd("SELECT c.username, c.nombre, c.apellido, c.dni, c.mail, c.telefono, d.direccion, d.cp, d.piso, d.dpto, d.localidad, c.fecha_nac, c.credito, c.habilitado " +
                    "FROM Clientes c " +
-                   "JOIN Direcciones d ON c.id_direccion = d.id_direccion "+
-                   "JOIN Ciudades ci ON ci.id_ciudad = d.ciudad ");
+                   "JOIN Direcciones d ON c.id_direccion = d.id_direccion ");
             reader = cmd.ExecuteReader();
 
             if (!reader.HasRows)
@@ -279,10 +271,9 @@ namespace FrbaOfertas
         {
             List<Modelos.Cliente> clientes = null;
 
-            setCmd("SELECT c.username, c.nombre, c.apellido, c.dni, c.mail, c.telefono, d.direccion, d.cp, d.piso, d.dpto, ci.nombre, c.fecha_nac, c.credito, c.habilitado " +
+            setCmd("SELECT c.username, c.nombre, c.apellido, c.dni, c.mail, c.telefono, d.direccion, d.cp, d.piso, d.dpto, d.localidad, c.fecha_nac, c.credito, c.habilitado " +
                     "FROM Clientes c " +
                     "JOIN Direcciones d ON c.id_direccion = d.id_direccion " +
-                    "JOIN Ciudades ci ON ci.id_ciudad = d.ciudad " +
                     "WHERE "+ 
                     "c.nombre LIKE '%@nombre%' AND "+
                     "c.apellido LIKE '%@apellido%' AND "+
@@ -331,10 +322,9 @@ namespace FrbaOfertas
         {
             List<Modelos.Cliente> clientes = null;
 
-            setCmd("SELECT c.username, c.nombre, c.apellido, c.dni, c.mail, c.telefono, d.direccion, d.cp, d.piso, d.dpto, ci.nombre, c.fecha_nac, c.credito, c.habilitado " +
+            setCmd("SELECT c.username, c.nombre, c.apellido, c.dni, c.mail, c.telefono, d.direccion, d.cp, d.piso, d.dpto, d.localidad, c.fecha_nac, c.credito, c.habilitado " +
                     "FROM Clientes c " +
                     "JOIN Direcciones d ON c.id_direccion = d.id_direccion " +
-                    "JOIN Ciudades ci ON ci.id_ciudad = d.ciudad " +
                     "WHERE " +
                     "c.nombre LIKE '%@nombre%' AND " +
                     "c.apellido LIKE '%@apellido%' AND " +
@@ -383,6 +373,20 @@ namespace FrbaOfertas
      
             public static void updateCliente(Modelos.Cliente cliente){
 
+                setCmd("SELECT id_direccion FROM Clientes c WHERE  c.username = @username");
+                cmd.Parameters.AddWithValue("@username", cliente.Username);
+
+                reader = cmd.ExecuteReader();
+                int idDireccion = -1;
+
+                if (reader.HasRows)
+                {
+                    reader.Read();
+                    idDireccion = reader.GetInt32(0);
+                    reader.Close();
+                }
+                
+                
                 setCmd("UPDATE Clientes SET "+
                                      "nombre = @nombre, "+
                                      "apellido = @apellido, "+
@@ -403,15 +407,33 @@ namespace FrbaOfertas
                 cmd.Parameters.AddWithValue("@credito",cliente.Credito);
                 cmd.Parameters.AddWithValue("@habilitado",cliente.habilitado);
                 cmd.Parameters.AddWithValue("@username",cliente.Username);
-
-                cmd.CommandType = CommandType.Text;
-                cmd.Connection = connection;
    
                 if (cmd.ExecuteNonQuery() == 0)
                 {
                     MessageBox.Show("Ocurrio un error al actualizar los datos", "Actualizar cliente", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
+
+                if (idDireccion != -1)
+                {
+                    setCmd("UPDATE Direcciones SET " +
+                        "direccion = @direccion, " +
+                        "cp = @cp, " +
+                        "piso = @piso, " +
+                        "dpto = @dpto, " +
+                        "localidad = @localidad " +
+                        "WHERE id_direccion = @idDireccion");
+
+                    cmd.Parameters.AddWithValue("@direccion", cliente.Direccion);
+                    cmd.Parameters.AddWithValue("@cp", cliente.Cp);
+                    cmd.Parameters.AddWithValue("@piso", cliente.Piso);
+                    cmd.Parameters.AddWithValue("@dpto", cliente.Dpto);
+                    cmd.Parameters.AddWithValue("@localidad", cliente.Localidad);
+                    cmd.Parameters.AddWithValue("@idDireccion", idDireccion);
+
+                    cmd.ExecuteNonQuery();
+                }
+                
 
                 MessageBox.Show("Cliente actualizado con exito", "Actualizar cliente", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
