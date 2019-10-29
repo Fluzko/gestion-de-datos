@@ -19,6 +19,8 @@ namespace FrbaOfertas.AbmCliente
         {
             InitializeComponent();
             Decoracion.Reorganizar(this);
+            textNombre.CharacterCasing = CharacterCasing.Upper;
+            textApellido.CharacterCasing = CharacterCasing.Upper;
         }
 
         private void buttonVolver_Click(object sender, EventArgs e)
@@ -58,12 +60,6 @@ namespace FrbaOfertas.AbmCliente
             this.calendario.Select();  
         }
 
-
-        private void calendario_DateChanged(object sender, DateRangeEventArgs e)
-        {
-            textFN.Text = calendario.SelectionRange.Start.ToShortDateString();
-            calendario.Hide();
-        }
 
         private void cleanInputs()
         {
@@ -151,6 +147,17 @@ namespace FrbaOfertas.AbmCliente
         private void textNombre_KeyPress(object sender, KeyPressEventArgs e)
         {
             Validar.letras(e);
+        }
+
+        private void calendario_Leave(object sender, EventArgs e)
+        {
+            this.calendario.Hide();
+        }
+
+        private void calendario_DateSelected(object sender, DateRangeEventArgs e)
+        {
+            textFN.Text = calendario.SelectionRange.Start.ToShortDateString();
+            calendario.Hide();
         }
 
 

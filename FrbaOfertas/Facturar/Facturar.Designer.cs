@@ -28,173 +28,225 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.btnListaClientes = new System.Windows.Forms.Button();
-            this.btnAltaCliente = new System.Windows.Forms.Button();
-            this.txtUsername = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.clientesGrid = new System.Windows.Forms.DataGridView();
-            this.buttonFecha = new System.Windows.Forms.Button();
-            this.label8 = new System.Windows.Forms.Label();
-            this.textFN = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnVolver = new System.Windows.Forms.Button();
+            this.dataGridCupones = new System.Windows.Forms.DataGridView();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnBuscar = new System.Windows.Forms.Button();
+            this.dateTimeHasta = new System.Windows.Forms.DateTimePicker();
+            this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.dateTimeDesde = new System.Windows.Forms.DateTimePicker();
+            this.ddProveedor = new System.Windows.Forms.ComboBox();
+            this.btnFacturar = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.textMonto = new System.Windows.Forms.TextBox();
+            this.textFacturaN = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridCupones)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.clientesGrid)).BeginInit();
             this.SuspendLayout();
             // 
-            // groupBox2
+            // btnVolver
             // 
-            this.groupBox2.Controls.Add(this.button1);
-            this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Controls.Add(this.textBox1);
-            this.groupBox2.Controls.Add(this.buttonFecha);
-            this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Controls.Add(this.textFN);
-            this.groupBox2.Controls.Add(this.btnListaClientes);
-            this.groupBox2.Controls.Add(this.txtUsername);
-            this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.groupBox2.Location = new System.Drawing.Point(12, 12);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(286, 154);
-            this.groupBox2.TabIndex = 9;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Nuevo usuario:";
-            this.groupBox2.Enter += new System.EventHandler(this.groupBox2_Enter);
+            this.btnVolver.Location = new System.Drawing.Point(12, 430);
+            this.btnVolver.Name = "btnVolver";
+            this.btnVolver.Size = new System.Drawing.Size(75, 23);
+            this.btnVolver.TabIndex = 9;
+            this.btnVolver.Text = "Volver";
+            this.btnVolver.UseVisualStyleBackColor = true;
+            this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
             // 
-            // btnListaClientes
+            // dataGridCupones
             // 
-            this.btnListaClientes.Location = new System.Drawing.Point(86, 125);
-            this.btnListaClientes.Name = "btnListaClientes";
-            this.btnListaClientes.Size = new System.Drawing.Size(151, 23);
-            this.btnListaClientes.TabIndex = 1;
-            this.btnListaClientes.Text = "Buscar ventas";
-            this.btnListaClientes.UseVisualStyleBackColor = true;
+            this.dataGridCupones.AllowUserToAddRows = false;
+            this.dataGridCupones.AllowUserToDeleteRows = false;
+            this.dataGridCupones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridCupones.Location = new System.Drawing.Point(12, 168);
+            this.dataGridCupones.Name = "dataGridCupones";
+            this.dataGridCupones.ReadOnly = true;
+            this.dataGridCupones.Size = new System.Drawing.Size(534, 256);
+            this.dataGridCupones.TabIndex = 8;
             // 
-            // btnAltaCliente
+            // groupBox1
             // 
-            this.btnAltaCliente.Location = new System.Drawing.Point(123, 339);
-            this.btnAltaCliente.Name = "btnAltaCliente";
-            this.btnAltaCliente.Size = new System.Drawing.Size(167, 23);
-            this.btnAltaCliente.TabIndex = 0;
-            this.btnAltaCliente.Text = "Facturar";
-            this.btnAltaCliente.UseVisualStyleBackColor = true;
-            this.btnAltaCliente.Click += new System.EventHandler(this.btnAltaCliente_Click);
+            this.groupBox1.Controls.Add(this.btnBuscar);
+            this.groupBox1.Controls.Add(this.dateTimeHasta);
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.dateTimeDesde);
+            this.groupBox1.Controls.Add(this.ddProveedor);
+            this.groupBox1.Location = new System.Drawing.Point(12, 14);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(226, 148);
+            this.groupBox1.TabIndex = 6;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Seleccionar:";
             // 
-            // txtUsername
+            // btnBuscar
             // 
-            this.txtUsername.Location = new System.Drawing.Point(86, 26);
-            this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(192, 20);
-            this.txtUsername.TabIndex = 2;
+            this.btnBuscar.Location = new System.Drawing.Point(145, 119);
+            this.btnBuscar.Name = "btnBuscar";
+            this.btnBuscar.Size = new System.Drawing.Size(75, 23);
+            this.btnBuscar.TabIndex = 16;
+            this.btnBuscar.Text = "Buscar";
+            this.btnBuscar.UseVisualStyleBackColor = true;
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
-            // label1
+            // dateTimeHasta
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(21, 29);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(59, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Proveedor:";
+            this.dateTimeHasta.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dateTimeHasta.Location = new System.Drawing.Point(75, 74);
+            this.dateTimeHasta.Name = "dateTimeHasta";
+            this.dateTimeHasta.Size = new System.Drawing.Size(145, 20);
+            this.dateTimeHasta.TabIndex = 14;
+            this.dateTimeHasta.Value = new System.DateTime(2019, 10, 20, 15, 41, 23, 0);
             // 
-            // clientesGrid
+            // label3
             // 
-            this.clientesGrid.AllowUserToAddRows = false;
-            this.clientesGrid.AllowUserToDeleteRows = false;
-            this.clientesGrid.AllowUserToOrderColumns = true;
-            this.clientesGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.clientesGrid.Location = new System.Drawing.Point(12, 172);
-            this.clientesGrid.Name = "clientesGrid";
-            this.clientesGrid.ReadOnly = true;
-            this.clientesGrid.Size = new System.Drawing.Size(418, 161);
-            this.clientesGrid.TabIndex = 58;
-            // 
-            // buttonFecha
-            // 
-            this.buttonFecha.Location = new System.Drawing.Point(207, 56);
-            this.buttonFecha.Name = "buttonFecha";
-            this.buttonFecha.Size = new System.Drawing.Size(71, 23);
-            this.buttonFecha.TabIndex = 33;
-            this.buttonFecha.Text = "Seleccionar";
-            this.buttonFecha.UseVisualStyleBackColor = true;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(39, 59);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(41, 13);
-            this.label8.TabIndex = 32;
-            this.label8.Text = "Desde:";
-            // 
-            // textFN
-            // 
-            this.textFN.Location = new System.Drawing.Point(86, 56);
-            this.textFN.Name = "textFN";
-            this.textFN.ReadOnly = true;
-            this.textFN.Size = new System.Drawing.Size(111, 20);
-            this.textFN.TabIndex = 31;
-            this.textFN.TabStop = false;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(207, 91);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(71, 23);
-            this.button1.TabIndex = 36;
-            this.button1.Text = "Seleccionar";
-            this.button1.UseVisualStyleBackColor = true;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(31, 80);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(38, 13);
+            this.label3.TabIndex = 13;
+            this.label3.Text = "Hasta:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(42, 94);
+            this.label2.Location = new System.Drawing.Point(10, 24);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(38, 13);
-            this.label2.TabIndex = 35;
-            this.label2.Text = "Hasta:";
+            this.label2.Size = new System.Drawing.Size(59, 13);
+            this.label2.TabIndex = 13;
+            this.label2.Text = "Proveedor:";
             // 
-            // textBox1
+            // label1
             // 
-            this.textBox1.Location = new System.Drawing.Point(86, 91);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(111, 20);
-            this.textBox1.TabIndex = 34;
-            this.textBox1.TabStop = false;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(28, 54);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(41, 13);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "Desde:";
+            // 
+            // dateTimeDesde
+            // 
+            this.dateTimeDesde.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dateTimeDesde.Location = new System.Drawing.Point(75, 48);
+            this.dateTimeDesde.Name = "dateTimeDesde";
+            this.dateTimeDesde.Size = new System.Drawing.Size(145, 20);
+            this.dateTimeDesde.TabIndex = 10;
+            this.dateTimeDesde.Value = new System.DateTime(2019, 10, 20, 15, 41, 16, 0);
+            // 
+            // ddProveedor
+            // 
+            this.ddProveedor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ddProveedor.Enabled = false;
+            this.ddProveedor.FormattingEnabled = true;
+            this.ddProveedor.Location = new System.Drawing.Point(75, 21);
+            this.ddProveedor.Name = "ddProveedor";
+            this.ddProveedor.Size = new System.Drawing.Size(145, 21);
+            this.ddProveedor.TabIndex = 1;
+            // 
+            // btnFacturar
+            // 
+            this.btnFacturar.Location = new System.Drawing.Point(471, 430);
+            this.btnFacturar.Name = "btnFacturar";
+            this.btnFacturar.Size = new System.Drawing.Size(75, 23);
+            this.btnFacturar.TabIndex = 11;
+            this.btnFacturar.Text = "Facturar";
+            this.btnFacturar.UseVisualStyleBackColor = true;
+            this.btnFacturar.Click += new System.EventHandler(this.btnFacturar_Click);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.textMonto);
+            this.groupBox2.Controls.Add(this.textFacturaN);
+            this.groupBox2.Controls.Add(this.label5);
+            this.groupBox2.Controls.Add(this.label6);
+            this.groupBox2.Location = new System.Drawing.Point(363, 14);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(183, 83);
+            this.groupBox2.TabIndex = 15;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Factura:";
+            // 
+            // textMonto
+            // 
+            this.textMonto.Enabled = false;
+            this.textMonto.Location = new System.Drawing.Point(69, 51);
+            this.textMonto.Name = "textMonto";
+            this.textMonto.Size = new System.Drawing.Size(100, 20);
+            this.textMonto.TabIndex = 15;
+            // 
+            // textFacturaN
+            // 
+            this.textFacturaN.Enabled = false;
+            this.textFacturaN.Location = new System.Drawing.Point(69, 21);
+            this.textFacturaN.Name = "textFacturaN";
+            this.textFacturaN.Size = new System.Drawing.Size(100, 20);
+            this.textFacturaN.TabIndex = 14;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(23, 54);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(40, 13);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "Monto:";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 28);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(57, 13);
+            this.label6.TabIndex = 12;
+            this.label6.Text = "Factura N:";
             // 
             // Facturar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(442, 369);
-            this.Controls.Add(this.clientesGrid);
-            this.Controls.Add(this.btnAltaCliente);
+            this.ClientSize = new System.Drawing.Size(561, 465);
             this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.btnFacturar);
+            this.Controls.Add(this.btnVolver);
+            this.Controls.Add(this.dataGridCupones);
+            this.Controls.Add(this.groupBox1);
             this.Name = "Facturar";
-            this.Text = "Form1";
+            this.Text = "Facturar";
+            this.Load += new System.EventHandler(this.Facturar_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridCupones)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.clientesGrid)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Button btnListaClientes;
-        private System.Windows.Forms.Button btnAltaCliente;
-        private System.Windows.Forms.TextBox txtUsername;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DataGridView clientesGrid;
-        private System.Windows.Forms.Button buttonFecha;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox textFN;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnVolver;
+        private System.Windows.Forms.DataGridView dataGridCupones;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.DateTimePicker dateTimeHasta;
+        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.DateTimePicker dateTimeDesde;
+        private System.Windows.Forms.ComboBox ddProveedor;
+        private System.Windows.Forms.Button btnFacturar;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.TextBox textMonto;
+        private System.Windows.Forms.TextBox textFacturaN;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button btnBuscar;
     }
 }

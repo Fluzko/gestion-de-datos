@@ -49,7 +49,7 @@ namespace FrbaOfertas.Modelos
                     break;
 
                 case 8:
-                    //(new Facturar.Facturar()).Show();
+                    (new Facturar.Facturar()).Show();
                     break;
 
                 case 9:

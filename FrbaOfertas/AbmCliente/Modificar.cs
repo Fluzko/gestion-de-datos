@@ -18,9 +18,12 @@ namespace FrbaOfertas.AbmCliente
         {
             InitializeComponent();
             Decoracion.Reorganizar(this);
-            dateTimePicker1.Enabled = false;
             comboHabilitado.Items.Add("Habilitado");
             comboHabilitado.Items.Add("Deshabilitado");
+            textApellidoB.CharacterCasing = CharacterCasing.Upper;
+            textNombreB.CharacterCasing = CharacterCasing.Upper;
+            textNombre.CharacterCasing = CharacterCasing.Upper;
+            textApellido.CharacterCasing = CharacterCasing.Upper;
         }
 
 
@@ -45,7 +48,7 @@ namespace FrbaOfertas.AbmCliente
 
                 if (clientes == null)
                 {
-                    MessageBox.Show("No hay clientes que coincidan con su busqueda", "Alta cliente", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("No hay clientes que coincidan con su busqueda", "Modificar cliente", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
 
@@ -66,7 +69,7 @@ namespace FrbaOfertas.AbmCliente
 
                 if (clientes == null)
                 {
-                    MessageBox.Show("No hay clientes que coincidan con su busqueda", "Alta cliente", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("No hay clientes que coincidan con su busqueda", "Modificar cliente", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
 
@@ -85,7 +88,7 @@ namespace FrbaOfertas.AbmCliente
 
                 if (clientes == null)
                 {
-                    MessageBox.Show("No hay clientes que coincidan con su busqueda", "Alta cliente", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("No hay clientes que coincidan con su busqueda", "Modificar cliente", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
 
@@ -123,6 +126,7 @@ namespace FrbaOfertas.AbmCliente
         private void clientesGrid_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             int i = e.RowIndex;
+            
             DataGridViewRow selectedRow = clientesGrid.Rows[i];
             Modelos.Cliente cliente = ((Modelos.Cliente)selectedRow.DataBoundItem);
             username = cliente.Username;
@@ -136,7 +140,7 @@ namespace FrbaOfertas.AbmCliente
             textCP.Text = cliente.Cp.ToString();
             textDpto.Text = cliente.Dpto;
             textLoc.Text = cliente.Localidad;
-            dateTimePicker1.Value = cliente.FechaNac;
+            textFN.Text = cliente.FechaNac.ToShortDateString();
             comboHabilitado.SelectedIndex = comboHabilitado.FindString(habilitadoToString(cliente));
 
             foreach (TextBox input in modificableInputs())
@@ -155,51 +159,55 @@ namespace FrbaOfertas.AbmCliente
         
         private TextBox[] modificableInputs()
         {
-            TextBox[] i = { textDNI, textNombre, textApellido, textMail, textTel, textPiso, textCalle, textCP, textDpto, textLoc };
+            TextBox[] i = { textDNI, textNombre, textApellido, textMail, textTel, textPiso, textCalle, textCP, textDpto, textLoc, textFN };
             return i;
         }
 
 
         private void dissableButtons()
         {
-            Button[] buttons = { btnModificar };
+            Button[] buttons = { btnModificar, buttonFecha };
 
             foreach (Button button in buttons)
             {
                 button.Enabled = false;
             }
-            dateTimePicker1.Enabled = false;
             comboHabilitado.Enabled = false;
         }
 
 
         private void enableButtons()
         {
-            Button[] buttons = { btnModificar };
+            Button[] buttons = { btnModificar, buttonFecha };
 
 
             foreach (Button button in buttons)
             {
                 button.Enabled = true;
             }
-            dateTimePicker1.Enabled = true;
             comboHabilitado.Enabled = true;
         }
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
+            if (!Validar.validateEmail(textMail.Text))
+            {
+                MessageBox.Show("Formato de email invalido", "Modificar cliente", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             Modelos.Cliente clienteUpdate = new Modelos.Cliente();
             clienteUpdate.Username = username;
             clienteUpdate.Nombre = textNombre.Text;
             clienteUpdate.Apellido = textApellido.Text;
             clienteUpdate.Dni = int.Parse(textDNI.Text);
             clienteUpdate.Mail = textMail.Text;
-            clienteUpdate.FechaNac = Convert.ToDateTime(dateTimePicker1.Text);
+            clienteUpdate.FechaNac = Convert.ToDateTime(this.textFN.Text);
             clienteUpdate.Telefono = int.Parse(textTel.Text);
             clienteUpdate.Direccion = textCalle.Text;
-            clienteUpdate.Cp = int.Parse(textCP.Text);
+            clienteUpdate.Cp = textCP.Text;
             clienteUpdate.Dpto = textDpto.Text;
-            clienteUpdate.Piso = int.Parse(textPiso.Text);
+            clienteUpdate.Piso = textPiso.Text;
             clienteUpdate.Localidad = textLoc.Text;
             clienteUpdate.habilitado = habilitadoToBool(comboHabilitado.SelectedItem.ToString());
 
@@ -227,6 +235,23 @@ namespace FrbaOfertas.AbmCliente
             Validar.letras(e);
         }
 
+        private void buttonFecha_Click(object sender, EventArgs e)
+        {
+            this.calendario.Show();
+            this.calendario.BringToFront();
+            this.calendario.Select();
+        }
+
+        private void calendario_Leave(object sender, EventArgs e)
+        {
+            this.calendario.Hide();
+        }
+
+        private void calendario_DateSelected(object sender, DateRangeEventArgs e)
+        {
+            textFN.Text = calendario.SelectionRange.Start.ToShortDateString();
+            calendario.Hide();
+        }
 
 
     }

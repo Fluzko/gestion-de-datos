@@ -15,8 +15,8 @@ namespace FrbaOfertas.Modelos
         public String Mail { get; set; }
         public int Telefono { get; set; }
         public String Direccion { get; set; }
-        public int Cp { get; set; }
-        public int Piso { get; set; }
+        public String Cp { get; set; }
+        public String Piso { get; set; }
         public String Dpto { get; set; }
         public String Localidad { get; set; }
         public DateTime FechaNac { get; set; }

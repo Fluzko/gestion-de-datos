@@ -12,19 +12,79 @@ namespace FrbaOfertas.Facturar
 {
     public partial class Facturar : Form
     {
+        List<Modelos.Proveedor> proveedores;
+        Modelos.Proveedor proveedorSeleccionado;
+        List<Modelos.Cupon> cupones;
+        DateTime desde; 
+        DateTime hasta;
+
         public Facturar()
         {
             InitializeComponent();
+            Decoracion.Reorganizar(this);
+            listProveedores();
         }
 
-        private void groupBox2_Enter(object sender, EventArgs e)
+
+        private void listProveedores()
+        {
+            proveedores = DB_Ofertas.getProveedoresFacturacion();
+
+            if (proveedores.Count != 0)
+            {
+                ddProveedor.Enabled = true;
+                ddProveedor.DataSource = proveedores;
+                ddProveedor.DisplayMember = "razonSocial";
+                ddProveedor.ValueMember = "username";
+                ddProveedor.SelectedItem = proveedores.First();
+            }
+        }
+
+
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            (new Login.Funcionalidad(Session.getRol())).Show();
+            this.Hide();
+        }
+
+
+        private void Facturar_Load(object sender, EventArgs e)
         {
 
         }
 
-        private void btnAltaCliente_Click(object sender, EventArgs e)
+        private void btnBuscar_Click(object sender, EventArgs e)
         {
+            textMonto.Clear();
+            textFacturaN.Clear();
+
+            proveedorSeleccionado = proveedores.Where(p => p.razonSocial == ddProveedor.Text).ToList().First();
+
+            cupones = DB_Ofertas.getCupones(proveedorSeleccionado.username, dateTimeDesde.Value, dateTimeHasta.Value);
+
+            dataGridCupones.DataSource = cupones;
+
+            desde = dateTimeDesde.Value;
+            hasta = dateTimeHasta.Value;
+
+            dataGridCupones.AutoResizeColumns();
 
         }
+
+        private void btnFacturar_Click(object sender, EventArgs e)
+        {
+            if (dataGridCupones.Rows != null && dataGridCupones.Rows.Count != 0)
+            {
+                Modelos.Factura factura = DB_Ofertas.facturarCupones(proveedorSeleccionado, desde, hasta);
+                dataGridCupones.DataSource = null;
+                textFacturaN.Text = factura.numero.ToString();
+                textMonto.Text = factura.monto.ToString();
+                return;
+            }
+            MessageBox.Show("No hay nada que facturar", "Facturar", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            
+                    
+        }
+
     }
 }
