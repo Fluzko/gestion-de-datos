@@ -28,7 +28,12 @@ namespace FrbaOfertas.ComprarOferta
             //gridOfertas.AutoResizeColumns();
             gridOfertas.Rows[0].Selected = true;
             current = getRow(0);
-            numCantidad.Maximum = ((Modelos.Oferta)gridOfertas.Rows[0].DataBoundItem).MaxPorCliente;
+            int maxCliente = ((Modelos.Oferta)gridOfertas.Rows[0].DataBoundItem).MaxPorCliente;
+            int cantDisponible = ((Modelos.Oferta)gridOfertas.Rows[0].DataBoundItem).CantDisponible;
+            if (maxCliente < cantDisponible)
+                numCantidad.Maximum = maxCliente;
+            else
+                numCantidad.Maximum = cantDisponible;
         }
 
         private void gridOfertas_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -61,6 +66,9 @@ namespace FrbaOfertas.ComprarOferta
             {
                 DB_Ofertas.comprarOferta(Session.getUser(), current, (int)numCantidad.Value);
             }
+
+            List<Modelos.Oferta> ofertas = DB_Ofertas.getOfertas();
+            showOfertas(ofertas);
         }
 
         private void btnFiltrar_Click(object sender, EventArgs e)

@@ -387,7 +387,7 @@ namespace FrbaOfertas
         {
             List<Modelos.Oferta> ofertas = null;
 
-            setCmd("SELECT o.id_oferta, p.razon_social, o.descripcion, o.fecha_pub, o.fecha_vec, o.precio_rebajado, o.max_cliente " +
+            setCmd("SELECT o.id_oferta, p.razon_social, o.descripcion, o.fecha_pub, o.fecha_vec, o.precio_rebajado, o.max_cliente, o.stock " +
                     "FROM Ofertas o " +
                     "JOIN Proveedores p ON p.username = o.username");
             reader = cmd.ExecuteReader();
@@ -410,6 +410,7 @@ namespace FrbaOfertas
                 oferta.FechaVencimiento = reader.GetDateTime(4).Date;
                 oferta.Precio = reader.GetDecimal(5);
                 oferta.MaxPorCliente = reader.GetInt32(6);
+                oferta.CantDisponible = reader.GetInt32(7);
 
                 ofertas.Add(oferta);
             }
@@ -452,7 +453,7 @@ namespace FrbaOfertas
                 conditions += "o.precio_rebajado <= " + precioMax;
             }
 
-            setCmd("SELECT o.id_oferta, p.razon_social, o.descripcion, o.fecha_pub, o.fecha_vec, o.precio_rebajado, o.max_cliente " +
+            setCmd("SELECT o.id_oferta, p.razon_social, o.descripcion, o.fecha_pub, o.fecha_vec, o.precio_rebajado, o.max_cliente, o.stock " +
                     "FROM Ofertas o " +
                     "JOIN Proveedores p ON p.username = o.username " +
                     "WHERE " + conditions);
@@ -476,6 +477,7 @@ namespace FrbaOfertas
                 oferta.FechaVencimiento = reader.GetDateTime(4).Date;
                 oferta.Precio = reader.GetDecimal(5);
                 oferta.MaxPorCliente = reader.GetInt32(6);
+                oferta.CantDisponible = reader.GetInt32(7);
 
                 ofertas.Add(oferta);
             }
@@ -487,7 +489,6 @@ namespace FrbaOfertas
         public static void comprarOferta(Modelos.Usuario usuario, Modelos.Oferta oferta, int cant)
         {
             String query = "BEGIN TRANSACTION ";
-            String format = "yyyy-MM-dd HH:mm:ss";
 
             for (int i = 0; i < cant; i++)
             {
@@ -495,17 +496,13 @@ namespace FrbaOfertas
                             "VALUES(@username, @oferta, @fecha) ";
             }
 
-            query += "COMMIT";
+            query += "IF @@ERROR = 0 COMMIT ELSE ROLLBACK";
 
             setCmd(query);
-
-            MessageBox.Show(usuario.getUsername() + oferta.Id + DateTime.Now.ToString(format));
 
             cmd.Parameters.AddWithValue("@username", usuario.getUsername());
             cmd.Parameters.AddWithValue("@oferta", oferta.Id);
             cmd.Parameters.AddWithValue("@fecha", DateTime.Today);
-
-            MessageBox.Show(cmd.CommandText);
 
             try
             {

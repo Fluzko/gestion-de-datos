@@ -15,6 +15,7 @@ namespace FrbaOfertas.Modelos
         public DateTime FechaVencimiento { get; set; }
         public Decimal Precio { get; set; }
         public int MaxPorCliente { get; set; }
+        public int CantDisponible { get; set; }
         
         public Oferta(){}
 
