@@ -94,6 +94,13 @@ namespace FrbaOfertas.AbmCliente
                 return;
             }
 
+            if (string.IsNullOrEmpty(textCP.Text))
+                textCP.Text = "-";
+            if (string.IsNullOrEmpty(textPiso.Text))
+                textPiso.Text = "-";
+            if (string.IsNullOrEmpty(textDpto.Text))
+                textDpto.Text = "-";
+
             bool alta = DB_Ofertas.altaCliente( this.textUsuario.Text,
                                                 this.textContra.Text,
                                                 this.textNombre.Text,
@@ -126,10 +133,10 @@ namespace FrbaOfertas.AbmCliente
             this.textTelefono.Text,
             this.textFN.Text,
             this.textCalle.Text,
-            this.textPiso.Text,
-            this.textDpto.Text,
+            //this.textPiso.Text,
+            //this.textDpto.Text,
             this.textLocalidad.Text,
-            this.textCP.Text,
+            //this.textCP.Text,
             this.textDNI.Text,
             this.textUsuario.Text,
             this.textContra.Text};
@@ -158,6 +165,11 @@ namespace FrbaOfertas.AbmCliente
         {
             textFN.Text = calendario.SelectionRange.Start.ToShortDateString();
             calendario.Hide();
+        }
+
+        private void Alta_Load(object sender, EventArgs e)
+        {
+
         }
 
 
