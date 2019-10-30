@@ -429,6 +429,7 @@
             this.clientesGrid.AllowUserToOrderColumns = true;
             this.clientesGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.clientesGrid.Location = new System.Drawing.Point(12, 328);
+            this.clientesGrid.MultiSelect = false;
             this.clientesGrid.Name = "clientesGrid";
             this.clientesGrid.ReadOnly = true;
             this.clientesGrid.Size = new System.Drawing.Size(706, 202);
