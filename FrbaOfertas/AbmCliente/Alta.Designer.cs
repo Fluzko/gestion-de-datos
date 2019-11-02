@@ -186,9 +186,9 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(238, 74);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(29, 13);
+            this.label4.Size = new System.Drawing.Size(33, 13);
             this.label4.TabIndex = 7;
-            this.label4.Text = "Mail:";
+            this.label4.Text = "*Mail:";
             // 
             // textMail
             // 
@@ -338,9 +338,9 @@
             this.label12.AutoSize = true;
             this.label12.Location = new System.Drawing.Point(472, 59);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(79, 13);
+            this.label12.Size = new System.Drawing.Size(75, 13);
             this.label12.TabIndex = 22;
-            this.label12.Text = "*Código Postal:";
+            this.label12.Text = "Código Postal:";
             // 
             // textLocalidad
             // 
@@ -426,6 +426,7 @@
             this.Controls.Add(this.groupBox1);
             this.Name = "Alta";
             this.Text = "Alta Cliente";
+            this.Load += new System.EventHandler(this.Alta_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);

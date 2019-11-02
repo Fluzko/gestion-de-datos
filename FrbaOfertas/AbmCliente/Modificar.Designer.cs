@@ -161,11 +161,11 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(64, 304);
+            this.label12.Location = new System.Drawing.Point(70, 304);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(79, 13);
+            this.label12.Size = new System.Drawing.Size(75, 13);
             this.label12.TabIndex = 86;
-            this.label12.Text = "*Código Postal:";
+            this.label12.Text = "Código Postal:";
             // 
             // textLoc
             // 
@@ -209,11 +209,11 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(334, 120);
+            this.label13.Location = new System.Drawing.Point(330, 120);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(35, 13);
+            this.label13.Size = new System.Drawing.Size(39, 13);
             this.label13.TabIndex = 74;
-            this.label13.Text = "Email:";
+            this.label13.Text = "*Email:";
             // 
             // textMail
             // 
@@ -429,6 +429,7 @@
             this.clientesGrid.AllowUserToOrderColumns = true;
             this.clientesGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.clientesGrid.Location = new System.Drawing.Point(12, 328);
+            this.clientesGrid.MultiSelect = false;
             this.clientesGrid.Name = "clientesGrid";
             this.clientesGrid.ReadOnly = true;
             this.clientesGrid.Size = new System.Drawing.Size(706, 202);
@@ -513,6 +514,7 @@
             this.Controls.Add(this.calendario);
             this.Name = "Modificar";
             this.Text = "Modificar Cliente";
+            this.Load += new System.EventHandler(this.Modificar_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.clientesGrid)).EndInit();

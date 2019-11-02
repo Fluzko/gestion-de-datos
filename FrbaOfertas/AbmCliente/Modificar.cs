@@ -13,6 +13,7 @@ namespace FrbaOfertas.AbmCliente
     public partial class Modificar : Form
     {
         private String username {get; set;}
+        private String dniCliActual, mailCliActual;
 
         public Modificar()
         {
@@ -48,7 +49,8 @@ namespace FrbaOfertas.AbmCliente
 
                 if (clientes == null)
                 {
-                    MessageBox.Show("No hay clientes que coincidan con su busqueda", "Modificar cliente", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Console.WriteLine(textNombreB.Text);
+                    MessageBox.Show("No hay clientes", "Modificar cliente", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
 
@@ -131,9 +133,11 @@ namespace FrbaOfertas.AbmCliente
             Modelos.Cliente cliente = ((Modelos.Cliente)selectedRow.DataBoundItem);
             username = cliente.Username;
             textDNI.Text = cliente.Dni.ToString();
+            dniCliActual = cliente.Dni.ToString();
             textNombre.Text = cliente.Nombre;
             textApellido.Text = cliente.Apellido;
             textMail.Text = cliente.Mail;
+            mailCliActual = cliente.Mail;
             textTel.Text = cliente.Telefono.ToString();
             textPiso.Text = cliente.Piso.ToString();
             textCalle.Text = cliente.Direccion;
@@ -160,6 +164,12 @@ namespace FrbaOfertas.AbmCliente
         private TextBox[] modificableInputs()
         {
             TextBox[] i = { textDNI, textNombre, textApellido, textMail, textTel, textPiso, textCalle, textCP, textDpto, textLoc, textFN };
+            return i;
+        }
+
+        private TextBox[] requiredInputs()
+        {
+            TextBox[] i = { textDNI, textNombre, textApellido, textMail, textTel, textCalle, textLoc, textFN };
             return i;
         }
 
@@ -190,10 +200,34 @@ namespace FrbaOfertas.AbmCliente
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
+            if (requiredInputs().Any(input => string.IsNullOrEmpty(input.Text) || string.IsNullOrWhiteSpace(input.Text)))
+            {
+                MessageBox.Show("Faltan llenar campos obligatorios", "Modificar cliente", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             if (!Validar.validateEmail(textMail.Text))
             {
                 MessageBox.Show("Formato de email invalido", "Modificar cliente", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
+            }
+
+            if (textMail.Text != this.mailCliActual)
+            {
+                if (DB_Ofertas.mailExists(textMail.Text))
+                {
+                    MessageBox.Show("El email que intenta modificar ya esta asociado a un cliente", "Modificar cliente", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+
+            if (textDNI.Text != this.dniCliActual)
+            {
+                if (DB_Ofertas.dniExists(textDNI.Text))
+                {
+                    MessageBox.Show("El dni que intenta modificar ya esta asociado a un cliente", "Modificar cliente", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
             }
 
             Modelos.Cliente clienteUpdate = new Modelos.Cliente();
@@ -205,9 +239,18 @@ namespace FrbaOfertas.AbmCliente
             clienteUpdate.FechaNac = Convert.ToDateTime(this.textFN.Text);
             clienteUpdate.Telefono = int.Parse(textTel.Text);
             clienteUpdate.Direccion = textCalle.Text;
-            clienteUpdate.Cp = textCP.Text;
-            clienteUpdate.Dpto = textDpto.Text;
-            clienteUpdate.Piso = textPiso.Text;
+            if (string.IsNullOrEmpty(textPiso.Text) || string.IsNullOrWhiteSpace(textPiso.Text))
+                clienteUpdate.Cp = "-";
+            else
+                clienteUpdate.Cp = textCP.Text;
+            if (string.IsNullOrEmpty(textDpto.Text) || string.IsNullOrWhiteSpace(textDpto.Text)) 
+                clienteUpdate.Dpto = "-";
+            else
+                clienteUpdate.Dpto = textDpto.Text;
+            if (string.IsNullOrEmpty(textPiso.Text) || string.IsNullOrWhiteSpace(textPiso.Text))
+                clienteUpdate.Piso = "-";
+            else
+                clienteUpdate.Piso = textPiso.Text;
             clienteUpdate.Localidad = textLoc.Text;
             clienteUpdate.habilitado = habilitadoToBool(comboHabilitado.SelectedItem.ToString());
 
@@ -251,6 +294,11 @@ namespace FrbaOfertas.AbmCliente
         {
             textFN.Text = calendario.SelectionRange.Start.ToShortDateString();
             calendario.Hide();
+        }
+
+        private void Modificar_Load(object sender, EventArgs e)
+        {
+
         }
 
 
