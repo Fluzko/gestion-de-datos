@@ -386,11 +386,8 @@ VALUES					(3,'admin',1)
 select * from Clientes order by id_direccion
 
 /*
-
 insert into Usuarios (username,password,habilitado) values('facundo','facu',1)
-
 insert into Direcciones (ciudad,cp,direccion,dpto,piso) values (1,1822,'veracruz 2455','a',1)
-
 insert into Clientes (username,nombre,apellido,dni,mail,telefono,id_direccion,fecha_nac,credito,habilitado)
 values ('facundo', 'Facundo','Luzko',40571956,'fluzko@gmail.com',1167672254,1,'2013-10-10',200.00,1)
 select * from Clientes
@@ -402,10 +399,7 @@ SELECT	c.nombre, c.apellido, c.dni, c.mail, c.telefono, d.direccion, d.cp, d.pis
                    JOIN Direcciones d ON c.id_direccion = d.id_direccion 
                    JOIN Ciudades ci ON ci.id_ciudad = d.ciudad
                    WHERE c.habilitado = 1 AND c.nombre LIKE 	 
-
 				   select * from Clientes
-
 	
 	update Clientes SET habilitado = 'false' where username = 'facundo'
-
 */

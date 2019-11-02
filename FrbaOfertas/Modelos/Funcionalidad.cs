@@ -41,7 +41,7 @@ namespace FrbaOfertas.Modelos
                     break;
 
                 case 6:
-                    //(new ComprarOferta.ComprarOferta()).Show();
+                    (new ComprarOferta.ComprarOferta()).Show();
                     break;
 
                 case 7:
