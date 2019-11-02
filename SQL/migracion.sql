@@ -32,6 +32,7 @@ IF OBJECT_ID('Usuarios', 'U') IS NOT NULL
 	DROP TABLE Usuarios
 IF OBJECT_ID('Rubros', 'U') IS NOT NULL
 	DROP TABLE Rubros
+GO
 
 ----USUARIO----
 CREATE TABLE Usuarios (
@@ -189,6 +190,7 @@ CREATE TABLE Renglones (
 	id_oferta INTEGER FOREIGN KEY REFERENCES Ofertas,
 	cant NUMERIC NOT NULL DEFAULT 1
 )
+GO
 
 INSERT INTO TiposPago (nombre)
 	SELECT DISTINCT Tipo_Pago_Desc
@@ -380,8 +382,12 @@ VALUES				 ('admin','w23e',1 )
 
 INSERT INTO Rol_Usuario (id_rol,username,habilitado)
 VALUES					(3,'admin',1)
+GO
 
-
+CREATE TRIGGER tr_actualizarStock ON Cupones AFTER INSERT AS BEGIN TRANSACTION
+	UPDATE Ofertas SET stock = stock - 1 WHERE id_oferta = (SELECT id_oferta FROM inserted)
+COMMIT
+GO
 
 select * from Clientes order by id_direccion
 
