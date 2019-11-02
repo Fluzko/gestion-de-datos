@@ -45,7 +45,7 @@ namespace FrbaOfertas.Modelos
                     break;
 
                 case 7:
-                    //(new consumirOferta()).Show()
+                    (new ConsumirOferta.ConsumirOferta()).Show();
                     break;
 
                 case 8:

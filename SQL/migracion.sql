@@ -297,7 +297,8 @@ VALUES
 /*Funcionalidades proveedor*/
 INSERT INTO Rol_Funcionalidad (id_rol, id_func)
 VALUES
-	(2,5)
+	(2,5),
+	(2,7)
 
 /*Funcionalidades Admin*/
 INSERT INTO Rol_Funcionalidad (id_rol, id_func)

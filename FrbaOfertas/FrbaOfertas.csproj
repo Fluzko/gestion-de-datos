@@ -107,6 +107,12 @@
     <Compile Include="AbmRol\Alta.Designer.cs">
       <DependentUpon>Alta.cs</DependentUpon>
     </Compile>
+    <Compile Include="ConsumirOferta\ConsumirOferta.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConsumirOferta\ConsumirOferta.Designer.cs">
+      <DependentUpon>ConsumirOferta.cs</DependentUpon>
+    </Compile>
     <Compile Include="Decoracion.cs" />
     <Compile Include="ConectorDB.cs" />
     <Compile Include="Modelos\Oferta.cs" />
@@ -200,6 +206,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ComprarOferta\ComprarOferta.resx">
       <DependentUpon>ComprarOferta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConsumirOferta\ConsumirOferta.resx">
+      <DependentUpon>ConsumirOferta.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CrearOferta\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

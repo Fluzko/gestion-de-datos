@@ -1,4 +1,4 @@
-﻿namespace FrbaOfertas.ComprarOferta
+﻿namespace FrbaOfertas.ConsumirOferta
 {
     partial class ConsumirOferta
     {
@@ -28,39 +28,151 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.gridOfertas = new System.Windows.Forms.DataGridView();
-            ((System.ComponentModel.ISupportInitialize)(this.gridOfertas)).BeginInit();
+            System.Windows.Forms.Label lblCliente;
+            this.gridCupones = new System.Windows.Forms.DataGridView();
+            this.grpFiltros = new System.Windows.Forms.GroupBox();
+            this.txtIdOferta = new System.Windows.Forms.TextBox();
+            this.lblIdOferta = new System.Windows.Forms.Label();
+            this.txtPrecioMin = new System.Windows.Forms.TextBox();
+            this.lblIdCupon = new System.Windows.Forms.Label();
+            this.txtCliente = new System.Windows.Forms.TextBox();
+            this.btnFiltrar = new System.Windows.Forms.Button();
+            this.btnBaja = new System.Windows.Forms.Button();
+            lblCliente = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.gridCupones)).BeginInit();
+            this.grpFiltros.SuspendLayout();
             this.SuspendLayout();
             // 
-            // gridOfertas
+            // lblCliente
             // 
-            this.gridOfertas.AllowUserToResizeRows = false;
-            this.gridOfertas.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.gridOfertas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridOfertas.Location = new System.Drawing.Point(12, 171);
-            this.gridOfertas.MultiSelect = false;
-            this.gridOfertas.Name = "gridOfertas";
-            this.gridOfertas.ReadOnly = true;
-            this.gridOfertas.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridOfertas.Size = new System.Drawing.Size(807, 393);
-            this.gridOfertas.TabIndex = 0;
-            this.gridOfertas.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridOfertas_CellClick);
+            lblCliente.AutoSize = true;
+            lblCliente.Location = new System.Drawing.Point(6, 34);
+            lblCliente.Name = "lblCliente";
+            lblCliente.Size = new System.Drawing.Size(51, 17);
+            lblCliente.TabIndex = 0;
+            lblCliente.Text = "Cliente";
             // 
-            // ComprarOferta
+            // gridCupones
+            // 
+            this.gridCupones.AllowUserToResizeRows = false;
+            this.gridCupones.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.gridCupones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridCupones.Location = new System.Drawing.Point(12, 171);
+            this.gridCupones.MultiSelect = false;
+            this.gridCupones.Name = "gridCupones";
+            this.gridCupones.ReadOnly = true;
+            this.gridCupones.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.gridCupones.Size = new System.Drawing.Size(807, 393);
+            this.gridCupones.TabIndex = 0;
+            this.gridCupones.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridCupones_CellClick);
+            // 
+            // grpFiltros
+            // 
+            this.grpFiltros.Controls.Add(this.txtIdOferta);
+            this.grpFiltros.Controls.Add(this.lblIdOferta);
+            this.grpFiltros.Controls.Add(this.txtPrecioMin);
+            this.grpFiltros.Controls.Add(this.lblIdCupon);
+            this.grpFiltros.Controls.Add(this.txtCliente);
+            this.grpFiltros.Controls.Add(lblCliente);
+            this.grpFiltros.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.grpFiltros.Location = new System.Drawing.Point(12, 12);
+            this.grpFiltros.Name = "grpFiltros";
+            this.grpFiltros.Size = new System.Drawing.Size(807, 117);
+            this.grpFiltros.TabIndex = 3;
+            this.grpFiltros.TabStop = false;
+            this.grpFiltros.Text = "Filtros";
+            // 
+            // txtIdOferta
+            // 
+            this.txtIdOferta.Location = new System.Drawing.Point(506, 60);
+            this.txtIdOferta.Name = "txtIdOferta";
+            this.txtIdOferta.Size = new System.Drawing.Size(295, 23);
+            this.txtIdOferta.TabIndex = 7;
+            this.txtIdOferta.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtIdOferta_KeyPress);
+            // 
+            // lblIdOferta
+            // 
+            this.lblIdOferta.AutoSize = true;
+            this.lblIdOferta.Location = new System.Drawing.Point(405, 66);
+            this.lblIdOferta.Name = "lblIdOferta";
+            this.lblIdOferta.Size = new System.Drawing.Size(60, 17);
+            this.lblIdOferta.TabIndex = 6;
+            this.lblIdOferta.Text = "Id oferta";
+            // 
+            // txtPrecioMin
+            // 
+            this.txtPrecioMin.Location = new System.Drawing.Point(506, 31);
+            this.txtPrecioMin.Name = "txtPrecioMin";
+            this.txtPrecioMin.Size = new System.Drawing.Size(295, 23);
+            this.txtPrecioMin.TabIndex = 3;
+            this.txtPrecioMin.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtIdCupon_KeyPress);
+            // 
+            // lblIdCupon
+            // 
+            this.lblIdCupon.AutoSize = true;
+            this.lblIdCupon.Location = new System.Drawing.Point(405, 34);
+            this.lblIdCupon.Name = "lblIdCupon";
+            this.lblIdCupon.Size = new System.Drawing.Size(62, 17);
+            this.lblIdCupon.TabIndex = 2;
+            this.lblIdCupon.Text = "Id cupón";
+            // 
+            // txtCliente
+            // 
+            this.txtCliente.Location = new System.Drawing.Point(91, 31);
+            this.txtCliente.Name = "txtCliente";
+            this.txtCliente.Size = new System.Drawing.Size(295, 23);
+            this.txtCliente.TabIndex = 1;
+            // 
+            // btnFiltrar
+            // 
+            this.btnFiltrar.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.btnFiltrar.Location = new System.Drawing.Point(21, 135);
+            this.btnFiltrar.Name = "btnFiltrar";
+            this.btnFiltrar.Size = new System.Drawing.Size(79, 30);
+            this.btnFiltrar.TabIndex = 4;
+            this.btnFiltrar.Text = "Filtrar";
+            this.btnFiltrar.UseVisualStyleBackColor = true;
+            this.btnFiltrar.Click += new System.EventHandler(this.btnFiltrar_Click);
+            // 
+            // btnBaja
+            // 
+            this.btnBaja.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.btnBaja.Location = new System.Drawing.Point(708, 135);
+            this.btnBaja.Name = "btnBaja";
+            this.btnBaja.Size = new System.Drawing.Size(97, 30);
+            this.btnBaja.TabIndex = 5;
+            this.btnBaja.Text = "Dar de baja";
+            this.btnBaja.UseVisualStyleBackColor = true;
+            this.btnBaja.Click += new System.EventHandler(this.btnBaja_Click);
+            // 
+            // ConsumirOferta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(831, 576);
-            this.Controls.Add(this.gridOfertas);
-            this.Name = "ComprarOferta";
+            this.Controls.Add(this.btnBaja);
+            this.Controls.Add(this.btnFiltrar);
+            this.Controls.Add(this.grpFiltros);
+            this.Controls.Add(this.gridCupones);
+            this.Name = "ConsumirOferta";
             this.Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)(this.gridOfertas)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridCupones)).EndInit();
+            this.grpFiltros.ResumeLayout(false);
+            this.grpFiltros.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.DataGridView gridOfertas;
+        private System.Windows.Forms.DataGridView gridCupones;
+        private System.Windows.Forms.GroupBox grpFiltros;
+        private System.Windows.Forms.TextBox txtIdOferta;
+        private System.Windows.Forms.Label lblIdOferta;
+        private System.Windows.Forms.TextBox txtPrecioMin;
+        private System.Windows.Forms.Label lblIdCupon;
+        private System.Windows.Forms.TextBox txtCliente;
+        private System.Windows.Forms.Button btnFiltrar;
+        private System.Windows.Forms.Button btnBaja;
     }
 }
