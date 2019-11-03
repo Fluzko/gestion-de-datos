@@ -8,11 +8,13 @@ namespace FrbaOfertas.Modelos
 {
     class Cupon
     {
-        public DateTime fechaCompra { get; set; }
-        public int NumeroCupon { get; set; }
-        public String cliente { get; set; }
-        public String oferta { get; set; }
-        //public DateTime fechaEntrega { get; set; }
+        public int Id { get; set; }
+        public String Cliente { get; set; }
+        public String ClienteNombre { get; set; }
+        public String ClienteApellido { get; set; }
+        public int IdOferta { get; set; }
+        public String DescripcionOferta { get; set; }
+        public DateTime FechaCompra { get; set; }
 
         public Cupon() { }
 

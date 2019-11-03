@@ -228,6 +228,8 @@ namespace FrbaOfertas
             return true;
         }
 
+        /////////////////////////////////// CLIENTES ///////////////////////////////////
+
         public static List<Modelos.Cliente> getClientes()
         {
             List<Modelos.Cliente> clientes = null;
@@ -374,6 +376,8 @@ namespace FrbaOfertas
             return clientes;
         }
 
+        /////////////////////////////////// OFERTAS ///////////////////////////////////
+
         public static List<Modelos.Oferta> getOfertas()
         {
             List<Modelos.Oferta> ofertas = null;
@@ -477,7 +481,7 @@ namespace FrbaOfertas
             return ofertas;
         }
 
-        public static void comprarOferta(Modelos.Usuario usuario, Modelos.Oferta oferta, int cant)
+        public static void comprarOferta(Modelos.Usuario usuario, Modelos.Oferta oferta, int cant, DateTime fecha)
         {
             String query = "BEGIN TRANSACTION ";
 
@@ -493,7 +497,7 @@ namespace FrbaOfertas
 
             cmd.Parameters.AddWithValue("@username", usuario.getUsername());
             cmd.Parameters.AddWithValue("@oferta", oferta.Id);
-            cmd.Parameters.AddWithValue("@fecha", DateTime.Today);
+            cmd.Parameters.AddWithValue("@fecha", fecha);
 
             try
             {
@@ -507,7 +511,148 @@ namespace FrbaOfertas
 
             return;
         }
- 
+
+        /////////////////////////////////// CUPONES ///////////////////////////////////
+        public static List<Modelos.Cupon> getCupones(String proveedor)
+        {
+            List<Modelos.Cupon> cupones = null;
+
+            setCmd("SELECT c.id_cupon, c.username, c.id_oferta, o.descripcion, c.fecha_compra, cl.nombre, cl.apellido " +
+                    "FROM Cupones c " +
+                    "JOIN Ofertas o ON o.id_oferta = c.id_oferta " +
+                    "JOIN Clientes cl ON cl.username = c.username " +
+                    "WHERE o.username = @username AND c.fecha_entrega IS NULL ");
+            cmd.Parameters.AddWithValue("username", proveedor);
+            reader = cmd.ExecuteReader();
+
+            if (!reader.HasRows)
+            {
+                reader.Close();
+                return cupones;
+            }
+
+            cupones = new List<Modelos.Cupon>();
+
+            while (reader.Read())
+            {
+                Modelos.Cupon cupon = new Modelos.Cupon();
+                cupon.Id = reader.GetInt32(0);
+                cupon.Cliente = reader.GetString(1);
+                cupon.IdOferta = reader.GetInt32(2);
+                cupon.DescripcionOferta = reader.GetString(3);
+                cupon.FechaCompra = reader.GetDateTime(4).Date;
+                cupon.ClienteNombre = reader.GetString(5);
+                cupon.ClienteApellido = reader.GetString(6);
+
+                cupones.Add(cupon);
+            }
+
+            reader.Close();
+            return cupones;
+        }
+
+        public static List<Modelos.Cupon> getCuponesWithCondition(String proveedor, String cliente, String descripcion, String id_cupon, String id_oferta)
+        {
+            List<Modelos.Cupon> cupones = null;
+
+            String conditions = "";
+
+            if (!string.IsNullOrEmpty(cliente) && !string.IsNullOrWhiteSpace(cliente))
+            {
+                if (conditions.Length > 0)
+                    conditions += " AND ";
+                conditions += "(c.username LIKE @cliente OR cl.nombre LIKE @cliente OR cl.apellido LIKE @cliente)";
+            }
+
+            if (!string.IsNullOrEmpty(descripcion) && !string.IsNullOrWhiteSpace(descripcion))
+            {
+                if (conditions.Length > 0)
+                    conditions += " AND ";
+                conditions += "o.descripcion LIKE @descripcion";
+            }
+
+            if (!string.IsNullOrEmpty(id_cupon) && !string.IsNullOrWhiteSpace(id_cupon))
+            {
+                if (conditions.Length > 0)
+                    conditions += " AND ";
+                conditions += "c.id_cupon = @id_cupon";
+            }
+
+            if (!string.IsNullOrEmpty(id_oferta) && !string.IsNullOrWhiteSpace(id_oferta))
+            {
+                if (conditions.Length > 0)
+                    conditions += " AND ";
+                conditions += "c.id_oferta = @id_oferta";
+            }
+
+            setCmd("SELECT c.id_cupon, c.username, c.id_oferta, o.descripcion, c.fecha_compra, cl.nombre, cl.apellido " +
+                    "FROM Cupones c " +
+                    "JOIN Ofertas o ON o.id_oferta = c.id_oferta " +
+                    "JOIN Clientes cl ON cl.username = c.username " +
+                    "WHERE o.username = @proveedor AND c.fecha_entrega IS NULL AND " + conditions);
+            cmd.Parameters.AddWithValue("@proveedor", proveedor);
+            if (!string.IsNullOrEmpty(cliente) && !string.IsNullOrWhiteSpace(cliente)) cmd.Parameters.AddWithValue("@cliente", "%" + cliente + "%");
+            if (!string.IsNullOrEmpty(descripcion) && !string.IsNullOrWhiteSpace(descripcion)) cmd.Parameters.AddWithValue("@descripcion", "%" + descripcion + "%");
+            if (!string.IsNullOrEmpty(id_cupon) && !string.IsNullOrWhiteSpace(id_cupon)) cmd.Parameters.AddWithValue("@id_cupon", Int32.Parse(id_cupon));
+            if (!string.IsNullOrEmpty(id_oferta) && !string.IsNullOrWhiteSpace(id_oferta)) cmd.Parameters.AddWithValue("@id_oferta", Int32.Parse(id_oferta));
+
+            reader = cmd.ExecuteReader();
+
+            if (!reader.HasRows)
+            {
+                reader.Close();
+                return cupones;
+            }
+
+            cupones = new List<Modelos.Cupon>();
+
+            while (reader.Read())
+            {
+                Modelos.Cupon cupon = new Modelos.Cupon();
+                cupon.Id = reader.GetInt32(0);
+                cupon.Cliente = reader.GetString(1);
+                cupon.IdOferta = reader.GetInt32(2);
+                cupon.DescripcionOferta = reader.GetString(3);
+                cupon.FechaCompra = reader.GetDateTime(4).Date;
+                cupon.ClienteNombre = reader.GetString(5);
+                cupon.ClienteApellido = reader.GetString(6);
+
+                cupones.Add(cupon);
+            }
+
+            reader.Close();
+            return cupones;
+        }
+
+        public static void consumirOferta(Modelos.Cupon cupon, DateTime fecha)
+        {
+            String query = "BEGIN TRANSACTION ";
+
+            query += "UPDATE Cupones SET fecha_entrega = @fecha " +
+                        "WHERE id_cupon = @cupon ";
+
+            query += "IF @@ERROR = 0 COMMIT ELSE ROLLBACK";
+
+            setCmd(query);
+
+            cmd.Parameters.AddWithValue("@fecha", fecha);
+            cmd.Parameters.AddWithValue("@cupon", cupon.Id);
+
+            try
+            {
+                reader = cmd.ExecuteReader();
+                reader.Close();
+            }
+            catch (SqlException e)
+            {
+                MessageBox.Show(e.Message, "Comprar Ofertas", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return;
+        }
+
+        /////////////////////////////////// CLIENTES ///////////////////////////////////
+
         public static bool dniExists(String dni)
         {
             setCmd("SELECT 1 FROM Clientes c WHERE c.dni = @dni");
@@ -672,10 +817,10 @@ namespace FrbaOfertas
             {
                 Modelos.Cupon cupon = new Modelos.Cupon();
 
-                cupon.NumeroCupon = reader.GetInt32(0);
-                cupon.cliente = reader.GetString(1);
-                cupon.oferta = reader.GetString(2);
-                cupon.fechaCompra = reader.GetDateTime(3);
+                cupon.Id = reader.GetInt32(0);
+                cupon.Cliente = reader.GetString(1);
+                cupon.DescripcionOferta = reader.GetString(2);
+                cupon.FechaCompra = reader.GetDateTime(3);
 
                 cupones.Add(cupon);
             }
