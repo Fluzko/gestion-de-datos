@@ -135,11 +135,11 @@
     <Compile Include="ComprarOferta\ComprarOferta.Designer.cs">
       <DependentUpon>ComprarOferta.cs</DependentUpon>
     </Compile>
-    <Compile Include="CragaCredito\Form1.cs">
+    <Compile Include="CragaCredito\CargaCredito.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CragaCredito\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="CragaCredito\CargaCredito.Designer.cs">
+      <DependentUpon>CargaCredito.cs</DependentUpon>
     </Compile>
     <Compile Include="CrearOferta\Form1.cs">
       <SubType>Form</SubType>
@@ -147,11 +147,11 @@
     <Compile Include="CrearOferta\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="ListadoEstadistico\Form1.cs">
+    <Compile Include="ListadoEstadistico\ListadoEstadistico.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ListadoEstadistico\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="ListadoEstadistico\ListadoEstadistico.Designer.cs">
+      <DependentUpon>ListadoEstadistico.cs</DependentUpon>
     </Compile>
     <Compile Include="Login\Funcionalidad.cs">
       <SubType>Form</SubType>
@@ -201,11 +201,17 @@
     <EmbeddedResource Include="ComprarOferta\ComprarOferta.resx">
       <DependentUpon>ComprarOferta.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="CragaCredito\CargaCredito.resx">
+      <DependentUpon>CargaCredito.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CrearOferta\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Facturar\Facturar.resx">
       <DependentUpon>Facturar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListadoEstadistico\ListadoEstadistico.resx">
+      <DependentUpon>ListadoEstadistico.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login\Funcionalidad.resx">
       <DependentUpon>Funcionalidad.cs</DependentUpon>
