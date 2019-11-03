@@ -64,7 +64,7 @@ namespace FrbaOfertas.ComprarOferta
             
             if (res == DialogResult.OK)
             {
-                DB_Ofertas.comprarOferta(Session.getUser(), current, (int)numCantidad.Value);
+                DB_Ofertas.comprarOferta(Session.getUser(), current, (int)numCantidad.Value, DateTime.Today);
             }
 
             List<Modelos.Oferta> ofertas = DB_Ofertas.getOfertas();

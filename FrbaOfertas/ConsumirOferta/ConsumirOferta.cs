@@ -51,7 +51,15 @@ namespace FrbaOfertas.ConsumirOferta
 
         private void btnBaja_Click(object sender, EventArgs e)
         {
+            DialogResult res = MessageBox.Show("¿Desea dar de baja el cupon n°" + current.Id + "?", "Consumir Ofertas", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
 
+            if (res == DialogResult.OK)
+            {
+                DB_Ofertas.consumirOferta(current, DateTime.Now);
+            }
+
+            List<Modelos.Cupon> cupones = DB_Ofertas.getCupones(Session.getUser().getUsername());
+            showCupones(cupones);
         }
 
         private void btnFiltrar_Click(object sender, EventArgs e)

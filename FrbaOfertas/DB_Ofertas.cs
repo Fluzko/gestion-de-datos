@@ -481,7 +481,7 @@ namespace FrbaOfertas
             return ofertas;
         }
 
-        public static void comprarOferta(Modelos.Usuario usuario, Modelos.Oferta oferta, int cant)
+        public static void comprarOferta(Modelos.Usuario usuario, Modelos.Oferta oferta, int cant, DateTime fecha)
         {
             String query = "BEGIN TRANSACTION ";
 
@@ -497,7 +497,7 @@ namespace FrbaOfertas
 
             cmd.Parameters.AddWithValue("@username", usuario.getUsername());
             cmd.Parameters.AddWithValue("@oferta", oferta.Id);
-            cmd.Parameters.AddWithValue("@fecha", DateTime.Today);
+            cmd.Parameters.AddWithValue("@fecha", fecha);
 
             try
             {
@@ -622,6 +622,33 @@ namespace FrbaOfertas
 
             reader.Close();
             return cupones;
+        }
+
+        public static void consumirOferta(Modelos.Cupon cupon, DateTime fecha)
+        {
+            String query = "BEGIN TRANSACTION ";
+
+            query += "UPDATE Cupones SET fecha_entrega = @fecha " +
+                        "WHERE id_cupon = @cupon ";
+
+            query += "IF @@ERROR = 0 COMMIT ELSE ROLLBACK";
+
+            setCmd(query);
+
+            cmd.Parameters.AddWithValue("@fecha", fecha);
+            cmd.Parameters.AddWithValue("@cupon", cupon.Id);
+
+            try
+            {
+                reader = cmd.ExecuteReader();
+                reader.Close();
+            }
+            catch (SqlException e)
+            {
+                MessageBox.Show(e.Message, "Comprar Ofertas", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return;
         }
 
         /////////////////////////////////// CLIENTES ///////////////////////////////////
