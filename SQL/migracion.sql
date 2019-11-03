@@ -291,8 +291,7 @@ WHERE p.habilitado = 1
 INSERT INTO Rol_Funcionalidad (id_rol, id_func)
 VALUES
 	(1,4),
-	(1,6),
-	(1,7)
+	(1,6)
 
 /*Funcionalidades proveedor*/
 INSERT INTO Rol_Funcionalidad (id_rol, id_func)

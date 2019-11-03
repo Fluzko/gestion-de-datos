@@ -517,9 +517,10 @@ namespace FrbaOfertas
         {
             List<Modelos.Cupon> cupones = null;
 
-            setCmd("SELECT c.id_cupon, c.username, c.id_oferta, o.descripcion, c.fecha_compra " +
+            setCmd("SELECT c.id_cupon, c.username, c.id_oferta, o.descripcion, c.fecha_compra, cl.nombre, cl.apellido " +
                     "FROM Cupones c " +
                     "JOIN Ofertas o ON o.id_oferta = c.id_oferta " +
+                    "JOIN Clientes cl ON cl.username = c.username " +
                     "WHERE o.username = @username AND c.fecha_entrega IS NULL ");
             cmd.Parameters.AddWithValue("username", proveedor);
             reader = cmd.ExecuteReader();
@@ -540,6 +541,81 @@ namespace FrbaOfertas
                 cupon.IdOferta = reader.GetInt32(2);
                 cupon.DescripcionOferta = reader.GetString(3);
                 cupon.FechaCompra = reader.GetDateTime(4).Date;
+                cupon.ClienteNombre = reader.GetString(5);
+                cupon.ClienteApellido = reader.GetString(6);
+
+                cupones.Add(cupon);
+            }
+
+            reader.Close();
+            return cupones;
+        }
+
+        public static List<Modelos.Cupon> getCuponesWithCondition(String proveedor, String cliente, String descripcion, String id_cupon, String id_oferta)
+        {
+            List<Modelos.Cupon> cupones = null;
+
+            String conditions = "";
+
+            if (!string.IsNullOrEmpty(cliente) && !string.IsNullOrWhiteSpace(cliente))
+            {
+                if (conditions.Length > 0)
+                    conditions += " AND ";
+                conditions += "(c.username LIKE @cliente OR cl.nombre LIKE @cliente OR cl.apellido LIKE @cliente)";
+            }
+
+            if (!string.IsNullOrEmpty(descripcion) && !string.IsNullOrWhiteSpace(descripcion))
+            {
+                if (conditions.Length > 0)
+                    conditions += " AND ";
+                conditions += "o.descripcion LIKE @descripcion";
+            }
+
+            if (!string.IsNullOrEmpty(id_cupon) && !string.IsNullOrWhiteSpace(id_cupon))
+            {
+                if (conditions.Length > 0)
+                    conditions += " AND ";
+                conditions += "c.id_cupon = @id_cupon";
+            }
+
+            if (!string.IsNullOrEmpty(id_oferta) && !string.IsNullOrWhiteSpace(id_oferta))
+            {
+                if (conditions.Length > 0)
+                    conditions += " AND ";
+                conditions += "c.id_oferta = @id_oferta";
+            }
+
+            setCmd("SELECT c.id_cupon, c.username, c.id_oferta, o.descripcion, c.fecha_compra, cl.nombre, cl.apellido " +
+                    "FROM Cupones c " +
+                    "JOIN Ofertas o ON o.id_oferta = c.id_oferta " +
+                    "JOIN Clientes cl ON cl.username = c.username " +
+                    "WHERE o.username = @proveedor AND c.fecha_entrega IS NULL AND " + conditions);
+            cmd.Parameters.AddWithValue("@proveedor", proveedor);
+            if (!string.IsNullOrEmpty(cliente) && !string.IsNullOrWhiteSpace(cliente)) cmd.Parameters.AddWithValue("@cliente", "%" + cliente + "%");
+            if (!string.IsNullOrEmpty(descripcion) && !string.IsNullOrWhiteSpace(descripcion)) cmd.Parameters.AddWithValue("@descripcion", "%" + descripcion + "%");
+            if (!string.IsNullOrEmpty(id_cupon) && !string.IsNullOrWhiteSpace(id_cupon)) cmd.Parameters.AddWithValue("@id_cupon", Int32.Parse(id_cupon));
+            if (!string.IsNullOrEmpty(id_oferta) && !string.IsNullOrWhiteSpace(id_oferta)) cmd.Parameters.AddWithValue("@id_oferta", Int32.Parse(id_oferta));
+
+            reader = cmd.ExecuteReader();
+
+            if (!reader.HasRows)
+            {
+                reader.Close();
+                return cupones;
+            }
+
+            cupones = new List<Modelos.Cupon>();
+
+            while (reader.Read())
+            {
+                Modelos.Cupon cupon = new Modelos.Cupon();
+                cupon.Id = reader.GetInt32(0);
+                cupon.Cliente = reader.GetString(1);
+                cupon.IdOferta = reader.GetInt32(2);
+                cupon.DescripcionOferta = reader.GetString(3);
+                cupon.FechaCompra = reader.GetDateTime(4).Date;
+                cupon.ClienteNombre = reader.GetString(5);
+                cupon.ClienteApellido = reader.GetString(6);
 
                 cupones.Add(cupon);
             }

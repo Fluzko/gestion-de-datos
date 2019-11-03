@@ -10,6 +10,8 @@ namespace FrbaOfertas.Modelos
     {
         public int Id { get; set; }
         public String Cliente { get; set; }
+        public String ClienteNombre { get; set; }
+        public String ClienteApellido { get; set; }
         public int IdOferta { get; set; }
         public String DescripcionOferta { get; set; }
         public DateTime FechaCompra { get; set; }

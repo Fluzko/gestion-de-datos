@@ -29,16 +29,20 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.Label lblCliente;
+            System.Windows.Forms.Label lblDescripcion;
             this.gridCupones = new System.Windows.Forms.DataGridView();
             this.grpFiltros = new System.Windows.Forms.GroupBox();
             this.txtIdOferta = new System.Windows.Forms.TextBox();
             this.lblIdOferta = new System.Windows.Forms.Label();
-            this.txtPrecioMin = new System.Windows.Forms.TextBox();
+            this.txtIdCupon = new System.Windows.Forms.TextBox();
             this.lblIdCupon = new System.Windows.Forms.Label();
             this.txtCliente = new System.Windows.Forms.TextBox();
             this.btnFiltrar = new System.Windows.Forms.Button();
             this.btnBaja = new System.Windows.Forms.Button();
+            this.btnVolver = new System.Windows.Forms.Button();
+            this.txtDescripcion = new System.Windows.Forms.TextBox();
             lblCliente = new System.Windows.Forms.Label();
+            lblDescripcion = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.gridCupones)).BeginInit();
             this.grpFiltros.SuspendLayout();
             this.SuspendLayout();
@@ -62,15 +66,17 @@
             this.gridCupones.Name = "gridCupones";
             this.gridCupones.ReadOnly = true;
             this.gridCupones.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridCupones.Size = new System.Drawing.Size(807, 393);
+            this.gridCupones.Size = new System.Drawing.Size(807, 361);
             this.gridCupones.TabIndex = 0;
             this.gridCupones.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridCupones_CellClick);
             // 
             // grpFiltros
             // 
+            this.grpFiltros.Controls.Add(this.txtDescripcion);
+            this.grpFiltros.Controls.Add(lblDescripcion);
             this.grpFiltros.Controls.Add(this.txtIdOferta);
             this.grpFiltros.Controls.Add(this.lblIdOferta);
-            this.grpFiltros.Controls.Add(this.txtPrecioMin);
+            this.grpFiltros.Controls.Add(this.txtIdCupon);
             this.grpFiltros.Controls.Add(this.lblIdCupon);
             this.grpFiltros.Controls.Add(this.txtCliente);
             this.grpFiltros.Controls.Add(lblCliente);
@@ -93,19 +99,19 @@
             // lblIdOferta
             // 
             this.lblIdOferta.AutoSize = true;
-            this.lblIdOferta.Location = new System.Drawing.Point(405, 66);
+            this.lblIdOferta.Location = new System.Drawing.Point(405, 63);
             this.lblIdOferta.Name = "lblIdOferta";
             this.lblIdOferta.Size = new System.Drawing.Size(60, 17);
             this.lblIdOferta.TabIndex = 6;
             this.lblIdOferta.Text = "Id oferta";
             // 
-            // txtPrecioMin
+            // txtIdCupon
             // 
-            this.txtPrecioMin.Location = new System.Drawing.Point(506, 31);
-            this.txtPrecioMin.Name = "txtPrecioMin";
-            this.txtPrecioMin.Size = new System.Drawing.Size(295, 23);
-            this.txtPrecioMin.TabIndex = 3;
-            this.txtPrecioMin.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtIdCupon_KeyPress);
+            this.txtIdCupon.Location = new System.Drawing.Point(506, 31);
+            this.txtIdCupon.Name = "txtIdCupon";
+            this.txtIdCupon.Size = new System.Drawing.Size(295, 23);
+            this.txtIdCupon.TabIndex = 3;
+            this.txtIdCupon.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtIdCupon_KeyPress);
             // 
             // lblIdCupon
             // 
@@ -145,17 +151,46 @@
             this.btnBaja.UseVisualStyleBackColor = true;
             this.btnBaja.Click += new System.EventHandler(this.btnBaja_Click);
             // 
+            // btnVolver
+            // 
+            this.btnVolver.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.btnVolver.Location = new System.Drawing.Point(12, 538);
+            this.btnVolver.Name = "btnVolver";
+            this.btnVolver.Size = new System.Drawing.Size(79, 30);
+            this.btnVolver.TabIndex = 6;
+            this.btnVolver.Text = "Volver";
+            this.btnVolver.UseVisualStyleBackColor = true;
+            this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
+            // 
+            // lblDescripcion
+            // 
+            lblDescripcion.AutoSize = true;
+            lblDescripcion.Location = new System.Drawing.Point(6, 63);
+            lblDescripcion.Name = "lblDescripcion";
+            lblDescripcion.Size = new System.Drawing.Size(82, 17);
+            lblDescripcion.TabIndex = 12;
+            lblDescripcion.Text = "Descripcion";
+            // 
+            // txtDescripcion
+            // 
+            this.txtDescripcion.Location = new System.Drawing.Point(91, 63);
+            this.txtDescripcion.Name = "txtDescripcion";
+            this.txtDescripcion.Size = new System.Drawing.Size(295, 23);
+            this.txtDescripcion.TabIndex = 13;
+            // 
             // ConsumirOferta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(831, 576);
+            this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.btnBaja);
             this.Controls.Add(this.btnFiltrar);
             this.Controls.Add(this.grpFiltros);
             this.Controls.Add(this.gridCupones);
             this.Name = "ConsumirOferta";
             this.Text = "Form1";
+            this.Shown += new System.EventHandler(this.ConsumirOferta_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.gridCupones)).EndInit();
             this.grpFiltros.ResumeLayout(false);
             this.grpFiltros.PerformLayout();
@@ -169,10 +204,12 @@
         private System.Windows.Forms.GroupBox grpFiltros;
         private System.Windows.Forms.TextBox txtIdOferta;
         private System.Windows.Forms.Label lblIdOferta;
-        private System.Windows.Forms.TextBox txtPrecioMin;
+        private System.Windows.Forms.TextBox txtIdCupon;
         private System.Windows.Forms.Label lblIdCupon;
         private System.Windows.Forms.TextBox txtCliente;
         private System.Windows.Forms.Button btnFiltrar;
         private System.Windows.Forms.Button btnBaja;
+        private System.Windows.Forms.Button btnVolver;
+        private System.Windows.Forms.TextBox txtDescripcion;
     }
 }
