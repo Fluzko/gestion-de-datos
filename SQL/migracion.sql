@@ -203,7 +203,7 @@ INSERT INTO Rubros (nombre, habilitado)
 		WHERE Provee_Rubro IS NOT NULL
 
 INSERT INTO Usuarios (username, password, habilitado)
-	SELECT DISTINCT Cli_Dni, 1234, 1
+	SELECT DISTINCT Cli_Dni, '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 1
 		FROM gd_esquema.Maestra
 		WHERE Cli_Nombre IS NOT NULL AND Cli_Apellido IS NOT NULL
 

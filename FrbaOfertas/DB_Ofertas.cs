@@ -37,7 +37,7 @@ namespace FrbaOfertas
 
             setCmd("SELECT username, password from Usuarios WHERE username = @username AND password = @password AND habilitado = 1");
             cmd.Parameters.AddWithValue("@username", username);
-            cmd.Parameters.AddWithValue("@password", password);
+            cmd.Parameters.AddWithValue("@password", Hash.GetHash(password));
 
 
             //password = hashbytes('SHA2_256', '" + password + "')
@@ -183,7 +183,7 @@ namespace FrbaOfertas
                    "values (@username, @password, 1)");
 
             cmd.Parameters.AddWithValue("@username", username);
-            cmd.Parameters.AddWithValue("@password", contra);
+            cmd.Parameters.AddWithValue("@password", Hash.GetHash(contra));
 
             cmd.ExecuteNonQuery();
 
