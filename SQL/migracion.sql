@@ -229,7 +229,7 @@ INSERT INTO Usuarios (username, password, habilitado)
 	SELECT DISTINCT CONCAT(	SUBSTRING(Provee_CUIT,1, 2),
 							SUBSTRING(Provee_CUIT,4,8),
 							SUBSTRING(Provee_CUIT, 13,13)), 
-					1234, 
+					'03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', --Hash de 1234
 					1
 		FROM gd_esquema.Maestra
 		WHERE Provee_CUIT IS NOT NULL
@@ -378,7 +378,7 @@ ALTER TABLE Cupones DROP COLUMN codigo_legacy
 
 
 INSERT INTO Usuarios (username,password,habilitado)
-VALUES				 ('admin','w23e',1 )
+VALUES				 ('admin','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7',1 )	--Hash de w23e
 
 INSERT INTO Rol_Usuario (id_rol,username,habilitado)
 VALUES					(3,'admin',1)
