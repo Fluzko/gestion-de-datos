@@ -424,34 +424,40 @@ namespace FrbaOfertas
             {
                 if (conditions.Length > 0)
                     conditions += " AND ";
-                conditions += "p.razon_social LIKE '%" + raz_soc + "%'";
+                conditions += "p.razon_social LIKE @raz_soc";
             }
 
             if (!string.IsNullOrEmpty(desc) && !string.IsNullOrWhiteSpace(desc))
             {
                 if (conditions.Length > 0)
                     conditions += " AND ";
-                conditions += "o.descripcion LIKE '%" + desc + "%'";
+                conditions += "o.descripcion LIKE @desc";
             }
 
             if (!string.IsNullOrEmpty(precioMin) && !string.IsNullOrWhiteSpace(precioMin))
             {
                 if (conditions.Length > 0)
                     conditions += " AND ";
-                conditions += "o.precio_rebajado >= " + precioMin;
+                conditions += "o.precio_rebajado >= @precio_min";
             }
 
             if (!string.IsNullOrEmpty(precioMax) && !string.IsNullOrWhiteSpace(precioMax))
             {
                 if (conditions.Length > 0)
                     conditions += " AND ";
-                conditions += "o.precio_rebajado <= " + precioMax;
+                conditions += "o.precio_rebajado <= @precio_max";
             }
 
             setCmd("SELECT o.id_oferta, p.razon_social, o.descripcion, o.fecha_pub, o.fecha_vec, o.precio_rebajado, o.max_cliente, o.stock " +
                     "FROM Ofertas o " +
                     "JOIN Proveedores p ON p.username = o.username " +
                     "WHERE " + conditions);
+            
+            cmd.Parameters.AddWithValue("@raz_soc", "%" + raz_soc + "%");
+            cmd.Parameters.AddWithValue("@desc", "%" + desc + "%");
+            cmd.Parameters.AddWithValue("@precio_min", precioMin);
+            cmd.Parameters.AddWithValue("@precio_max", precioMax);
+            
             reader = cmd.ExecuteReader();
 
             if (!reader.HasRows)
