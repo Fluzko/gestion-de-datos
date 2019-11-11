@@ -261,7 +261,8 @@ INSERT INTO Roles(nombre, habilitado)
 VALUES
   ('Cliente',1),
   ('Proveedor',1),
-  ('Administrador',1)
+  ('Administrador',1),
+  ('Administrador General',1)
 
 
 INSERT INTO Funcionalidades(nombre, descripcion,habilitado)
@@ -308,6 +309,18 @@ VALUES
 	(3,8),
 	(3,9)
 
+/*Funcionalidades Admin General*/
+INSERT INTO Rol_Funcionalidad (id_rol, id_func)
+VALUES
+	(4,1),
+	(4,2),
+	(4,3),
+	(4,4),
+	(4,5),
+	(4,6),
+	(4,7),
+	(4,8),
+	(4,9)
 
 INSERT INTO Ofertas (descripcion, fecha_pub, fecha_vec, username, precio_rebajado, precio_lista, stock, max_cliente)
 	SELECT DISTINCT	Oferta_Descripcion, 
@@ -381,7 +394,7 @@ INSERT INTO Usuarios (username,password,habilitado)
 VALUES				 ('admin','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7',1 )	--Hash de w23e
 
 INSERT INTO Rol_Usuario (id_rol,username,habilitado)
-VALUES					(3,'admin',1)
+VALUES					(4,'admin',1)
 GO
 
 CREATE TRIGGER tr_actualizarStock ON Cupones AFTER INSERT AS BEGIN TRANSACTION
@@ -389,23 +402,3 @@ CREATE TRIGGER tr_actualizarStock ON Cupones AFTER INSERT AS BEGIN TRANSACTION
 COMMIT
 GO
 
-select * from Clientes order by id_direccion
-
-/*
-insert into Usuarios (username,password,habilitado) values('facundo','facu',1)
-insert into Direcciones (ciudad,cp,direccion,dpto,piso) values (1,1822,'veracruz 2455','a',1)
-insert into Clientes (username,nombre,apellido,dni,mail,telefono,id_direccion,fecha_nac,credito,habilitado)
-values ('facundo', 'Facundo','Luzko',40571956,'fluzko@gmail.com',1167672254,1,'2013-10-10',200.00,1)
-select * from Clientes
-*/
-
-/*
-SELECT	c.nombre, c.apellido, c.dni, c.mail, c.telefono, d.direccion, d.cp, d.piso, d.dpto, ci.nombre, c.fecha_nac, c.credito
-                   FROM Clientes c 
-                   JOIN Direcciones d ON c.id_direccion = d.id_direccion 
-                   JOIN Ciudades ci ON ci.id_ciudad = d.ciudad
-                   WHERE c.habilitado = 1 AND c.nombre LIKE 	 
-				   select * from Clientes
-	
-	update Clientes SET habilitado = 'false' where username = 'facundo'
-*/
