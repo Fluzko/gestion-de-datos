@@ -55,7 +55,7 @@ namespace FrbaOfertas.ConsumirOferta
 
             if (res == DialogResult.OK)
             {
-                DB_Ofertas.consumirOferta(current, DateTime.Now);
+                DB_Ofertas.consumirOferta(current, Properties.Settings.Default.Fecha);
             }
 
             List<Modelos.Cupon> cupones = DB_Ofertas.getCupones(Session.getUser().getUsername());

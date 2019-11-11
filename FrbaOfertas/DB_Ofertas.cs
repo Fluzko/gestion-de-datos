@@ -842,7 +842,7 @@ namespace FrbaOfertas
                         "VALUES (@idProveedor, @fechaActual)");
 
             cmd.Parameters.AddWithValue("@idProveedor", proveedor.username);
-            cmd.Parameters.AddWithValue("@fechaActual", DateTime.Today);
+            cmd.Parameters.AddWithValue("@fechaActual", Properties.Settings.Default.Fecha);
 
             cmd.ExecuteNonQuery();
 
