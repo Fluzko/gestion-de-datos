@@ -1,6 +1,6 @@
 USE GD2C2019;
 	GO
-
+	
 IF OBJECT_ID('LOS_SINEQUI.Rol_Usuario', 'U') IS NOT NULL
 	DROP TABLE LOS_SINEQUI.Rol_Usuario
 IF OBJECT_ID('LOS_SINEQUI.Rol_Funcionalidad', 'U') IS NOT NULL
@@ -25,8 +25,7 @@ IF OBJECT_ID('LOS_SINEQUI.Clientes', 'U') IS NOT NULL
 	DROP TABLE LOS_SINEQUI.Clientes
 IF OBJECT_ID('LOS_SINEQUI.Direcciones', 'U') IS NOT NULL
 	DROP TABLE LOS_SINEQUI.Direcciones
-IF OBJECT_ID('LOS_SINEQUI.Ciudades', 'U') IS NOT NULL
-	DROP TABLE LOS_SINEQUI.Ciudades
+
 IF OBJECT_ID('LOS_SINEQUI.Funcionalidades', 'U') IS NOT NULL
 	DROP TABLE LOS_SINEQUI.Funcionalidades
 IF OBJECT_ID('LOS_SINEQUI.Roles', 'U') IS NOT NULL
@@ -51,14 +50,6 @@ CREATE TABLE LOS_SINEQUI.Usuarios (
 	habilitado BIT DEFAULT 1
 )
 
-
-----CIUDADES----
-CREATE TABLE LOS_SINEQUI.Ciudades (
-	id_ciudad INTEGER PRIMARY KEY IDENTITY(1, 1),
-	nombre NVARCHAR(255) NOT NULL UNIQUE
-)
-
-
 ----DIRECCIONES----
 CREATE TABLE LOS_SINEQUI.Direcciones (
 	id_direccion INTEGER PRIMARY KEY IDENTITY(1, 1),
@@ -66,7 +57,7 @@ CREATE TABLE LOS_SINEQUI.Direcciones (
 	cp NVARCHAR(5),
 	piso NVARCHAR(2),
 	dpto NVARCHAR(2),
-	ciudad INTEGER FOREIGN KEY REFERENCES LOS_SINEQUI.Ciudades NOT NULL
+	localidad NVARCHAR(255)
 )
 
 ----CLIENTES----
@@ -217,19 +208,14 @@ INSERT INTO LOS_SINEQUI.Usuarios (username, password, habilitado)
 		FROM gd_esquema.Maestra
 		WHERE Cli_Nombre IS NOT NULL AND Cli_Apellido IS NOT NULL
 
-INSERT INTO LOS_SINEQUI.Ciudades(nombre) 
-	SELECT DISTINCT Cli_Ciudad FROM gd_esquema.Maestra
-
-INSERT INTO LOS_SINEQUI.Direcciones (direccion,ciudad,cp,dpto,piso)
-	SELECT DISTINCT m.Cli_Direccion, c.id_ciudad, '-', '-', '-' FROM gd_esquema.Maestra m
-	JOIN LOS_SINEQUI.Ciudades c ON c.nombre = m.Cli_Ciudad
+INSERT INTO LOS_SINEQUI.Direcciones (direccion,localidad,cp,dpto,piso)
+	SELECT DISTINCT m.Cli_Direccion, m.Cli_Ciudad, '-', '-', '-' FROM gd_esquema.Maestra m
 	
 
 INSERT INTO LOS_SINEQUI.Clientes (username, nombre, apellido, dni, mail, telefono, fecha_nac, habilitado,id_direccion)
 	SELECT DISTINCT Cli_Dni, UPPER(Cli_Nombre), UPPER(Cli_Apellido), Cli_Dni, Cli_Mail, Cli_Telefono, Cli_Fecha_Nac, 1, d.id_direccion
 		FROM gd_esquema.Maestra
 		JOIN LOS_SINEQUI.Direcciones d ON Cli_Direccion = d.direccion
-		JOIN LOS_SINEQUI.Ciudades c ON d.ciudad = c.id_ciudad
 		WHERE Cli_Nombre IS NOT NULL AND Cli_Apellido IS NOT NULL
 
 UPDATE LOS_SINEQUI.Clientes SET habilitado = 0
