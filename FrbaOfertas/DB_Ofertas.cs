@@ -35,7 +35,7 @@ namespace FrbaOfertas
         public static Modelos.Usuario login(String username, String password)
         {
 
-            setCmd("SELECT username, password from Usuarios WHERE username = @username AND password = @password AND habilitado = 1");
+            setCmd("SELECT username, password from LOS_SINEQUI.Usuarios WHERE username = @username AND password = @password AND habilitado = 1");
             cmd.Parameters.AddWithValue("@username", username);
             cmd.Parameters.AddWithValue("@password", Hash.GetHash(password));
 
@@ -61,7 +61,7 @@ namespace FrbaOfertas
         public static List<Modelos.Rol> getRoles(String usuario)
         {
 
-            setCmd("SELECT r.id_rol, r.nombre from Roles r JOIN Rol_Usuario ru ON ru.id_rol = r.id_rol WHERE ru.username = @usuario and r.habilitado = 1");
+            setCmd("SELECT r.id_rol, r.nombre from LOS_SINEQUI.Roles r JOIN LOS_SINEQUI.Rol_Usuario ru ON ru.id_rol = r.id_rol WHERE ru.username = @usuario and r.habilitado = 1");
 
             cmd.Parameters.AddWithValue("@usuario", usuario);
 
@@ -90,7 +90,7 @@ namespace FrbaOfertas
         public static List<Modelos.Funcionalidad> getFuncionalidades(int id_rol)
         {
 
-            setCmd("SELECT f.id_func,f.nombre, f.descripcion FROM Funcionalidades f JOIN Rol_Funcionalidad rf ON rf.id_func = f.id_func WHERE rf.id_rol = @rol AND habilitado = 1 ");
+            setCmd("SELECT f.id_func,f.nombre, f.descripcion FROM LOS_SINEQUI.Funcionalidades f JOIN LOS_SINEQUI.Rol_Funcionalidad rf ON rf.id_func = f.id_func WHERE rf.id_rol = @rol AND habilitado = 1 ");
 
             cmd.Parameters.AddWithValue("@rol", id_rol);
 
@@ -118,7 +118,7 @@ namespace FrbaOfertas
                                         String calle, String piso, String dpto, String localidad, String cp, String dni)
         {
 
-            setCmd("select count(username) from Usuarios where username = @username");
+            setCmd("select count(username) from LOS_SINEQUI.Usuarios where username = @username");
 
             cmd.Parameters.AddWithValue("@username", username);
 
@@ -137,7 +137,7 @@ namespace FrbaOfertas
 
 
             // chequeo unicidad de mail
-            setCmd("select count(mail) from Clientes where mail = @mail");
+            setCmd("select count(mail) from LOS_SINEQUI.Clientes where mail = @mail");
 
             cmd.Parameters.AddWithValue("@mail", mail);
 
@@ -146,7 +146,7 @@ namespace FrbaOfertas
             int cantidadMailCliente = reader.GetInt32(0);
             reader.Close();
 
-            setCmd("select count(mail) from Proveedores where mail= '" + mail + "'");
+            setCmd("select count(mail) from LOS_SINEQUI.Proveedores where mail= '" + mail + "'");
 
             cmd.Parameters.AddWithValue("@mail", mail);
 
@@ -163,7 +163,7 @@ namespace FrbaOfertas
             }
 
             // chequeo unicidad dni
-            setCmd("select count(dni) from Clientes where dni = @dni");
+            setCmd("select count(dni) from LOS_SINEQUI.Clientes where dni = @dni");
 
             cmd.Parameters.AddWithValue("@dni", dni);
 
@@ -179,7 +179,7 @@ namespace FrbaOfertas
             }
 
 
-            setCmd("insert into Usuarios (username,password,habilitado)" +
+            setCmd("insert into LOS_SINEQUI.Usuarios (username,password,habilitado)" +
                    "values (@username, @password, 1)");
 
             cmd.Parameters.AddWithValue("@username", username);
@@ -188,7 +188,7 @@ namespace FrbaOfertas
             cmd.ExecuteNonQuery();
 
 
-            setCmd("insert into Direcciones (direccion, cp, piso, dpto, localidad)" +
+            setCmd("insert into LOS_SINEQUI.Direcciones (direccion, cp, piso, dpto, localidad)" +
                     "values (@calle, @cp, @piso, @dpto, @localidad)");
 
             cmd.Parameters.AddWithValue("@calle", calle);
@@ -198,7 +198,7 @@ namespace FrbaOfertas
             cmd.Parameters.AddWithValue("@localidad", localidad);
             cmd.ExecuteNonQuery();
 
-            setCmd("select id_direccion from Direcciones where direccion = @calle and cp = @cp and piso = @piso and dpto = @dpto and localidad = @localidad");
+            setCmd("select id_direccion from LOS_SINEQUI.Direcciones where direccion = @calle and cp = @cp and piso = @piso and dpto = @dpto and localidad = @localidad");
 
             cmd.Parameters.AddWithValue("@calle", calle);
             cmd.Parameters.AddWithValue("@cp", cp);
@@ -211,7 +211,7 @@ namespace FrbaOfertas
             int idDireccion = reader.GetInt32(0);
             reader.Close();
 
-            setCmd("insert into Clientes (username,nombre,apellido,dni,mail,telefono,id_direccion,fecha_nac,credito,habilitado)" +
+            setCmd("insert into LOS_SINEQUI.Clientes (username,nombre,apellido,dni,mail,telefono,id_direccion,fecha_nac,credito,habilitado)" +
                 "values (@username, @nombre, @apellido, @dni, @mail, @telefono, @idDireccion, @fechaNac,200.00,1)");
 
             cmd.Parameters.AddWithValue("@username", username);
@@ -235,8 +235,8 @@ namespace FrbaOfertas
             List<Modelos.Cliente> clientes = null;
 
             setCmd("SELECT c.username, c.nombre, c.apellido, c.dni, c.mail, c.telefono, d.direccion, d.cp, d.piso, d.dpto, d.localidad, c.fecha_nac, c.credito, c.habilitado " +
-                   "FROM Clientes c " +
-                   "JOIN Direcciones d ON c.id_direccion = d.id_direccion ");
+                   "FROM LOS_SINEQUI.Clientes c " +
+                   "JOIN LOS_SINEQUI.Direcciones d ON c.id_direccion = d.id_direccion ");
             reader = cmd.ExecuteReader();
 
             if (!reader.HasRows)
@@ -277,17 +277,17 @@ namespace FrbaOfertas
             List<Modelos.Cliente> clientes = null;
 
             setCmd("SELECT c.username, c.nombre, c.apellido, c.dni, c.mail, c.telefono, d.direccion, d.cp, d.piso, d.dpto, d.localidad, c.fecha_nac, c.credito, c.habilitado " +
-                    "FROM Clientes c " +
-                    "JOIN Direcciones d ON c.id_direccion = d.id_direccion " +
-                    "WHERE "+
+                    "FROM LOS_SINEQUI..Clientes c " +
+                    "JOIN LOS_SINEQUI..Direcciones d ON c.id_direccion = d.id_direccion " +
+                    "WHERE " +
                     "c.nombre LIKE @nombre  AND " +
                     "c.apellido LIKE @apellido AND " +
                     "c.mail LIKE @mail");
 
-            cmd.Parameters.AddWithValue("@nombre","%" + nombre + "%");
-            cmd.Parameters.AddWithValue("@apellido","%" + apellido + "%");
+            cmd.Parameters.AddWithValue("@nombre", "%" + nombre + "%");
+            cmd.Parameters.AddWithValue("@apellido", "%" + apellido + "%");
             cmd.Parameters.AddWithValue("@mail", "%" + mail + "%");
-            
+
             reader = cmd.ExecuteReader();
 
             if (!reader.HasRows)
@@ -328,18 +328,18 @@ namespace FrbaOfertas
             List<Modelos.Cliente> clientes = null;
 
             setCmd("SELECT c.username, c.nombre, c.apellido, c.dni, c.mail, c.telefono, d.direccion, d.cp, d.piso, d.dpto, d.localidad, c.fecha_nac, c.credito, c.habilitado " +
-                    "FROM Clientes c " +
-                    "JOIN Direcciones d ON c.id_direccion = d.id_direccion " +
+                    "FROM LOS_SINEQUI.Clientes c " +
+                    "JOIN LOS_SINEQUI.Direcciones d ON c.id_direccion = d.id_direccion " +
                     "WHERE " +
                     "c.nombre LIKE @nombre AND " +
                     "c.apellido LIKE  @apellido AND " +
-                    "c.mail LIKE @mail AND "+
+                    "c.mail LIKE @mail AND " +
                     "c.dni = @dni");
 
             cmd.Parameters.AddWithValue("@nombre", "%" + nombre + "%");
-            cmd.Parameters.AddWithValue("@apellido","%" + apellido + "%");
+            cmd.Parameters.AddWithValue("@apellido", "%" + apellido + "%");
             cmd.Parameters.AddWithValue("@mail", "%" + mail + "%");
-            cmd.Parameters.AddWithValue("@dni",dni);
+            cmd.Parameters.AddWithValue("@dni", dni);
 
             reader = cmd.ExecuteReader();
 
@@ -383,8 +383,8 @@ namespace FrbaOfertas
             List<Modelos.Oferta> ofertas = null;
 
             setCmd("SELECT o.id_oferta, p.razon_social, o.descripcion, o.fecha_pub, o.fecha_vec, o.precio_rebajado, o.max_cliente, o.stock " +
-                    "FROM Ofertas o " +
-                    "JOIN Proveedores p ON p.username = o.username");
+                    "FROM LOS_SINEQUI.Ofertas o " +
+                    "JOIN LOS_SINEQUI.Proveedores p ON p.username = o.username");
             reader = cmd.ExecuteReader();
 
             if (!reader.HasRows)
@@ -449,15 +449,15 @@ namespace FrbaOfertas
             }
 
             setCmd("SELECT o.id_oferta, p.razon_social, o.descripcion, o.fecha_pub, o.fecha_vec, o.precio_rebajado, o.max_cliente, o.stock " +
-                    "FROM Ofertas o " +
-                    "JOIN Proveedores p ON p.username = o.username " +
+                    "FROM LOS_SINEQUI.Ofertas o " +
+                    "JOIN LOS_SINEQUI.Proveedores p ON p.username = o.username " +
                     "WHERE " + conditions);
-            
+
             cmd.Parameters.AddWithValue("@raz_soc", "%" + raz_soc + "%");
             cmd.Parameters.AddWithValue("@desc", "%" + desc + "%");
             cmd.Parameters.AddWithValue("@precio_min", precioMin);
             cmd.Parameters.AddWithValue("@precio_max", precioMax);
-            
+
             reader = cmd.ExecuteReader();
 
             if (!reader.HasRows)
@@ -493,7 +493,7 @@ namespace FrbaOfertas
 
             for (int i = 0; i < cant; i++)
             {
-                query += "INSERT INTO Cupones (username, id_oferta, fecha_compra) " +
+                query += "INSERT INTO LOS_SINEQUI.Cupones (username, id_oferta, fecha_compra) " +
                             "VALUES(@username, @oferta, @fecha) ";
             }
 
@@ -524,9 +524,9 @@ namespace FrbaOfertas
             List<Modelos.Cupon> cupones = null;
 
             setCmd("SELECT c.id_cupon, c.username, c.id_oferta, o.descripcion, c.fecha_compra, cl.nombre, cl.apellido " +
-                    "FROM Cupones c " +
-                    "JOIN Ofertas o ON o.id_oferta = c.id_oferta " +
-                    "JOIN Clientes cl ON cl.username = c.username " +
+                    "FROM LOS_SINEQUI.Cupones c " +
+                    "JOIN LOS_SINEQUI.Ofertas o ON o.id_oferta = c.id_oferta " +
+                    "JOIN LOS_SINEQUI.Clientes cl ON cl.username = c.username " +
                     "WHERE o.username = @username AND c.fecha_entrega IS NULL ");
             cmd.Parameters.AddWithValue("username", proveedor);
             reader = cmd.ExecuteReader();
@@ -592,9 +592,9 @@ namespace FrbaOfertas
             }
 
             setCmd("SELECT c.id_cupon, c.username, c.id_oferta, o.descripcion, c.fecha_compra, cl.nombre, cl.apellido " +
-                    "FROM Cupones c " +
-                    "JOIN Ofertas o ON o.id_oferta = c.id_oferta " +
-                    "JOIN Clientes cl ON cl.username = c.username " +
+                    "FROM LOS_SINEQUI.Cupones c " +
+                    "JOIN LOS_SINEQUI.Ofertas o ON o.id_oferta = c.id_oferta " +
+                    "JOIN LOS_SINEQUI.Clientes cl ON cl.username = c.username " +
                     "WHERE o.username = @proveedor AND c.fecha_entrega IS NULL AND " + conditions);
             cmd.Parameters.AddWithValue("@proveedor", proveedor);
             if (!string.IsNullOrEmpty(cliente) && !string.IsNullOrWhiteSpace(cliente)) cmd.Parameters.AddWithValue("@cliente", "%" + cliente + "%");
@@ -634,7 +634,7 @@ namespace FrbaOfertas
         {
             String query = "BEGIN TRANSACTION ";
 
-            query += "UPDATE Cupones SET fecha_entrega = @fecha " +
+            query += "UPDATE LOS_SINEQUI.Cupones SET fecha_entrega = @fecha " +
                         "WHERE id_cupon = @cupon ";
 
             query += "IF @@ERROR = 0 COMMIT ELSE ROLLBACK";
@@ -661,7 +661,7 @@ namespace FrbaOfertas
 
         public static bool dniExists(String dni)
         {
-            setCmd("SELECT 1 FROM Clientes c WHERE c.dni = @dni");
+            setCmd("SELECT 1 FROM LOS_SINEQUI.Clientes c WHERE c.dni = @dni");
             cmd.Parameters.AddWithValue("@dni", dni);
 
             reader = cmd.ExecuteReader();
@@ -679,9 +679,9 @@ namespace FrbaOfertas
 
         public static bool mailExists(String mail)
         {
-            setCmd("SELECT 1 FROM Clientes c WHERE c.mail = @mail");
+            setCmd("SELECT 1 FROM LOS_SINEQUI.Clientes c WHERE c.mail = @mail");
             cmd.Parameters.AddWithValue("@mail", mail);
-            
+
             reader = cmd.ExecuteReader();
             if (reader.HasRows)
             {
@@ -694,10 +694,11 @@ namespace FrbaOfertas
                 return false;
             }
         }
-     
-        public static void updateCliente(Modelos.Cliente cliente){
 
-            setCmd("SELECT id_direccion FROM Clientes c WHERE  c.username = @username");
+        public static void updateCliente(Modelos.Cliente cliente)
+        {
+
+            setCmd("SELECT id_direccion FROM LOS_SINEQUI.Clientes c WHERE  c.username = @username");
             cmd.Parameters.AddWithValue("@username", cliente.Username);
 
             reader = cmd.ExecuteReader();
@@ -709,28 +710,28 @@ namespace FrbaOfertas
                 idDireccion = reader.GetInt32(0);
                 reader.Close();
             }
-                
-                
-            setCmd("UPDATE Clientes SET "+
-                                    "nombre = @nombre, "+
-                                    "apellido = @apellido, "+
-                                    "dni = @dni, "+
-                                    "mail = @mail, "+
-                                    "telefono = @telefono, "+
-                                    "fecha_nac = @fechanac, "+
-                                    "credito = @credito, "+
-                                    "habilitado = @habilitado "+
+
+
+            setCmd("UPDATE LOS_SINEQUI.Clientes SET " +
+                                    "nombre = @nombre, " +
+                                    "apellido = @apellido, " +
+                                    "dni = @dni, " +
+                                    "mail = @mail, " +
+                                    "telefono = @telefono, " +
+                                    "fecha_nac = @fechanac, " +
+                                    "credito = @credito, " +
+                                    "habilitado = @habilitado " +
                                     "WHERE username = @username");
 
             cmd.Parameters.AddWithValue("@nombre", cliente.Nombre);
-            cmd.Parameters.AddWithValue("@apellido",cliente.Apellido);
-            cmd.Parameters.AddWithValue("@dni",cliente.Dni);
-            cmd.Parameters.AddWithValue("@mail",cliente.Mail);
-            cmd.Parameters.AddWithValue("@telefono",cliente.Telefono);
-            cmd.Parameters.AddWithValue("@fechanac",cliente.FechaNac);
-            cmd.Parameters.AddWithValue("@credito",cliente.Credito);
-            cmd.Parameters.AddWithValue("@habilitado",cliente.habilitado);
-            cmd.Parameters.AddWithValue("@username",cliente.Username);
+            cmd.Parameters.AddWithValue("@apellido", cliente.Apellido);
+            cmd.Parameters.AddWithValue("@dni", cliente.Dni);
+            cmd.Parameters.AddWithValue("@mail", cliente.Mail);
+            cmd.Parameters.AddWithValue("@telefono", cliente.Telefono);
+            cmd.Parameters.AddWithValue("@fechanac", cliente.FechaNac);
+            cmd.Parameters.AddWithValue("@credito", cliente.Credito);
+            cmd.Parameters.AddWithValue("@habilitado", cliente.habilitado);
+            cmd.Parameters.AddWithValue("@username", cliente.Username);
 
             if (cmd.ExecuteNonQuery() == 0)
             {
@@ -740,7 +741,7 @@ namespace FrbaOfertas
 
             if (idDireccion != -1)
             {
-                setCmd("UPDATE Direcciones SET " +
+                setCmd("UPDATE LOS_SINEQUI.Direcciones SET " +
                     "direccion = @direccion, " +
                     "cp = @cp, " +
                     "piso = @piso, " +
@@ -757,15 +758,15 @@ namespace FrbaOfertas
 
                 cmd.ExecuteNonQuery();
             }
-                
+
 
             MessageBox.Show("Cliente actualizado con exito", "Actualizar cliente", MessageBoxButtons.OK, MessageBoxIcon.Information);
             return;
-        }          
+        }
 
         public static List<Modelos.Proveedor> getProveedoresFacturacion()
         {
-            setCmd("SELECT username, razon_social FROM Proveedores WHERE habilitado = 1 ORDER BY 2");
+            setCmd("SELECT username, razon_social FROM LOS_SINEQUI.Proveedores WHERE habilitado = 1 ORDER BY 2");
 
             reader = cmd.ExecuteReader();
 
@@ -796,8 +797,8 @@ namespace FrbaOfertas
         public static List<Modelos.Cupon> getCupones(String proveedor, DateTime desde, DateTime hasta)
         {
             setCmd("SELECT c.id_cupon, c.username, o.descripcion, c.fecha_compra " +
-                    "FROM Cupones c " +
-                    "JOIN Ofertas o ON o.id_oferta = c.id_oferta " +
+                    "FROM LOS_SINEQUI.Cupones c " +
+                    "JOIN LOS_SINEQUI.Ofertas o ON o.id_oferta = c.id_oferta " +
                     "WHERE c.facturado = 0 " +
                     "AND o.username = @proveedor " +
                     "AND c.fecha_compra >= @desde " +
@@ -837,7 +838,7 @@ namespace FrbaOfertas
 
         public static Modelos.Factura facturarCupones(Modelos.Proveedor proveedor, DateTime desde, DateTime hasta)
         {
-            setCmd("INSERT INTO Facturas (username, fecha) " +
+            setCmd("INSERT INTO LOS_SINEQUI.Facturas (username, fecha) " +
                         "VALUES (@idProveedor, @fechaActual)");
 
             cmd.Parameters.AddWithValue("@idProveedor", proveedor.username);
@@ -846,17 +847,17 @@ namespace FrbaOfertas
             cmd.ExecuteNonQuery();
 
 
-            setCmd("SELECT TOP 1 id_factura FROM Facturas ORDER BY 1 DESC");
+            setCmd("SELECT TOP 1 id_factura FROM LOS_SINEQUI.Facturas ORDER BY 1 DESC");
             reader = cmd.ExecuteReader();
             reader.Read();
             int idFactura = reader.GetInt32(0);
             reader.Close();
 
 
-            setCmd("INSERT INTO Renglones (id_factura, id_oferta, cant) " +
+            setCmd("INSERT INTO LOS_SINEQUI.Renglones (id_factura, id_oferta, cant) " +
                         "SELECT	@idFactura,o.id_oferta,count(cu.id_cupon) " +
-                        "FROM Ofertas o " +
-                        "JOIN Cupones cu ON cu.id_oferta = o.id_oferta " +
+                        "FROM LOS_SINEQUI.Ofertas o " +
+                        "JOIN LOS_SINEQUI.Cupones cu ON cu.id_oferta = o.id_oferta " +
                         "WHERE o.username = @proveedor " +
                         "AND o.fecha_pub >= @desde " +
                         "AND o.fecha_pub <= @hasta " +
@@ -870,10 +871,10 @@ namespace FrbaOfertas
 
             cmd.ExecuteNonQuery();
 
-            setCmd("UPDATE Cupones SET facturado = 1 " +
+            setCmd("UPDATE LOS_SINEQUI.Cupones SET facturado = 1 " +
                     "FROM ( SELECT c.id_cupon as id " +
-                            "FROM Cupones c " +
-                            "JOIN Ofertas o ON o.id_oferta = c.id_oferta " +
+                            "FROM LOS_SINEQUI.Cupones c " +
+                            "JOIN LOS_SINEQUI.Ofertas o ON o.id_oferta = c.id_oferta " +
                             "WHERE c.facturado = 0 " +
                             "AND o.username = @proveedor " +
                             "AND c.fecha_compra >= @desde " +
@@ -886,8 +887,8 @@ namespace FrbaOfertas
             cmd.ExecuteNonQuery();
 
 
-            setCmd("SELECT SUM((r.cant * o.precio_rebajado)*0.1) FROM Renglones r " +
-                    "JOIN Ofertas o ON r.id_oferta = o.id_oferta " +
+            setCmd("SELECT SUM((r.cant * o.precio_rebajado)*0.1) FROM LOS_SINEQUI.Renglones r " +
+                    "JOIN LOS_SINEQUI.Ofertas o ON r.id_oferta = o.id_oferta " +
                     "WHERE r.id_factura = @idFactura");
             cmd.Parameters.AddWithValue("@idFactura", idFactura);
 
@@ -902,7 +903,7 @@ namespace FrbaOfertas
             reader.Close();
 
 
-            setCmd("UPDATE Facturas SET monto = @monto WHERE id_factura = @idFactura");
+            setCmd("UPDATE LOS_SINEQUI.Facturas SET monto = @monto WHERE id_factura = @idFactura");
             cmd.Parameters.AddWithValue("@idFactura", idFactura);
             cmd.Parameters.AddWithValue("@monto", monto);
 
