@@ -17,6 +17,11 @@ namespace FrbaOfertas.CragaCredito
             InitializeComponent();
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void label1_Click(object sender, EventArgs e)
         {
 
@@ -31,5 +36,12 @@ namespace FrbaOfertas.CragaCredito
         {
 
         }
+
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            (new Login.Funcionalidad(Session.getRol())).Show();
+            this.Hide();
+        }
+        
     }
 }

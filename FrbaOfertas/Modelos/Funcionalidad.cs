@@ -33,7 +33,7 @@ namespace FrbaOfertas.Modelos
                     break;
 
                 case 4:
-                    //(new CragaCredito.CargaCredito()).Show();
+                    (new CragaCredito.CargaCredito()).Show();
                     break;
 
                 case 5:
