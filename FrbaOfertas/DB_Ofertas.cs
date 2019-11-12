@@ -916,5 +916,44 @@ namespace FrbaOfertas
 
             return factura;
         }
+    
+        /// /////////////PROVEEDORES///////////////////
+   
+        public static List<Modelos.Proveedor> getProveedores()
+        {
+            List<Modelos.Proveedor> proveedores = null;
+
+            setCmd("SELECT o.id_oferta, p.razon_social, o.descripcion, o.fecha_pub, o.fecha_vec, o.precio_rebajado, o.max_cliente, o.stock " +
+                    "FROM LOS_SINEQUI.Ofertas o " +
+                    "JOIN LOS_SINEQUI.Proveedores p ON p.username = o.username");
+            reader = cmd.ExecuteReader();
+
+            if (!reader.HasRows)
+            {
+                reader.Close();
+                return ofertas;
+            }
+
+            ofertas = new List<Modelos.Oferta>();
+
+            while (reader.Read())
+            {
+                Modelos.Oferta oferta = new Modelos.Oferta();
+                oferta.Id = reader.GetInt32(0);
+                oferta.Proveedor = reader.GetString(1);
+                oferta.Descripcion = reader.GetString(2);
+                oferta.FechaPublicacion = reader.GetDateTime(3).Date;
+                oferta.FechaVencimiento = reader.GetDateTime(4).Date;
+                oferta.Precio = reader.GetDecimal(5);
+                oferta.MaxPorCliente = reader.GetInt32(6);
+                oferta.CantDisponible = reader.GetInt32(7);
+
+                ofertas.Add(oferta);
+            }
+
+            reader.Close();
+            return ofertas;
+        }
+
     }
 }
