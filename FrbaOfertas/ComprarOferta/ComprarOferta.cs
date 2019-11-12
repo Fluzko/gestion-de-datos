@@ -26,14 +26,17 @@ namespace FrbaOfertas.ComprarOferta
         {
             gridOfertas.DataSource = ofertas;
             //gridOfertas.AutoResizeColumns();
-            gridOfertas.Rows[0].Selected = true;
-            current = getRow(0);
-            int maxCliente = ((Modelos.Oferta)gridOfertas.Rows[0].DataBoundItem).MaxPorCliente;
-            int cantDisponible = ((Modelos.Oferta)gridOfertas.Rows[0].DataBoundItem).CantDisponible;
-            if (maxCliente < cantDisponible)
-                numCantidad.Maximum = maxCliente;
-            else
-                numCantidad.Maximum = cantDisponible;
+            if (ofertas != null)
+            {
+                gridOfertas.Rows[0].Selected = true;
+                current = getRow(0);
+                int maxCliente = ((Modelos.Oferta)gridOfertas.Rows[0].DataBoundItem).MaxPorCliente;
+                int cantDisponible = ((Modelos.Oferta)gridOfertas.Rows[0].DataBoundItem).CantDisponible;
+                if (maxCliente < cantDisponible)
+                    numCantidad.Maximum = maxCliente;
+                else
+                    numCantidad.Maximum = cantDisponible;
+            }
         }
 
         private void gridOfertas_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -79,6 +82,11 @@ namespace FrbaOfertas.ComprarOferta
             if (searchables.All(searchable => string.IsNullOrEmpty(searchable) || string.IsNullOrWhiteSpace(searchable)))
             {
                 ofertas = DB_Ofertas.getOfertas();
+                if (ofertas == null)
+                {
+                    MessageBox.Show("No hay ofertas disponibles", "Compra Ofertas", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
                 showOfertas(ofertas);
                 return;
             }
@@ -112,6 +120,18 @@ namespace FrbaOfertas.ComprarOferta
         private void txtPrecioMax_KeyPress(object sender, KeyPressEventArgs e)
         {
             Validar.numerico(e);
+        }
+
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            this.Volver();
+        }
+
+        private void Volver()
+        {
+            (new Login.Funcionalidad(Session.getRol())).Show();
+            this.Hide();
+            this.Close();
         }
     }
 }

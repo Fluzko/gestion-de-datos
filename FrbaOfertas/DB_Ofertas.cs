@@ -35,7 +35,7 @@ namespace FrbaOfertas
         public static Modelos.Usuario login(String username, String password)
         {
 
-            setCmd("SELECT username, password from LOS_SINEQUI.Usuarios WHERE username = @username AND password = @password AND habilitado = 1");
+            setCmd("SELECT username, password, habilitado from LOS_SINEQUI.Usuarios WHERE username = @username AND password = @password");
             cmd.Parameters.AddWithValue("@username", username);
             cmd.Parameters.AddWithValue("@password", Hash.GetHash(password));
 
@@ -46,7 +46,7 @@ namespace FrbaOfertas
             if (reader.HasRows)
             {
                 reader.Read();
-                Modelos.Usuario usuario = new Modelos.Usuario(reader.GetString(0));
+                Modelos.Usuario usuario = new Modelos.Usuario(reader.GetString(0), reader.GetBoolean(2));
                 reader.Close();
                 return usuario;
             }
@@ -384,7 +384,9 @@ namespace FrbaOfertas
 
             setCmd("SELECT o.id_oferta, p.razon_social, o.descripcion, o.fecha_pub, o.fecha_vec, o.precio_rebajado, o.max_cliente, o.stock " +
                     "FROM LOS_SINEQUI.Ofertas o " +
-                    "JOIN LOS_SINEQUI.Proveedores p ON p.username = o.username");
+                    "JOIN LOS_SINEQUI.Proveedores p ON p.username = o.username " +
+                    "WHERE o.fecha_pub <= @hoy AND o.fecha_vec >= @hoy");
+            cmd.Parameters.AddWithValue("@hoy", Properties.Settings.Default.Fecha);
             reader = cmd.ExecuteReader();
 
             if (!reader.HasRows)

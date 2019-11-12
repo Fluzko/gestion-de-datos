@@ -51,7 +51,7 @@ namespace FrbaOfertas.ConsumirOferta
 
         private void btnBaja_Click(object sender, EventArgs e)
         {
-            DialogResult res = MessageBox.Show("¿Desea dar de baja el cupon n°" + current.Id + "?", "Consumir Ofertas", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+            DialogResult res = MessageBox.Show("¿Desea canjear el cupon n°" + current.Id + "?", "Consumir Ofertas", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
 
             if (res == DialogResult.OK)
             {

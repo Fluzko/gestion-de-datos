@@ -42,6 +42,7 @@
             this.btnComprar = new System.Windows.Forms.Button();
             this.lblCantidad = new System.Windows.Forms.Label();
             this.numCantidad = new System.Windows.Forms.NumericUpDown();
+            this.btnVolver = new System.Windows.Forms.Button();
             lblProveedor = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.gridOfertas)).BeginInit();
             this.grpFiltros.SuspendLayout();
@@ -67,7 +68,7 @@
             this.gridOfertas.Name = "gridOfertas";
             this.gridOfertas.ReadOnly = true;
             this.gridOfertas.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridOfertas.Size = new System.Drawing.Size(807, 393);
+            this.gridOfertas.Size = new System.Drawing.Size(807, 361);
             this.gridOfertas.TabIndex = 0;
             this.gridOfertas.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridOfertas_CellClick);
             // 
@@ -190,11 +191,23 @@
             this.numCantidad.Size = new System.Drawing.Size(120, 20);
             this.numCantidad.TabIndex = 9;
             // 
+            // btnVolver
+            // 
+            this.btnVolver.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.btnVolver.Location = new System.Drawing.Point(12, 538);
+            this.btnVolver.Name = "btnVolver";
+            this.btnVolver.Size = new System.Drawing.Size(79, 30);
+            this.btnVolver.TabIndex = 10;
+            this.btnVolver.Text = "Volver";
+            this.btnVolver.UseVisualStyleBackColor = true;
+            this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
+            // 
             // ComprarOferta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(831, 576);
+            this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.numCantidad);
             this.Controls.Add(this.lblCantidad);
             this.Controls.Add(this.btnComprar);
@@ -227,5 +240,6 @@
         private System.Windows.Forms.Button btnComprar;
         private System.Windows.Forms.Label lblCantidad;
         private System.Windows.Forms.NumericUpDown numCantidad;
+        private System.Windows.Forms.Button btnVolver;
     }
 }

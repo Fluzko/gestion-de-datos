@@ -65,8 +65,8 @@ CREATE TABLE LOS_SINEQUI.Clientes (
 	username NVARCHAR(255) PRIMARY KEY FOREIGN KEY REFERENCES LOS_SINEQUI.Usuarios,
 	nombre NVARCHAR(255) NOT NULL,
 	apellido NVARCHAR(255) NOT NULL,
-	dni INTEGER NOT NULL,
-	mail NVARCHAR(255),
+	dni INTEGER NOT NULL UNIQUE,
+	mail NVARCHAR(255) UNIQUE,
 	telefono INTEGER,
 	id_direccion INTEGER FOREIGN KEY REFERENCES LOS_SINEQUI.Direcciones,
 	fecha_nac DATETIME NOT NULL,
@@ -88,7 +88,7 @@ CREATE TABLE LOS_SINEQUI.Proveedores (
 	username NVARCHAR(255) PRIMARY KEY FOREIGN KEY REFERENCES LOS_SINEQUI.Usuarios,
 	razon_social NVARCHAR(255) NOT NULL UNIQUE,
 	telefono INTEGER,
-	mail NVARCHAR(255),
+	mail NVARCHAR(255) UNIQUE,
 	id_direccion INTEGER FOREIGN KEY REFERENCES LOS_SINEQUI.Direcciones,
 	cuit NCHAR(13) NOT NULL UNIQUE,
 	rubro INTEGER FOREIGN KEY REFERENCES LOS_SINEQUI.Rubros NOT NULL,
@@ -276,13 +276,11 @@ VALUES
 
 INSERT INTO LOS_SINEQUI.Rol_Usuario (id_rol, username)
 	SELECT DISTINCT 1, c.username from LOS_SINEQUI.Clientes c
-	WHERE c.habilitado = 1
 
 INSERT INTO LOS_SINEQUI.Rol_Usuario (id_rol, username)
 	SELECT DISTINCT 2,
 		p.username
 FROM LOS_SINEQUI.Proveedores p
-WHERE p.habilitado = 1
 
 /*Funcionalidades de cliente*/
 INSERT INTO LOS_SINEQUI.Rol_Funcionalidad (id_rol, id_func)
