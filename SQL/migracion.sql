@@ -396,3 +396,9 @@ CREATE TRIGGER tr_actualizarStock ON LOS_SINEQUI.Cupones AFTER INSERT AS BEGIN T
 COMMIT
 GO
 
+CREATE TRIGGER tr_actualizarCredito ON LOS_SINEQUI.Cupones AFTER INSERT AS BEGIN TRANSACTION
+	UPDATE LOS_SINEQUI.Clientes
+	SET credito = credito - (SELECT precio_rebajado FROM inserted JOIN LOS_SINEQUI.Ofertas ON Ofertas.id_oferta = inserted.id_oferta)
+	WHERE username = (SELECT username FROM inserted)
+COMMIT
+GO

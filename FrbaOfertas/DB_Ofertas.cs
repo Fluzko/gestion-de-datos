@@ -508,6 +508,24 @@ namespace FrbaOfertas
 
             query += "IF @@ERROR = 0 COMMIT ELSE ROLLBACK";
 
+            setCmd("SELECT credito FROM LOS_SINEQUI.Clientes WHERE username = @username");
+
+            cmd.Parameters.AddWithValue("@username", usuario.getUsername());
+
+            reader = cmd.ExecuteReader();
+            reader.Read();
+
+            Decimal credito = reader.GetDecimal(0);
+
+            reader.Close();
+
+            if (credito < oferta.Precio * cant)
+            {
+                MessageBox.Show("No dispone de saldo suficiente", "Comprar Ofertas", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                reader.Close();
+                return;
+            }
+
             setCmd(query);
 
             cmd.Parameters.AddWithValue("@username", usuario.getUsername());
@@ -516,8 +534,8 @@ namespace FrbaOfertas
 
             try
             {
-                reader = cmd.ExecuteReader();
-                reader.Close();
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("La compra fue realizada con exito", "Comprar Ofertas", MessageBoxButtons.OK, MessageBoxIcon.None);
             }
             catch (SqlException e)
             {
