@@ -50,15 +50,20 @@ namespace FrbaOfertas.Login
             //consulta  a la DB
             Modelos.Usuario usuario = DB_Ofertas.login(this.username, this.password);
 
-            if (usuario != null){
+            if (usuario != null && usuario.habilitado){
                 //pantalla de seleccion de rol
                  Rol r = new Rol(usuario);
                  r.Show();
                 this.Hide();
             }
-            else{
+            else if (usuario != null && !usuario.habilitado)
+            {
+                MessageBox.Show("El usuario se encuentra deshabilitado", "Error");
+            } 
+            else
+            {
                 if (this.intentos <= 3) { this.intentos++; }
-              
+
                 if (this.intentos > 3)
                 {
                     this.usuarioBloqueado = this.username;
@@ -67,7 +72,7 @@ namespace FrbaOfertas.Login
                 }
                 else
                 {
-                    MessageBox.Show("Usuario o contrasena invalida, intentos restantes: "+(3 - this.intentos)+"","Error");
+                    MessageBox.Show("Usuario o contrasena invalida, intentos restantes: " + (3 - this.intentos) + "", "Error");
                     return;
                 }
             }
