@@ -26,5 +26,10 @@ namespace FrbaOfertas.AbmRol
         {
 
         }
+
+        private void btnNuevoRol_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

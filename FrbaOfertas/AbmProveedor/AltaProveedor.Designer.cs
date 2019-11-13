@@ -1,6 +1,6 @@
 ﻿namespace FrbaOfertas.AbmProveedor
 {
-    partial class AbmProveedor
+    partial class AltaProveedor
     {
         /// <summary>
         /// Required designer variable.
@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.textRubro = new System.Windows.Forms.TextBox();
+            this.Rubro = new System.Windows.Forms.Label();
+            this.textNombreContacto = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.buttonVolver = new System.Windows.Forms.Button();
             this.buttonAlta = new System.Windows.Forms.Button();
@@ -53,18 +56,21 @@
             this.label12 = new System.Windows.Forms.Label();
             this.textLocalidad = new System.Windows.Forms.TextBox();
             this.textCP = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.Rubro = new System.Windows.Forms.Label();
-            this.textRubro = new System.Windows.Forms.TextBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.textContra = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.textUsuario = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.textRubro);
             this.groupBox1.Controls.Add(this.Rubro);
-            this.groupBox1.Controls.Add(this.textBox1);
+            this.groupBox1.Controls.Add(this.textNombreContacto);
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.buttonVolver);
             this.groupBox1.Controls.Add(this.buttonAlta);
@@ -79,14 +85,38 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.textRazonSocial);
             this.groupBox1.Controls.Add(this.groupBox2);
-            this.groupBox1.Location = new System.Drawing.Point(13, 13);
+            this.groupBox1.Location = new System.Drawing.Point(21, 144);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Size = new System.Drawing.Size(900, 434);
+            this.groupBox1.Size = new System.Drawing.Size(900, 394);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Datos proveedor";
+            // 
+            // textRubro
+            // 
+            this.textRubro.Location = new System.Drawing.Point(400, 122);
+            this.textRubro.Name = "textRubro";
+            this.textRubro.Size = new System.Drawing.Size(223, 22);
+            this.textRubro.TabIndex = 31;
+            // 
+            // Rubro
+            // 
+            this.Rubro.AutoSize = true;
+            this.Rubro.Location = new System.Drawing.Point(346, 126);
+            this.Rubro.Name = "Rubro";
+            this.Rubro.Size = new System.Drawing.Size(51, 17);
+            this.Rubro.TabIndex = 30;
+            this.Rubro.Text = "Rubro:";
+            // 
+            // textNombreContacto
+            // 
+            this.textNombreContacto.Location = new System.Drawing.Point(155, 123);
+            this.textNombreContacto.Name = "textNombreContacto";
+            this.textNombreContacto.Size = new System.Drawing.Size(169, 22);
+            this.textNombreContacto.TabIndex = 29;
+            this.textNombreContacto.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textNombreContacto_KeyPress);
             // 
             // label8
             // 
@@ -107,6 +137,7 @@
             this.buttonVolver.TabIndex = 26;
             this.buttonVolver.Text = "Volver";
             this.buttonVolver.UseVisualStyleBackColor = true;
+            this.buttonVolver.Click += new System.EventHandler(this.buttonVolver_Click);
             // 
             // buttonAlta
             // 
@@ -117,6 +148,7 @@
             this.buttonAlta.TabIndex = 25;
             this.buttonAlta.Text = "Confirmar";
             this.buttonAlta.UseVisualStyleBackColor = true;
+            this.buttonAlta.Click += new System.EventHandler(this.buttonAlta_Click);
             // 
             // buttonLimpiar
             // 
@@ -127,6 +159,7 @@
             this.buttonLimpiar.TabIndex = 24;
             this.buttonLimpiar.Text = "Limpiar";
             this.buttonLimpiar.UseVisualStyleBackColor = true;
+            this.buttonLimpiar.Click += new System.EventHandler(this.buttonLimpiar_Click);
             // 
             // label6
             // 
@@ -156,6 +189,7 @@
             this.textTelefono.Name = "textTelefono";
             this.textTelefono.Size = new System.Drawing.Size(213, 22);
             this.textTelefono.TabIndex = 8;
+            this.textTelefono.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textTelefono_KeyPress);
             // 
             // label4
             // 
@@ -194,6 +228,7 @@
             this.textCUIT.Name = "textCUIT";
             this.textCUIT.Size = new System.Drawing.Size(172, 22);
             this.textCUIT.TabIndex = 4;
+            this.textCUIT.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textCUIT_KeyPress);
             // 
             // label1
             // 
@@ -282,6 +317,7 @@
             this.textPiso.Name = "textPiso";
             this.textPiso.Size = new System.Drawing.Size(53, 22);
             this.textPiso.TabIndex = 15;
+            this.textPiso.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textTelefono_KeyPress);
             // 
             // label11
             // 
@@ -330,41 +366,75 @@
             this.textCP.Size = new System.Drawing.Size(88, 22);
             this.textCP.TabIndex = 21;
             // 
-            // textBox1
+            // groupBox3
             // 
-            this.textBox1.Location = new System.Drawing.Point(155, 123);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(169, 22);
-            this.textBox1.TabIndex = 29;
+            this.groupBox3.Controls.Add(this.label14);
+            this.groupBox3.Controls.Add(this.textContra);
+            this.groupBox3.Controls.Add(this.label13);
+            this.groupBox3.Controls.Add(this.textUsuario);
+            this.groupBox3.Location = new System.Drawing.Point(21, 13);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBox3.Size = new System.Drawing.Size(327, 123);
+            this.groupBox3.TabIndex = 3;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Usuario y contraseña";
             // 
-            // Rubro
+            // label14
             // 
-            this.Rubro.AutoSize = true;
-            this.Rubro.Location = new System.Drawing.Point(346, 126);
-            this.Rubro.Name = "Rubro";
-            this.Rubro.Size = new System.Drawing.Size(51, 17);
-            this.Rubro.TabIndex = 30;
-            this.Rubro.Text = "Rubro:";
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(1, 84);
+            this.label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(85, 17);
+            this.label14.TabIndex = 34;
+            this.label14.Text = "Contraseña:";
             // 
-            // textRubro
+            // textContra
             // 
-            this.textRubro.Location = new System.Drawing.Point(400, 122);
-            this.textRubro.Name = "textRubro";
-            this.textRubro.Size = new System.Drawing.Size(223, 22);
-            this.textRubro.TabIndex = 31;
+            this.textContra.Location = new System.Drawing.Point(91, 80);
+            this.textContra.Margin = new System.Windows.Forms.Padding(4);
+            this.textContra.MaxLength = 255;
+            this.textContra.Name = "textContra";
+            this.textContra.PasswordChar = '*';
+            this.textContra.Size = new System.Drawing.Size(209, 22);
+            this.textContra.TabIndex = 33;
             // 
-            // AbmProveedor
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(25, 28);
+            this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(61, 17);
+            this.label13.TabIndex = 32;
+            this.label13.Text = "Usuario:";
+            // 
+            // textUsuario
+            // 
+            this.textUsuario.Location = new System.Drawing.Point(91, 25);
+            this.textUsuario.Margin = new System.Windows.Forms.Padding(4);
+            this.textUsuario.MaxLength = 255;
+            this.textUsuario.Name = "textUsuario";
+            this.textUsuario.Size = new System.Drawing.Size(209, 22);
+            this.textUsuario.TabIndex = 31;
+            // 
+            // AltaProveedor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(935, 466);
+            this.ClientSize = new System.Drawing.Size(935, 546);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
-            this.Name = "AbmProveedor";
+            this.Name = "AltaProveedor";
             this.Text = "Alta Proveedor";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -396,8 +466,13 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox textLocalidad;
         private System.Windows.Forms.TextBox textCP;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textNombreContacto;
         private System.Windows.Forms.TextBox textRubro;
         private System.Windows.Forms.Label Rubro;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox textContra;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox textUsuario;
     }
 }

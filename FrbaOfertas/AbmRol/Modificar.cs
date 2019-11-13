@@ -16,5 +16,10 @@ namespace FrbaOfertas.AbmRol
         {
             InitializeComponent();
         }
+
+        private void tablaFuncionalidades_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

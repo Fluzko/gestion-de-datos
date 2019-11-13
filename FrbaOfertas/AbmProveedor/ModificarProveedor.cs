@@ -10,11 +10,17 @@ using System.Windows.Forms;
 
 namespace FrbaOfertas.AbmProveedor
 {
-    public partial class ModificarProveedores : Form
+    public partial class ModificarProveedor : Form
     {
-        public ModificarProveedores()
+        private String username { get; set; }
+        private String razonProvActual, mailProvActual;
+
+        public ModificarProveedor()
         {
             InitializeComponent();
+            Decoracion.Reorganizar(this);
+            comboHabilitado.Items.Add("Habilitado");
+            comboHabilitado.Items.Add("Deshabilitado");
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -24,7 +30,9 @@ namespace FrbaOfertas.AbmProveedor
 
         private void buttonLimpiar_Click(object sender, EventArgs e)
         {
-
+            textRazonSocialB.Clear();
+            textCUITB.Clear();         
+            textMail.Clear();
         }
 
         private void ModificarProveedores_Load(object sender, EventArgs e)
@@ -40,12 +48,12 @@ namespace FrbaOfertas.AbmProveedor
             if (searchables.All(searchable => string.IsNullOrEmpty(searchable) || string.IsNullOrWhiteSpace(searchable)))
             {
 
-                List<Modelos.Cliente> clientes = DB_Ofertas.getClientes();
+                List<Modelos.Proveedor> proveedores = DB_Ofertas.getProveedores();
 
-                if (clientes == null)
+                if (proveedores == null)
                 {
                     Console.WriteLine(textCUITB.Text);
-                    MessageBox.Show("No hay clientes", "Modificar cliente", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("No hay proveedores", "Modificar proveedor", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
 
@@ -55,14 +63,14 @@ namespace FrbaOfertas.AbmProveedor
                     input.Clear();
                 }
                 dissableButtons();
-                showClients(clientes);
+                showProveedores(proveedores);
                 return;
             }
 
-            //si no ingresa dni
+            //si no ingresa razon social
             if (string.IsNullOrWhiteSpace(textRazonSocialB.Text) || string.IsNullOrEmpty(textRazonSocialB.Text))
             {
-                List<Modelos.Proveedor> clientes = DB_Ofertas.getProveedores(textCUITB.Text, textApellidoB.Text, textEmailB.Text);
+                List<Modelos.Proveedor> proveedores = DB_Ofertas.getProveedores(textCUITB.Text, textEmailB.Text);
 
                 if (proveedores == null)
                 {
@@ -81,7 +89,7 @@ namespace FrbaOfertas.AbmProveedor
             }
             else
             {
-                List<Modelos.Proveedor> proveedores = DB_Ofertas.getProveedores(textCUITB.Text, textEmailB.Text, textRazonSocialB.Text);
+                List<Modelos.Proveedor> proveedores = DB_Ofertas.getProveedores(textRazonSocialB.Text, textCUITB.Text, textEmailB.Text);
 
                 if (proveedores == null)
                 {
@@ -132,9 +140,125 @@ namespace FrbaOfertas.AbmProveedor
             }
          
         }
-      
-    }
 
+        private void btnModificar_Click(object sender, EventArgs e)
+        {
+        if (requiredInputs().Any(input => string.IsNullOrEmpty(input.Text) || string.IsNullOrWhiteSpace(input.Text)))
+            {
+                MessageBox.Show("Faltan llenar campos obligatorios", "Modificar proveedor", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
+            if (!Validar.validateEmail(textMail.Text))
+            {
+                MessageBox.Show("Formato de email invalido", "Modificar proveedor", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (textMail.Text != this.mailProvActual)
+            {
+                if (DB_Ofertas.mailExistsProv(textMail.Text))
+                {
+                    MessageBox.Show("El email que intenta modificar ya esta asociado a un proveedor", "Modificar proveedor", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+
+            if (textRazonSocial.Text != this.razonProvActual)
+            {
+                if (DB_Ofertas.razonExists(textRazonSocial.Text))
+                {
+                    MessageBox.Show("La razon que intenta modificar ya esta asociada a un proveedor", "Modificar proveedor", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+
+            Modelos.Proveedor proveedorUpdate = new Modelos.Proveedor();
+            proveedorUpdate.Username = username;
+            proveedorUpdate.RazonSocial = textRazonSocial.Text;
+            proveedorUpdate.Rubro = textRubro.Text;
+            proveedorUpdate.NombreContacto = textNombreContacto.Text;
+            proveedorUpdate.Mail = textMail.Text;
+            proveedorUpdate.Telefono = int.Parse(textTel.Text);
+            proveedorUpdate.Direccion = textCalle.Text;
+            if (string.IsNullOrEmpty(textPiso.Text) || string.IsNullOrWhiteSpace(textPiso.Text))
+                proveedorUpdate.Cp = "-";
+            else
+                proveedorUpdate.Cp = textCP.Text;
+            if (string.IsNullOrEmpty(textDpto.Text) || string.IsNullOrWhiteSpace(textDpto.Text))
+                proveedorUpdate.Dpto = "-";
+            else
+                proveedorUpdate.Dpto = textDpto.Text;
+            if (string.IsNullOrEmpty(textPiso.Text) || string.IsNullOrWhiteSpace(textPiso.Text))
+                proveedorUpdate.Piso = "-";
+            else
+                proveedorUpdate.Piso = textPiso.Text;
+            proveedorUpdate.Localidad = textLoc.Text;
+            proveedorUpdate.habilitado = habilitadoToBool(comboHabilitado.SelectedItem.ToString());
+
+            DB_Ofertas.updateProveedor(proveedorUpdate);
+        }
+
+        private TextBox[] requiredInputs()
+        {
+            TextBox[] i = { textRazonSocial, textCUIT, textNombreContacto, textRubro, textMail, textTel, textCalle, textLoc};
+            return i;
+        }
+
+        private void proveedoresGrid_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int i = e.RowIndex;
+
+            DataGridViewRow selectedRow = proveedoresGrid.Rows[i];
+            Modelos.Proveedor proveedor = ((Modelos.Proveedor)selectedRow.DataBoundItem);
+            username = proveedor.Username;
+            textRazonSocial.Text = proveedor.RazonSocial.ToString();
+            razonProvActual = proveedor.RazonSocial.ToString();
+            textCUIT.Text = proveedor.Cuit;
+            textMail.Text = proveedor.Mail;
+            mailProvActual = proveedor.Mail;
+            textTel.Text = proveedor.Telefono.ToString();
+            textPiso.Text = proveedor.Piso.ToString();
+            textCalle.Text = proveedor.Direccion;
+            textCP.Text = proveedor.Cp.ToString();
+            textDpto.Text = proveedor.Dpto;
+            textLoc.Text = proveedor.Localidad;
+            comboHabilitado.SelectedIndex = comboHabilitado.FindString(habilitadoToString(proveedor));
+
+            foreach (TextBox input in modificableInputs())
+            {
+                input.Enabled = true;
+            }
+            enableButtons();
+        }
+
+        private String habilitadoToString(Modelos.Proveedor proveedor)
+        {
+            if (proveedor.habilitado) return "Habilitado";
+            else return "Deshabilitado";
+        }
+
+        private bool habilitadoToBool(String habilitado)
+        {
+            if (habilitado == "Habilitado") return true;
+            else return false;
+        }
+
+        private void enableButtons()
+        {
+            Button[] buttons = { btnModificar };
+
+            foreach (Button button in buttons)
+            {
+                button.Enabled = true;
+            }
+            comboHabilitado.Enabled = true;
+        }
+
+        private void buttonCerrar_Click(object sender, EventArgs e)
+        {
+            (new AbmProveedores()).Show();
+            this.Hide();
+        }
     }
 }

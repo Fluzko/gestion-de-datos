@@ -1,6 +1,6 @@
 ﻿namespace FrbaOfertas.AbmProveedor
 {
-    partial class ModificarProveedores
+    partial class ModificarProveedor
     {
         /// <summary>
         /// Required designer variable.
@@ -62,6 +62,8 @@
             this.textLoc = new System.Windows.Forms.TextBox();
             this.textCP = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.comboHabilitado = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.proveedoresGrid)).BeginInit();
             this.SuspendLayout();
@@ -289,6 +291,7 @@
             this.btnModificar.TabIndex = 98;
             this.btnModificar.Text = "Modificar";
             this.btnModificar.UseVisualStyleBackColor = true;
+            this.btnModificar.Click += new System.EventHandler(this.btnModificar_Click);
             // 
             // buttonCerrar
             // 
@@ -299,6 +302,7 @@
             this.buttonCerrar.TabIndex = 99;
             this.buttonCerrar.Text = "Cerrar";
             this.buttonCerrar.UseVisualStyleBackColor = true;
+            this.buttonCerrar.Click += new System.EventHandler(this.buttonCerrar_Click);
             // 
             // label3
             // 
@@ -416,11 +420,35 @@
             this.label9.TabIndex = 111;
             this.label9.Text = "Piso:";
             // 
-            // ModificarProveedores
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(246, 290);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(80, 17);
+            this.label4.TabIndex = 113;
+            this.label4.Text = "*Habilitado:";
+            // 
+            // comboHabilitado
+            // 
+            this.comboHabilitado.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.comboHabilitado.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboHabilitado.Enabled = false;
+            this.comboHabilitado.FormattingEnabled = true;
+            this.comboHabilitado.Location = new System.Drawing.Point(336, 285);
+            this.comboHabilitado.Margin = new System.Windows.Forms.Padding(4);
+            this.comboHabilitado.Name = "comboHabilitado";
+            this.comboHabilitado.Size = new System.Drawing.Size(160, 24);
+            this.comboHabilitado.TabIndex = 112;
+            // 
+            // ModificarProveedor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(993, 717);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.comboHabilitado);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.textCalle);
             this.Controls.Add(this.label7);
@@ -447,7 +475,7 @@
             this.Controls.Add(this.textCUIT);
             this.Controls.Add(this.proveedoresGrid);
             this.Controls.Add(this.groupBox1);
-            this.Name = "ModificarProveedores";
+            this.Name = "ModificarProveedor";
             this.Text = "Modificar Proveedor";
             this.Load += new System.EventHandler(this.ModificarProveedores_Load);
             this.groupBox1.ResumeLayout(false);
@@ -494,5 +522,7 @@
         private System.Windows.Forms.TextBox textLoc;
         private System.Windows.Forms.TextBox textCP;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox comboHabilitado;
     }
 }

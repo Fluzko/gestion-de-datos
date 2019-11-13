@@ -167,11 +167,6 @@ namespace FrbaOfertas.AbmCliente
             calendario.Hide();
         }
 
-        private void Alta_Load(object sender, EventArgs e)
-        {
-
-        }
-
 
     }
 }

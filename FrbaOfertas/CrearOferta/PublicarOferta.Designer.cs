@@ -37,15 +37,19 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.monthCalendar1 = new System.Windows.Forms.MonthCalendar();
-            this.monthCalendar2 = new System.Windows.Forms.MonthCalendar();
+            this.calendarFechaPublicacion = new System.Windows.Forms.MonthCalendar();
+            this.calendarFechaVencimiento = new System.Windows.Forms.MonthCalendar();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.textCantMax = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.textProveedor = new System.Windows.Forms.TextBox();
+            this.buttonPublicar = new System.Windows.Forms.Button();
+            this.buttonCerrar = new System.Windows.Forms.Button();
+            this.textFechaPublicacion = new System.Windows.Forms.TextBox();
+            this.textFechaVencimiento = new System.Windows.Forms.TextBox();
+            this.buttonSelecFechaPub = new System.Windows.Forms.Button();
+            this.buttonSelecFechaVen = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textDescripcion
@@ -54,6 +58,7 @@
             this.textDescripcion.Name = "textDescripcion";
             this.textDescripcion.Size = new System.Drawing.Size(263, 22);
             this.textDescripcion.TabIndex = 23;
+            this.textDescripcion.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textDescripcion_KeyPress);
             // 
             // textStockDisp
             // 
@@ -61,6 +66,7 @@
             this.textStockDisp.Name = "textStockDisp";
             this.textStockDisp.Size = new System.Drawing.Size(262, 22);
             this.textStockDisp.TabIndex = 22;
+            this.textStockDisp.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textStockDisp_KeyPress);
             // 
             // textPrecioLista
             // 
@@ -68,6 +74,7 @@
             this.textPrecioLista.Name = "textPrecioLista";
             this.textPrecioLista.Size = new System.Drawing.Size(262, 22);
             this.textPrecioLista.TabIndex = 21;
+            this.textPrecioLista.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textPrecioLista_KeyPress);
             // 
             // textPrecioOferta
             // 
@@ -75,6 +82,7 @@
             this.textPrecioOferta.Name = "textPrecioOferta";
             this.textPrecioOferta.Size = new System.Drawing.Size(262, 22);
             this.textPrecioOferta.TabIndex = 20;
+            this.textPrecioOferta.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textPrecioOferta_KeyPress);
             // 
             // label1
             // 
@@ -122,17 +130,21 @@
             this.label5.TabIndex = 28;
             this.label5.Text = "Fecha Publicacion:";
             // 
-            // monthCalendar1
+            // calendarFechaPublicacion
             // 
-            this.monthCalendar1.Location = new System.Drawing.Point(16, 230);
-            this.monthCalendar1.Name = "monthCalendar1";
-            this.monthCalendar1.TabIndex = 29;
+            this.calendarFechaPublicacion.Location = new System.Drawing.Point(16, 237);
+            this.calendarFechaPublicacion.Name = "calendarFechaPublicacion";
+            this.calendarFechaPublicacion.TabIndex = 29;
+            this.calendarFechaPublicacion.Visible = false;
+            this.calendarFechaPublicacion.Leave += new System.EventHandler(this.calendarFechaPublicacion_Leave);
             // 
-            // monthCalendar2
+            // calendarFechaVencimiento
             // 
-            this.monthCalendar2.Location = new System.Drawing.Point(337, 230);
-            this.monthCalendar2.Name = "monthCalendar2";
-            this.monthCalendar2.TabIndex = 31;
+            this.calendarFechaVencimiento.Location = new System.Drawing.Point(337, 235);
+            this.calendarFechaVencimiento.Name = "calendarFechaVencimiento";
+            this.calendarFechaVencimiento.TabIndex = 31;
+            this.calendarFechaVencimiento.Visible = false;
+            this.calendarFechaVencimiento.Leave += new System.EventHandler(this.calendarFechaVencimiento_Leave);
             // 
             // label6
             // 
@@ -158,6 +170,7 @@
             this.textCantMax.Name = "textCantMax";
             this.textCantMax.Size = new System.Drawing.Size(203, 22);
             this.textCantMax.TabIndex = 33;
+            this.textCantMax.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textCantMax_KeyPress);
             // 
             // label8
             // 
@@ -168,45 +181,83 @@
             this.label8.TabIndex = 34;
             this.label8.Text = "Proveedor (Razon Social):";
             // 
-            // textBox1
+            // textProveedor
             // 
-            this.textBox1.Location = new System.Drawing.Point(189, 462);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(224, 22);
-            this.textBox1.TabIndex = 35;
+            this.textProveedor.Location = new System.Drawing.Point(189, 462);
+            this.textProveedor.Name = "textProveedor";
+            this.textProveedor.Size = new System.Drawing.Size(224, 22);
+            this.textProveedor.TabIndex = 35;
             // 
-            // button1
+            // buttonPublicar
             // 
-            this.button1.Location = new System.Drawing.Point(486, 517);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(119, 30);
-            this.button1.TabIndex = 36;
-            this.button1.Text = "Publicar";
-            this.button1.UseVisualStyleBackColor = true;
+            this.buttonPublicar.Location = new System.Drawing.Point(486, 517);
+            this.buttonPublicar.Name = "buttonPublicar";
+            this.buttonPublicar.Size = new System.Drawing.Size(119, 30);
+            this.buttonPublicar.TabIndex = 36;
+            this.buttonPublicar.Text = "Publicar";
+            this.buttonPublicar.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // buttonCerrar
             // 
-            this.button2.Location = new System.Drawing.Point(19, 517);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(121, 30);
-            this.button2.TabIndex = 37;
-            this.button2.Text = "Cerrar";
-            this.button2.UseVisualStyleBackColor = true;
+            this.buttonCerrar.Location = new System.Drawing.Point(19, 517);
+            this.buttonCerrar.Name = "buttonCerrar";
+            this.buttonCerrar.Size = new System.Drawing.Size(121, 30);
+            this.buttonCerrar.TabIndex = 37;
+            this.buttonCerrar.Text = "Cerrar";
+            this.buttonCerrar.UseVisualStyleBackColor = true;
+            // 
+            // textFechaPublicacion
+            // 
+            this.textFechaPublicacion.Location = new System.Drawing.Point(146, 209);
+            this.textFechaPublicacion.Name = "textFechaPublicacion";
+            this.textFechaPublicacion.ReadOnly = true;
+            this.textFechaPublicacion.Size = new System.Drawing.Size(100, 22);
+            this.textFechaPublicacion.TabIndex = 38;
+            // 
+            // textFechaVencimiento
+            // 
+            this.textFechaVencimiento.Location = new System.Drawing.Point(473, 209);
+            this.textFechaVencimiento.Name = "textFechaVencimiento";
+            this.textFechaVencimiento.ReadOnly = true;
+            this.textFechaVencimiento.Size = new System.Drawing.Size(95, 22);
+            this.textFechaVencimiento.TabIndex = 39;
+            // 
+            // buttonSelecFechaPub
+            // 
+            this.buttonSelecFechaPub.Location = new System.Drawing.Point(59, 250);
+            this.buttonSelecFechaPub.Name = "buttonSelecFechaPub";
+            this.buttonSelecFechaPub.Size = new System.Drawing.Size(159, 35);
+            this.buttonSelecFechaPub.TabIndex = 40;
+            this.buttonSelecFechaPub.Text = "Seleccionar fecha";
+            this.buttonSelecFechaPub.UseVisualStyleBackColor = true;
+            this.buttonSelecFechaPub.Click += new System.EventHandler(this.buttonSelecFechaPub_Click);
+            // 
+            // buttonSelecFechaVen
+            // 
+            this.buttonSelecFechaVen.Location = new System.Drawing.Point(401, 250);
+            this.buttonSelecFechaVen.Name = "buttonSelecFechaVen";
+            this.buttonSelecFechaVen.Size = new System.Drawing.Size(150, 34);
+            this.buttonSelecFechaVen.TabIndex = 41;
+            this.buttonSelecFechaVen.Text = "Seleccionar fecha";
+            this.buttonSelecFechaVen.UseVisualStyleBackColor = true;
+            this.buttonSelecFechaVen.Click += new System.EventHandler(this.buttonSelecFechaVen_Click);
             // 
             // PublicarOferta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(617, 554);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.buttonSelecFechaVen);
+            this.Controls.Add(this.buttonSelecFechaPub);
+            this.Controls.Add(this.textFechaVencimiento);
+            this.Controls.Add(this.textFechaPublicacion);
+            this.Controls.Add(this.buttonCerrar);
+            this.Controls.Add(this.buttonPublicar);
+            this.Controls.Add(this.textProveedor);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.textCantMax);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.monthCalendar2);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.monthCalendar1);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -216,6 +267,8 @@
             this.Controls.Add(this.textStockDisp);
             this.Controls.Add(this.textPrecioLista);
             this.Controls.Add(this.textPrecioOferta);
+            this.Controls.Add(this.calendarFechaPublicacion);
+            this.Controls.Add(this.calendarFechaVencimiento);
             this.Name = "PublicarOferta";
             this.Text = "Publicar Ofertas";
             this.ResumeLayout(false);
@@ -234,14 +287,18 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.MonthCalendar monthCalendar1;
-        private System.Windows.Forms.MonthCalendar monthCalendar2;
+        private System.Windows.Forms.MonthCalendar calendarFechaPublicacion;
+        private System.Windows.Forms.MonthCalendar calendarFechaVencimiento;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox textCantMax;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.TextBox textProveedor;
+        private System.Windows.Forms.Button buttonPublicar;
+        private System.Windows.Forms.Button buttonCerrar;
+        private System.Windows.Forms.TextBox textFechaPublicacion;
+        private System.Windows.Forms.TextBox textFechaVencimiento;
+        private System.Windows.Forms.Button buttonSelecFechaPub;
+        private System.Windows.Forms.Button buttonSelecFechaVen;
     }
 }

@@ -39,36 +39,42 @@
             // 
             this.groupBox1.Controls.Add(this.btnLista);
             this.groupBox1.Controls.Add(this.btnNuevoRol);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(16, 15);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(168, 110);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Size = new System.Drawing.Size(224, 135);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Acciones:";
             // 
             // btnLista
             // 
-            this.btnLista.Location = new System.Drawing.Point(11, 71);
+            this.btnLista.Location = new System.Drawing.Point(15, 87);
+            this.btnLista.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnLista.Name = "btnLista";
-            this.btnLista.Size = new System.Drawing.Size(151, 23);
+            this.btnLista.Size = new System.Drawing.Size(201, 28);
             this.btnLista.TabIndex = 1;
             this.btnLista.Text = "Listado de roles";
             this.btnLista.UseVisualStyleBackColor = true;
             // 
             // btnNuevoRol
             // 
-            this.btnNuevoRol.Location = new System.Drawing.Point(11, 29);
+            this.btnNuevoRol.Location = new System.Drawing.Point(15, 36);
+            this.btnNuevoRol.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnNuevoRol.Name = "btnNuevoRol";
-            this.btnNuevoRol.Size = new System.Drawing.Size(151, 23);
+            this.btnNuevoRol.Size = new System.Drawing.Size(201, 28);
             this.btnNuevoRol.TabIndex = 0;
             this.btnNuevoRol.Text = "Alta de un nuevo Rol";
             this.btnNuevoRol.UseVisualStyleBackColor = true;
+            this.btnNuevoRol.Click += new System.EventHandler(this.btnNuevoRol_Click);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(60, 138);
+            this.button1.Location = new System.Drawing.Point(80, 170);
+            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(100, 28);
             this.button1.TabIndex = 2;
             this.button1.Text = "Volver";
             this.button1.UseVisualStyleBackColor = true;
@@ -76,11 +82,12 @@
             // 
             // AbmRol
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(201, 173);
+            this.ClientSize = new System.Drawing.Size(268, 213);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button1);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "AbmRol";
             this.Text = "Accion rol";
             this.Load += new System.EventHandler(this.AbmRol_Load);
