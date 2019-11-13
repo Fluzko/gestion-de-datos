@@ -133,5 +133,16 @@ namespace FrbaOfertas.ComprarOferta
             this.Hide();
             this.Close();
         }
+
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            this.txtDescripcion.Clear();
+            this.txtProveedor.Clear();
+            this.txtPrecioMin.Clear();
+            this.txtPrecioMax.Clear();
+            this.numCantidad.Value = 0;
+            List<Modelos.Oferta> ofertas = DB_Ofertas.getOfertas();
+            showOfertas(ofertas);
+        }
     }
 }

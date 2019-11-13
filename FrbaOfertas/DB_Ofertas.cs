@@ -225,6 +225,13 @@ namespace FrbaOfertas
 
             cmd.ExecuteNonQuery();
 
+            setCmd("insert into LOS_SINEQUI.Rol_Usuario (id_rol,username)" +
+                "values (1, @username)");
+
+            cmd.Parameters.AddWithValue("@username", username);
+
+            cmd.ExecuteNonQuery();
+
             return true;
         }
 

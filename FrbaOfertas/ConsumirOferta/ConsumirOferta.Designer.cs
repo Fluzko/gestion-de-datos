@@ -32,6 +32,7 @@
             System.Windows.Forms.Label lblDescripcion;
             this.gridCupones = new System.Windows.Forms.DataGridView();
             this.grpFiltros = new System.Windows.Forms.GroupBox();
+            this.txtDescripcion = new System.Windows.Forms.TextBox();
             this.txtIdOferta = new System.Windows.Forms.TextBox();
             this.lblIdOferta = new System.Windows.Forms.Label();
             this.txtIdCupon = new System.Windows.Forms.TextBox();
@@ -40,7 +41,7 @@
             this.btnFiltrar = new System.Windows.Forms.Button();
             this.btnBaja = new System.Windows.Forms.Button();
             this.btnVolver = new System.Windows.Forms.Button();
-            this.txtDescripcion = new System.Windows.Forms.TextBox();
+            this.btnLimpiar = new System.Windows.Forms.Button();
             lblCliente = new System.Windows.Forms.Label();
             lblDescripcion = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.gridCupones)).BeginInit();
@@ -55,6 +56,15 @@
             lblCliente.Size = new System.Drawing.Size(51, 17);
             lblCliente.TabIndex = 0;
             lblCliente.Text = "Cliente";
+            // 
+            // lblDescripcion
+            // 
+            lblDescripcion.AutoSize = true;
+            lblDescripcion.Location = new System.Drawing.Point(6, 63);
+            lblDescripcion.Name = "lblDescripcion";
+            lblDescripcion.Size = new System.Drawing.Size(82, 17);
+            lblDescripcion.TabIndex = 12;
+            lblDescripcion.Text = "Descripcion";
             // 
             // gridCupones
             // 
@@ -87,6 +97,13 @@
             this.grpFiltros.TabIndex = 3;
             this.grpFiltros.TabStop = false;
             this.grpFiltros.Text = "Filtros";
+            // 
+            // txtDescripcion
+            // 
+            this.txtDescripcion.Location = new System.Drawing.Point(91, 63);
+            this.txtDescripcion.Name = "txtDescripcion";
+            this.txtDescripcion.Size = new System.Drawing.Size(295, 23);
+            this.txtDescripcion.TabIndex = 13;
             // 
             // txtIdOferta
             // 
@@ -143,11 +160,11 @@
             // btnBaja
             // 
             this.btnBaja.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.btnBaja.Location = new System.Drawing.Point(708, 135);
+            this.btnBaja.Location = new System.Drawing.Point(730, 135);
             this.btnBaja.Name = "btnBaja";
-            this.btnBaja.Size = new System.Drawing.Size(97, 30);
+            this.btnBaja.Size = new System.Drawing.Size(75, 30);
             this.btnBaja.TabIndex = 5;
-            this.btnBaja.Text = "Dar de baja";
+            this.btnBaja.Text = "Canjear";
             this.btnBaja.UseVisualStyleBackColor = true;
             this.btnBaja.Click += new System.EventHandler(this.btnBaja_Click);
             // 
@@ -162,27 +179,23 @@
             this.btnVolver.UseVisualStyleBackColor = true;
             this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
             // 
-            // lblDescripcion
+            // btnLimpiar
             // 
-            lblDescripcion.AutoSize = true;
-            lblDescripcion.Location = new System.Drawing.Point(6, 63);
-            lblDescripcion.Name = "lblDescripcion";
-            lblDescripcion.Size = new System.Drawing.Size(82, 17);
-            lblDescripcion.TabIndex = 12;
-            lblDescripcion.Text = "Descripcion";
-            // 
-            // txtDescripcion
-            // 
-            this.txtDescripcion.Location = new System.Drawing.Point(91, 63);
-            this.txtDescripcion.Name = "txtDescripcion";
-            this.txtDescripcion.Size = new System.Drawing.Size(295, 23);
-            this.txtDescripcion.TabIndex = 13;
+            this.btnLimpiar.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.btnLimpiar.Location = new System.Drawing.Point(106, 135);
+            this.btnLimpiar.Name = "btnLimpiar";
+            this.btnLimpiar.Size = new System.Drawing.Size(79, 30);
+            this.btnLimpiar.TabIndex = 7;
+            this.btnLimpiar.Text = "Limpiar";
+            this.btnLimpiar.UseVisualStyleBackColor = true;
+            this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
             // 
             // ConsumirOferta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(831, 576);
+            this.Controls.Add(this.btnLimpiar);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.btnBaja);
             this.Controls.Add(this.btnFiltrar);
@@ -211,5 +224,6 @@
         private System.Windows.Forms.Button btnBaja;
         private System.Windows.Forms.Button btnVolver;
         private System.Windows.Forms.TextBox txtDescripcion;
+        private System.Windows.Forms.Button btnLimpiar;
     }
 }

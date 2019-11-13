@@ -125,5 +125,16 @@ namespace FrbaOfertas.ConsumirOferta
                 this.Volver();
             }
         }
+
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            this.txtCliente.Clear();
+            this.txtDescripcion.Clear();
+            this.txtIdCupon.Clear();
+            this.txtIdOferta.Clear();
+            List<Modelos.Cupon> cupones = DB_Ofertas.getCupones(Session.getUser().getUsername());
+            if (cupones != null ) 
+                showCupones(cupones);
+        }
     }
 }
