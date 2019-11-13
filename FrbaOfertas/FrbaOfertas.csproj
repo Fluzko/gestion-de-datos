@@ -107,8 +107,16 @@
     <Compile Include="AbmRol\Alta.Designer.cs">
       <DependentUpon>Alta.cs</DependentUpon>
     </Compile>
+    <Compile Include="CragaCredito\AgregarTarjeta.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CragaCredito\AgregarTarjeta.Designer.cs">
+      <DependentUpon>AgregarTarjeta.cs</DependentUpon>
+    </Compile>
     <Compile Include="Decoracion.cs" />
     <Compile Include="ConectorDB.cs" />
+    <Compile Include="Modelos\TipoPago.cs" />
+    <Compile Include="Modelos\Tarjeta.cs" />
     <Compile Include="Modelos\Oferta.cs" />
     <Compile Include="Facturar\Facturar.cs">
       <SubType>Form</SubType>
@@ -200,6 +208,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ComprarOferta\ComprarOferta.resx">
       <DependentUpon>ComprarOferta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CragaCredito\AgregarTarjeta.resx">
+      <DependentUpon>AgregarTarjeta.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CragaCredito\CargaCredito.resx">
       <DependentUpon>CargaCredito.cs</DependentUpon>

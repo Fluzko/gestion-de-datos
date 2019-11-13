@@ -764,5 +764,58 @@ namespace FrbaOfertas
 
             return factura;
         }
+
+        public static List<Modelos.Tarjeta> getTarjetasParaUsuario(Modelos.Cliente cliente){
+            /*setCmd("SELECT r.id_rol, r.nombre from Roles r JOIN Rol_Usuario ru ON ru.id_rol = r.id_rol WHERE ru.username = @usuario and r.habilitado = 1");
+
+            cmd.Parameters.AddWithValue("@usuario", usuario);
+
+            reader = cmd.ExecuteReader();
+
+            List<Modelos.Rol> roles = new List<Modelos.Rol>();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    Modelos.Rol rol = new Modelos.Rol(reader.GetInt32(0), reader.GetString(1));
+                    roles.Add(rol);
+                }
+                reader.Close();
+                return roles;
+            }
+            else
+            {
+                reader.Close();
+                return null;
+            }*/
+            return null;
+        }
+
+        public static List<Modelos.TipoPago> getTiposDePago() {
+            setCmd("SELECT t.id_tipo, t.nombre from TiposPago t");
+
+            reader = cmd.ExecuteReader();
+
+            List<Modelos.TipoPago> tiposPago = new List<Modelos.TipoPago>();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    Modelos.TipoPago tipoPago = new Modelos.TipoPago(reader.GetInt32(0), reader.GetString(1));
+                    tiposPago.Add(tipoPago);
+                }
+                reader.Close();
+                return tiposPago;
+            }
+            else
+            {
+                reader.Close();
+                return null;
+            }
+        }
+
+        
     }
 }
