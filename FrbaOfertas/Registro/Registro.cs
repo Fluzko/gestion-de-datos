@@ -31,9 +31,9 @@ namespace FrbaOfertas.Registro
             this.Hide();
         }
 
-        private void btnListaClientes_Click(object sender, EventArgs e)
+        private void buttonRegistroProveedor_Click(object sender, EventArgs e)
         {
-            //(new AbmProveedor.Alta()).Show();
+            (new AbmProveedor.AltaProveedor()).Show();
             this.Hide();
         }
 

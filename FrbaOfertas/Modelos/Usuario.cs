@@ -9,9 +9,12 @@ namespace FrbaOfertas.Modelos
     public class Usuario
     {
         private String username;
+        public Boolean habilitado { get; set; }
 
-        public Usuario(String username){
+        public Usuario(String username, Boolean habilitado)
+        {
             this.username = username;
+            this.habilitado = habilitado;
         }
 
         public List<Rol> getRoles()

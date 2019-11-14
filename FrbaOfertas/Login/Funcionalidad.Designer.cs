@@ -41,18 +41,21 @@
             this.groupBox1.Controls.Add(this.cerrarSesion);
             this.groupBox1.Controls.Add(this.btnAcceder);
             this.groupBox1.Controls.Add(this.funcionalidadescbx);
-            this.groupBox1.Location = new System.Drawing.Point(16, 47);
+            this.groupBox1.Location = new System.Drawing.Point(21, 58);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(233, 111);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Size = new System.Drawing.Size(311, 137);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Funcionalidades disponibles:";
             // 
             // cerrarSesion
             // 
-            this.cerrarSesion.Location = new System.Drawing.Point(0, 88);
+            this.cerrarSesion.Location = new System.Drawing.Point(0, 108);
+            this.cerrarSesion.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cerrarSesion.Name = "cerrarSesion";
-            this.cerrarSesion.Size = new System.Drawing.Size(80, 23);
+            this.cerrarSesion.Size = new System.Drawing.Size(107, 28);
             this.cerrarSesion.TabIndex = 9;
             this.cerrarSesion.Text = "Cerrar Sesion";
             this.cerrarSesion.UseVisualStyleBackColor = true;
@@ -60,9 +63,10 @@
             // 
             // btnAcceder
             // 
-            this.btnAcceder.Location = new System.Drawing.Point(158, 88);
+            this.btnAcceder.Location = new System.Drawing.Point(211, 108);
+            this.btnAcceder.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnAcceder.Name = "btnAcceder";
-            this.btnAcceder.Size = new System.Drawing.Size(75, 23);
+            this.btnAcceder.Size = new System.Drawing.Size(100, 28);
             this.btnAcceder.TabIndex = 8;
             this.btnAcceder.Text = "Entrar";
             this.btnAcceder.UseVisualStyleBackColor = true;
@@ -72,28 +76,31 @@
             // 
             this.funcionalidadescbx.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.funcionalidadescbx.FormattingEnabled = true;
-            this.funcionalidadescbx.Location = new System.Drawing.Point(0, 37);
+            this.funcionalidadescbx.Location = new System.Drawing.Point(0, 46);
+            this.funcionalidadescbx.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.funcionalidadescbx.Name = "funcionalidadescbx";
-            this.funcionalidadescbx.Size = new System.Drawing.Size(233, 21);
+            this.funcionalidadescbx.Size = new System.Drawing.Size(309, 24);
             this.funcionalidadescbx.TabIndex = 0;
             // 
             // Titulo
             // 
             this.Titulo.AutoSize = true;
             this.Titulo.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Titulo.Location = new System.Drawing.Point(12, 9);
+            this.Titulo.Location = new System.Drawing.Point(16, 11);
+            this.Titulo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Titulo.Name = "Titulo";
-            this.Titulo.Size = new System.Drawing.Size(58, 23);
+            this.Titulo.Size = new System.Drawing.Size(75, 29);
             this.Titulo.TabIndex = 7;
             this.Titulo.Text = "Un rol";
             // 
             // Funcionalidad
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(265, 174);
+            this.ClientSize = new System.Drawing.Size(353, 214);
             this.Controls.Add(this.Titulo);
             this.Controls.Add(this.groupBox1);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Funcionalidad";
             this.Text = "Seleccion funcionalidad";
             this.Load += new System.EventHandler(this.Funcionalidad_Load);
