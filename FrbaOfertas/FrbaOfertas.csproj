@@ -77,11 +77,20 @@
     <Compile Include="AbmCliente\Alta.Designer.cs">
       <DependentUpon>Alta.cs</DependentUpon>
     </Compile>
-    <Compile Include="AbmProveedor\AbmProveedor.cs">
+    <Compile Include="AbmProveedor\AbmProveedores.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AbmProveedor\AbmProveedor.Designer.cs">
-      <DependentUpon>AbmProveedor.cs</DependentUpon>
+    <Compile Include="AbmProveedor\AltaProveedor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmProveedor\AltaProveedor.Designer.cs">
+      <DependentUpon>AltaProveedor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmProveedor\ModificarProveedor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmProveedor\ModificarProveedor.Designer.cs">
+      <DependentUpon>ModificarProveedor.cs</DependentUpon>
     </Compile>
     <Compile Include="AbmRol\AbmRol.cs">
       <SubType>Form</SubType>
@@ -89,17 +98,17 @@
     <Compile Include="AbmRol\AbmRol.Designer.cs">
       <DependentUpon>AbmRol.cs</DependentUpon>
     </Compile>
+    <Compile Include="AbmRol\Eliminar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmRol\Eliminar.Designer.cs">
+      <DependentUpon>Eliminar.cs</DependentUpon>
+    </Compile>
     <Compile Include="AbmRol\Modificar.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="AbmRol\Modificar.Designer.cs">
       <DependentUpon>Modificar.cs</DependentUpon>
-    </Compile>
-    <Compile Include="AbmRol\Listar.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AbmRol\Listar.Designer.cs">
-      <DependentUpon>Listar.cs</DependentUpon>
     </Compile>
     <Compile Include="AbmRol\Alta.cs">
       <SubType>Form</SubType>
@@ -116,6 +125,7 @@
     </Compile>
     <Compile Include="Decoracion.cs" />
     <Compile Include="ConectorDB.cs" />
+    <Compile Include="Modelos\Rubro.cs" />
     <Compile Include="Modelos\Oferta.cs" />
     <Compile Include="Facturar\Facturar.cs">
       <SubType>Form</SubType>
@@ -148,11 +158,11 @@
     <Compile Include="CragaCredito\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="CrearOferta\Form1.cs">
+    <Compile Include="CrearOferta\PublicarOferta.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CrearOferta\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="CrearOferta\PublicarOferta.Designer.cs">
+      <DependentUpon>PublicarOferta.cs</DependentUpon>
     </Compile>
     <Compile Include="ListadoEstadistico\Form1.cs">
       <SubType>Form</SubType>
@@ -193,17 +203,26 @@
     <EmbeddedResource Include="AbmCliente\Modificar.resx">
       <DependentUpon>Modificar.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AbmProveedor\AbmProveedores.resx">
+      <DependentUpon>AbmProveedores.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmProveedor\AltaProveedor.resx">
+      <DependentUpon>AltaProveedor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmProveedor\ModificarProveedor.resx">
+      <DependentUpon>ModificarProveedor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AbmRol\AbmRol.resx">
       <DependentUpon>AbmRol.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AbmRol\Alta.resx">
       <DependentUpon>Alta.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AbmRol\Eliminar.resx">
+      <DependentUpon>Eliminar.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AbmRol\Modificar.resx">
       <DependentUpon>Modificar.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AbmRol\Listar.resx">
-      <DependentUpon>Listar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ComprarOferta\ComprarOferta.resx">
       <DependentUpon>ComprarOferta.cs</DependentUpon>
@@ -211,8 +230,8 @@
     <EmbeddedResource Include="ConsumirOferta\ConsumirOferta.resx">
       <DependentUpon>ConsumirOferta.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CrearOferta\Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="CrearOferta\PublicarOferta.resx">
+      <DependentUpon>PublicarOferta.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Facturar\Facturar.resx">
       <DependentUpon>Facturar.cs</DependentUpon>

@@ -8,14 +8,20 @@ namespace FrbaOfertas.Modelos
 {
     class Proveedor
     {
-        public String username { get; set; }
-        public String razonSocial { get; set; }
-        public int telefono { get; set; }
-        public String mail { get; set; }
-        public String cuit { get; set; }
-        public String rubro { get; set; }
-        public String nombreContacto { get; set; }
-        public String direccion { get; set; }
+        public String Username { get; set; }
+        public String RazonSocial { get; set; }
+        public int Telefono { get; set; }
+        public String Mail { get; set; }
+        public String Cuit { get; set; }
+        public String Rubro { get; set; }
+        public Int32 Rubro_Id { get; set; }
+        public String NombreContacto { get; set; }
+        public String Direccion { get; set; }
+        public String Cp { get; set; }
+        public String Piso { get; set; }
+        public String Dpto { get; set; }
+        public String Localidad { get; set; }
+        public bool habilitado { get; set; } 
 
         public Proveedor() { }
 

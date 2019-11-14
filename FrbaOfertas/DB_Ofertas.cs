@@ -38,7 +38,7 @@ namespace FrbaOfertas
             setCmd("SELECT username, password, habilitado from LOS_SINEQUI.Usuarios WHERE username = @username AND password = @password");
             cmd.Parameters.AddWithValue("@username", username);
             cmd.Parameters.AddWithValue("@password", Hash.GetHash(password));
-
+            //cmd.Parameters.AddWithValue("@password", password); DESCOMENTAR PARA LOGUEAR CON agusadmin - agus
 
             //password = hashbytes('SHA2_256', '" + password + "')
             reader = cmd.ExecuteReader();
@@ -57,6 +57,79 @@ namespace FrbaOfertas
             }
         }
 
+        public static int getIdRol(String nombreRol) {
+
+            setCmd("SELECT COUNT(id_rol) FROM LOS_SINEQUI.Roles WHERE nombre = @nombreRol");
+            cmd.Parameters.AddWithValue("@nombreRol", nombreRol);
+            reader = cmd.ExecuteReader();
+            reader.Read();
+            int existe = reader.GetInt32(0);
+            reader.Close();
+            if ( existe != 0)
+            {
+                setCmd("SELECT id_rol FROM LOS_SINEQUI.Roles WHERE nombre = @nombreRol");
+                cmd.Parameters.AddWithValue("@nombreRol", nombreRol);
+                reader = cmd.ExecuteReader();
+                reader.Read();
+                int idRol = reader.GetInt32(0);
+                reader.Close();
+                return idRol;
+            }
+            else
+                return 0;    
+        }
+
+        public static bool tieneFuncionalidad(string idFunc, int idRol) {
+            int id_func = int.Parse(idFunc);
+
+            setCmd("SELECT COUNT(id_rol) FROM LOS_SINEQUI.Rol_Funcionalidad WHERE id_rol = @idRol AND id_func = @idFunc");
+            cmd.Parameters.AddWithValue("@idRol", idRol);
+            cmd.Parameters.AddWithValue("@idFunc", id_func);
+
+            reader = cmd.ExecuteReader();
+            reader.Read();
+            int result = reader.GetInt32(0);
+            reader.Close();
+
+            if(result == 1)
+                return true;
+            else
+                return false;
+      
+        }
+
+        public static List<string> getAllRoles() {
+
+            setCmd("SELECT nombre FROM LOS_SINEQUI.Roles WHERE habilitado=1");
+            reader = cmd.ExecuteReader();
+
+            List<string> roles = new List<string>();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    string rol = reader.GetString(0);
+                    roles.Add(rol);
+                }
+                reader.Close();
+                return roles;
+            }
+            else
+            {
+                reader.Close();
+                return null;
+            } 
+        }
+
+        public static bool eliminarRol(string nombreRol)
+        {
+            setCmd("UPDATE LOS_SINEQUI.Roles SET habilitado=0 WHERE nombre=@nombreRol");
+            cmd.Parameters.AddWithValue("@nombreRol", nombreRol);
+            cmd.ExecuteNonQuery();
+
+            return true;
+        }
 
         public static List<Modelos.Rol> getRoles(String usuario)
         {
@@ -87,6 +160,7 @@ namespace FrbaOfertas
         }
 
 
+
         public static List<Modelos.Funcionalidad> getFuncionalidades(int id_rol)
         {
 
@@ -112,6 +186,91 @@ namespace FrbaOfertas
                 reader.Close();
                 return null;
             }
+        }
+
+        public static List<Modelos.Funcionalidad> getFuncionalidades()
+        {
+
+            setCmd("SELECT f.id_func,f.nombre, f.descripcion FROM LOS_SINEQUI.Funcionalidades f");
+
+            reader = cmd.ExecuteReader();
+
+            List<Modelos.Funcionalidad> funcionalidades = new List<Modelos.Funcionalidad>();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    funcionalidades.Add(new Modelos.Funcionalidad(reader.GetInt32(0), reader.GetString(1), reader.GetString(2)));
+                }
+                reader.Close();
+                return funcionalidades;
+            }
+            else
+            {
+                reader.Close();
+                return null;
+            }
+        }
+
+        public static int rolExiste(string nombreRol) {
+            setCmd("SELECT COUNT(id_rol) FROM LOS_SINEQUI.Roles " +
+                "WHERE nombre = @nombreRol");
+            cmd.Parameters.AddWithValue("@nombreRol", nombreRol);
+            reader = cmd.ExecuteReader();
+            reader.Read();
+            int exists = reader.GetInt32(0);
+            reader.Close();
+            return exists;
+        }
+
+        public static bool crearRol(string nombreRol, List<int> funcionalidades) {
+
+            if(String.IsNullOrEmpty(nombreRol) || String.IsNullOrWhiteSpace(nombreRol))
+            {
+                MessageBox.Show("Se debe ingresar un nombre para el rol", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            if (DB_Ofertas.rolExiste(nombreRol) == 1)
+            {
+                MessageBox.Show("El nombre ingresado ya esta en uso", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if(funcionalidades.Count == 0)
+            {
+                MessageBox.Show("Se debe seleccionar al menos una funcionalidad", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            
+            
+            setCmd("INSERT INTO LOS_SINEQUI.Roles(nombre, habilitado) " +
+                "VALUES (@nombreRol, 1)");
+            cmd.Parameters.AddWithValue("@nombreRol", nombreRol);
+            cmd.ExecuteNonQuery();
+
+            setCmd("SELECT id_rol FROM LOS_SINEQUI.Roles "+
+                "WHERE nombre = @nombreRol");
+            cmd.Parameters.AddWithValue("@nombreRol", nombreRol);
+            reader = cmd.ExecuteReader();
+            reader.Read();
+
+            int idrol = reader.GetInt32(0);
+
+            reader.Close();
+
+            foreach (int id in funcionalidades) {               
+                setCmd("INSERT INTO LOS_SINEQUI.Rol_Funcionalidad(id_rol, id_func) " +
+                    "VALUES(@idrol,@idfunc)");
+
+                cmd.Parameters.AddWithValue("@idrol", idrol);
+                cmd.Parameters.AddWithValue("@idfunc", id);
+
+                cmd.ExecuteNonQuery();
+            }
+
+            return true;
         }
 
         public static bool altaCliente(String username, String contra, String nombre, String apellido, String mail, String telefono, DateTime fechaNac,
@@ -496,6 +655,59 @@ namespace FrbaOfertas
             return ofertas;
         }
 
+        public static bool crearOferta(string descripcion, decimal precioOferta, decimal precioLista, int stock, int cantMax, DateTime fechaPublicacion, DateTime fechaVencimiento, String proveedor)
+        { 
+            setCmd("INSERT INTO LOS_SINEQUI.Ofertas (descripcion, fecha_pub, fecha_vec, username, precio_rebajado, precio_lista, stock, max_cliente)" +
+                "VALUES(@descripcion,@fechapub,@fechavec,@usuario,@preciooferta,@preciolista,@stock,@cantmax)");
+
+            cmd.Parameters.AddWithValue("@descripcion", descripcion);
+            cmd.Parameters.AddWithValue("@fechapub", fechaPublicacion);
+            cmd.Parameters.AddWithValue("@fechavec", fechaVencimiento);
+            cmd.Parameters.AddWithValue("@usuario",proveedor);                   
+            cmd.Parameters.AddWithValue("@preciooferta", precioOferta);
+            cmd.Parameters.AddWithValue("@preciolista", precioLista);
+            cmd.Parameters.AddWithValue("@stock", stock);
+            cmd.Parameters.AddWithValue("@cantmax", cantMax);
+
+            cmd.ExecuteNonQuery();
+
+            return true;
+        }
+
+        public static bool usuarioEsProveedor(String user)
+        {
+            setCmd("SELECT username FROM LOS_SINEQUI.Rol_Usuario WHERE id_rol = 2 AND username = @user");
+            cmd.Parameters.AddWithValue("@user", user);
+
+            reader = cmd.ExecuteReader();
+            if (reader.HasRows)
+            {
+                reader.Close();
+                return true;
+            }
+            reader.Close();
+            return false;
+        }
+
+        public static bool esAdmin(String user) {
+            setCmd("SELECT id_rol FROM LOS_SINEQUI.Rol_Usuario WHERE username = @usuario");
+            cmd.Parameters.AddWithValue("@usuario", user);
+
+            reader = cmd.ExecuteReader();
+            int rol;
+
+            if (reader.HasRows)
+            {
+                reader.Read();
+                rol = reader.GetInt32(0);
+                reader.Close();
+                if (rol == 3 || rol == 4) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public static void comprarOferta(Modelos.Usuario usuario, Modelos.Oferta oferta, int cant, DateTime fecha)
         {
             String query = "BEGIN TRANSACTION ";
@@ -721,6 +933,42 @@ namespace FrbaOfertas
                 return false;
             }
         }
+        public static bool mailExistsProv(String mail)
+        {
+            setCmd("SELECT 1 FROM LOS_SINEQUI.Proveedores p WHERE p.mail = @mail");
+            cmd.Parameters.AddWithValue("@mail", mail);
+
+            reader = cmd.ExecuteReader();
+            if (reader.HasRows)
+            {
+                reader.Close();
+                return true;
+            }
+            else
+            {
+                reader.Close();
+                return false;
+            }
+        }
+
+        public static bool razonExists(String razon_social)
+        {
+            setCmd("SELECT 1 FROM LOS_SINEQUI.Proveedores p WHERE p.razon_social = @razon_social");
+            cmd.Parameters.AddWithValue("@razon_social", razon_social);
+
+            reader = cmd.ExecuteReader();
+            if (reader.HasRows)
+            {
+                reader.Close();
+                return true;
+            }
+            else
+            {
+                reader.Close();
+                return false;
+            }
+        }
+
 
         public static void updateCliente(Modelos.Cliente cliente)
         {
@@ -791,6 +1039,128 @@ namespace FrbaOfertas
             return;
         }
 
+        public static bool updateRol(String nombreRol, String nombreViejo, List<int> funcionalidades) {
+            if (String.IsNullOrEmpty(nombreRol) || String.IsNullOrWhiteSpace(nombreRol))
+            {
+                MessageBox.Show("Se debe ingresar un nombre para el rol", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if (nombreRol != nombreViejo)
+            {
+                if (DB_Ofertas.rolExiste(nombreRol) == 1)
+                {
+                    MessageBox.Show("El nombre ingresado ya esta en uso", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+            }
+            if (funcionalidades.Count == 0)
+            {
+                MessageBox.Show("Se debe seleccionar al menos una funcionalidad", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+
+            setCmd("UPDATE LOS_SINEQUI.Roles SET nombre = @nombreRol WHERE nombre = @nombreViejo" );
+            cmd.Parameters.AddWithValue("@nombreRol", nombreRol);
+            cmd.Parameters.AddWithValue("@nombreViejo", nombreViejo);
+            cmd.ExecuteNonQuery();
+
+            setCmd("SELECT id_rol FROM LOS_SINEQUI.Roles " +
+                "WHERE nombre = @nombreRol");
+            cmd.Parameters.AddWithValue("@nombreRol", nombreRol);
+            reader = cmd.ExecuteReader();
+            reader.Read();
+
+            int idrol = reader.GetInt32(0);
+
+            reader.Close();
+
+            setCmd("DELETE FROM LOS_SINEQUI.Rol_Funcionalidad WHERE id_rol = @idrol");
+            cmd.Parameters.AddWithValue("@idrol", idrol);
+            cmd.ExecuteNonQuery();
+
+            foreach (int id in funcionalidades)
+            {
+                setCmd("INSERT INTO LOS_SINEQUI.Rol_Funcionalidad(id_rol, id_func) " +
+                    "VALUES(@idrol,@idfunc)");
+
+                cmd.Parameters.AddWithValue("@idrol", idrol);
+                cmd.Parameters.AddWithValue("@idfunc", id);
+
+                cmd.ExecuteNonQuery();
+            }
+
+            return true;     
+        }
+
+        public static void updateProveedor(Modelos.Proveedor proveedor)
+        {
+
+            setCmd("SELECT id_direccion FROM LOS_SINEQUI.Proveedores p WHERE  p.username = @username");
+            cmd.Parameters.AddWithValue("@username", proveedor.Username);
+
+            reader = cmd.ExecuteReader();
+            int idDireccion = -1;
+
+            if (reader.HasRows)
+            {
+                reader.Read();
+                idDireccion = reader.GetInt32(0);
+                reader.Close();
+            }
+
+
+            setCmd("UPDATE LOS_SINEQUI.Proveedores SET " +
+                                    "razon_social = @razonsocial, " +
+                                    "cuit = @cuit, " +
+                                    "rubro = @rubro, " +
+                                    "mail = @mail, " +
+                                    "telefono = @telefono, " +
+                                    "nombre_contacto = @nombrecontacto, " +
+                                    "habilitado = @habilitado " +
+                                    "WHERE username = @username");
+
+            cmd.Parameters.AddWithValue("@razonsocial", proveedor.RazonSocial);
+            cmd.Parameters.AddWithValue("@cuit", proveedor.Cuit);
+            cmd.Parameters.AddWithValue("@rubro", proveedor.Rubro_Id);
+            cmd.Parameters.AddWithValue("@mail", proveedor.Mail);
+            cmd.Parameters.AddWithValue("@telefono", proveedor.Telefono);
+            cmd.Parameters.AddWithValue("@nombrecontacto", proveedor.NombreContacto);
+            cmd.Parameters.AddWithValue("@habilitado", proveedor.habilitado);
+            cmd.Parameters.AddWithValue("@username", proveedor.Username);
+
+            if (cmd.ExecuteNonQuery() == 0)
+            {
+                MessageBox.Show("Ocurrio un error al actualizar los datos", "Actualizar proveedor", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (idDireccion != -1)
+            {
+                setCmd("UPDATE LOS_SINEQUI.Direcciones SET " +
+                    "direccion = @direccion, " +
+                    "cp = @cp, " +
+                    "piso = @piso, " +
+                    "dpto = @dpto, " +
+                    "localidad = @localidad " +
+                    "WHERE id_direccion = @idDireccion");
+
+                cmd.Parameters.AddWithValue("@direccion", proveedor.Direccion);
+                cmd.Parameters.AddWithValue("@cp", proveedor.Cp);
+                cmd.Parameters.AddWithValue("@piso", proveedor.Piso);
+                cmd.Parameters.AddWithValue("@dpto", proveedor.Dpto);
+                cmd.Parameters.AddWithValue("@localidad", proveedor.Localidad);
+                cmd.Parameters.AddWithValue("@idDireccion", idDireccion);
+
+                cmd.ExecuteNonQuery();
+            }
+
+
+            MessageBox.Show("Proveedor actualizado con exito", "Actualizar proveedor", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return;
+        }
+
         public static List<Modelos.Proveedor> getProveedoresFacturacion()
         {
             setCmd("SELECT username, razon_social FROM LOS_SINEQUI.Proveedores WHERE habilitado = 1 ORDER BY 2");
@@ -810,8 +1180,8 @@ namespace FrbaOfertas
             {
                 Modelos.Proveedor proveedor = new Modelos.Proveedor();
 
-                proveedor.username = reader.GetString(0);
-                proveedor.razonSocial = reader.GetString(1);
+                proveedor.Username = reader.GetString(0);
+                proveedor.RazonSocial = reader.GetString(1);
 
                 proveedores.Add(proveedor);
             }
@@ -868,7 +1238,7 @@ namespace FrbaOfertas
             setCmd("INSERT INTO LOS_SINEQUI.Facturas (username, fecha) " +
                         "VALUES (@idProveedor, @fechaActual)");
 
-            cmd.Parameters.AddWithValue("@idProveedor", proveedor.username);
+            cmd.Parameters.AddWithValue("@idProveedor", proveedor.Username);
             cmd.Parameters.AddWithValue("@fechaActual", Properties.Settings.Default.Fecha);
 
             cmd.ExecuteNonQuery();
@@ -892,7 +1262,7 @@ namespace FrbaOfertas
                         "ORDER BY 1");
 
             cmd.Parameters.AddWithValue("@idFactura", idFactura);
-            cmd.Parameters.AddWithValue("@proveedor", proveedor.username);
+            cmd.Parameters.AddWithValue("@proveedor", proveedor.Username);
             cmd.Parameters.AddWithValue("@desde", desde);
             cmd.Parameters.AddWithValue("@hasta", hasta);
 
@@ -907,7 +1277,7 @@ namespace FrbaOfertas
                             "AND c.fecha_compra >= @desde " +
                             "AND c.fecha_compra <= @hasta ) as facturados " +
                             "WHERE facturados.id = Cupones.id_cupon ");
-            cmd.Parameters.AddWithValue("@proveedor", proveedor.username);
+            cmd.Parameters.AddWithValue("@proveedor", proveedor.Username);
             cmd.Parameters.AddWithValue("@desde", desde);
             cmd.Parameters.AddWithValue("@hasta", hasta);
 
@@ -943,5 +1313,735 @@ namespace FrbaOfertas
 
             return factura;
         }
+    
+        /// /////////////PROVEEDORES///////////////////
+
+        public static List<Modelos.Proveedor> getProveedores()
+        {
+            List<Modelos.Proveedor> proveedores = null;
+
+            setCmd("SELECT p.username, p.razon_social, p.telefono, p.mail, p.cuit, p.rubro, p.nombre_contacto, d.direccion, d.cp, d.piso, d.dpto, d.localidad, p.habilitado " +
+                   "FROM LOS_SINEQUI.Proveedores p " +
+                   "LEFT JOIN LOS_SINEQUI.Direcciones d ON p.id_direccion = d.id_direccion");
+            reader = cmd.ExecuteReader();
+
+            if (!reader.HasRows)
+            {
+                reader.Close();
+                return proveedores;
+            }
+
+            proveedores = new List<Modelos.Proveedor>();
+
+            while (reader.Read())
+            {
+                Modelos.Proveedor proveedor = new Modelos.Proveedor();
+                proveedor.Username = reader.GetString(0);
+                proveedor.RazonSocial = reader.GetString(1);
+                proveedor.Telefono = reader.GetInt32(2);
+                if (reader.IsDBNull(3))
+                    proveedor.Mail = "-";
+                else
+                    proveedor.Mail = reader.GetString(3);
+                proveedor.Cuit = reader.GetString(4);
+                proveedor.Rubro_Id = reader.GetInt32(5);
+                if (reader.IsDBNull(6))
+                    proveedor.NombreContacto = "-";
+                else
+                    proveedor.NombreContacto = reader.GetString(6); 
+                if (reader.IsDBNull(7))
+                    proveedor.Direccion = "-";
+                else
+                    proveedor.Direccion = reader.GetString(7);
+                if (reader.IsDBNull(8))
+                    proveedor.Cp = "-";
+                else
+                    proveedor.Cp = reader.GetString(8);
+                if (reader.IsDBNull(9))
+                    proveedor.Piso = "-";
+                else
+                    proveedor.Piso = reader.GetString(9);
+                if (reader.IsDBNull(10))
+                    proveedor.Dpto = "-";
+                else
+                    proveedor.Dpto = reader.GetString(10);
+                if (reader.IsDBNull(11))
+                    proveedor.Localidad = "-";
+                else
+                    proveedor.Localidad = reader.GetString(11);
+                proveedor.habilitado = reader.GetBoolean(12);
+
+                proveedores.Add(proveedor);
+            }
+
+            reader.Close();
+            return proveedores;
+        }
+
+        public static string nombreRubro(int id) {
+
+            setCmd("select nombre from LOS_SINEQUI.Rubros where id_rubro = @id");
+
+            cmd.Parameters.AddWithValue("@id", id);
+            reader = cmd.ExecuteReader();
+            reader.Read();
+
+            string nombre = reader.GetString(0);
+            reader.Close();
+            return nombre;
+        }
+        public static int idRubro(string nombre)
+        {
+
+            setCmd("select id_rubro from LOS_SINEQUI.Rubros where nombre = @name");
+
+            cmd.Parameters.AddWithValue("@name", nombre);
+            reader = cmd.ExecuteReader();
+            reader.Read();
+
+            int id = reader.GetInt32(0);
+            reader.Close();
+            return id;
+        }
+
+        public static bool altaProveedor(String username, String contra, String razonsocial, String cuit, String mail, String telefono, String nombrecontacto, String rubro,
+                                        String calle, String piso, String dpto, String localidad, String cp)
+        {
+
+            setCmd("select count(username) from LOS_SINEQUI.Usuarios where username = @username");
+
+            cmd.Parameters.AddWithValue("@username", username);
+
+            reader = cmd.ExecuteReader();
+            reader.Read();
+
+            //chequeo existencia de nombre de usuario
+            if (reader.GetInt32(0) != 0)
+            {
+                MessageBox.Show("Este usuario ya existe", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                reader.Close();
+                return false;
+            }
+            reader.Close();
+
+
+
+            // chequeo unicidad de mail
+            setCmd("select count(mail) from LOS_SINEQUI.Clientes where mail = @mail");
+
+            cmd.Parameters.AddWithValue("@mail", mail);
+
+            reader = cmd.ExecuteReader();
+            reader.Read();
+            int cantidadMailCliente = reader.GetInt32(0);
+            reader.Close();
+
+            setCmd("select count(mail) from LOS_SINEQUI.Proveedores where mail= '" + mail + "'");
+
+            cmd.Parameters.AddWithValue("@mail", mail);
+
+
+            reader = cmd.ExecuteReader();
+            reader.Read();
+            int cantidadMailProveedor = reader.GetInt32(0);
+            reader.Close();
+
+            if (cantidadMailCliente != 0 || cantidadMailProveedor != 0)
+            {
+                MessageBox.Show("Este email ya se encuentra registrado", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            //chequeo unicidad cuit y razonsocial
+            setCmd("select count(razon_social) from LOS_SINEQUI.Proveedores where razon_social = @razon_social and cuit = @cuit");
+
+            cmd.Parameters.AddWithValue("@razon_social", razonsocial);
+            cmd.Parameters.AddWithValue("@cuit", cuit);
+
+            reader = cmd.ExecuteReader();
+            reader.Read();
+            int cantidadCuitRazonSoc = reader.GetInt32(0);
+            reader.Close();
+
+            if (cantidadCuitRazonSoc != 0)
+            {
+                MessageBox.Show("Ya hay un proveedor con esta combinacion de razon social y cuit. Contacte con un administrador", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+
+            setCmd("insert into LOS_SINEQUI.Usuarios (username,password,habilitado)" +
+                   "values (@username, @password, 1)");
+
+            cmd.Parameters.AddWithValue("@username", username);
+            cmd.Parameters.AddWithValue("@password", Hash.GetHash(contra));
+
+            cmd.ExecuteNonQuery();
+
+
+            setCmd("insert into LOS_SINEQUI.Direcciones (direccion, cp, piso, dpto, localidad)" +
+                    "values (@calle, @cp, @piso, @dpto, @localidad)");
+
+            cmd.Parameters.AddWithValue("@calle", calle);
+            cmd.Parameters.AddWithValue("@cp", cp);
+            cmd.Parameters.AddWithValue("@piso", piso);
+            cmd.Parameters.AddWithValue("@dpto", dpto);
+            cmd.Parameters.AddWithValue("@localidad", localidad);
+            cmd.ExecuteNonQuery();
+
+            setCmd("insert into LOS_SINEQUI.Rol_Usuario(id_rol,username,habilitado)" +
+                    "values (2, @username, 1)");
+            cmd.Parameters.AddWithValue("@username", username);
+            cmd.ExecuteNonQuery();
+
+            setCmd("select id_direccion from LOS_SINEQUI.Direcciones where direccion = @calle and cp = @cp and piso = @piso and dpto = @dpto and localidad = @localidad");
+
+            cmd.Parameters.AddWithValue("@calle", calle);
+            cmd.Parameters.AddWithValue("@cp", cp);
+            cmd.Parameters.AddWithValue("@piso", piso);
+            cmd.Parameters.AddWithValue("@dpto", dpto);
+            cmd.Parameters.AddWithValue("@localidad", localidad);
+
+            reader = cmd.ExecuteReader();
+            reader.Read();
+            int idDireccion = reader.GetInt32(0);
+            reader.Close();
+
+            Console.WriteLine(rubro);
+            Console.WriteLine("AVEEEEEERGA");
+
+            setCmd("select id_rubro from LOS_SINEQUI.Rubros where nombre = @rubro");
+            cmd.Parameters.AddWithValue("@rubro", rubro);
+
+            reader = cmd.ExecuteReader();
+            reader.Read();
+            int id_rubro = reader.GetInt32(0);
+            reader.Close();
+
+            setCmd("insert into LOS_SINEQUI.Proveedores (username,razon_social,telefono,mail,id_direccion,cuit,rubro,nombre_contacto,habilitado)" +
+                "values (@username, @razon_social, @telefono, @mail, @id_direccion, @cuit, @idrubro, @nombre_contacto, @habilitado)");
+
+            cmd.Parameters.AddWithValue("@username", username);
+            cmd.Parameters.AddWithValue("@razon_social", razonsocial);
+            cmd.Parameters.AddWithValue("@telefono", telefono);
+            cmd.Parameters.AddWithValue("@mail", mail);
+            cmd.Parameters.AddWithValue("@id_direccion", idDireccion);
+            cmd.Parameters.AddWithValue("@cuit", cuit);
+            cmd.Parameters.AddWithValue("@idrubro", id_rubro);
+            cmd.Parameters.AddWithValue("@nombre_contacto", nombrecontacto);
+            cmd.Parameters.AddWithValue("@habilitado", 1);
+
+            cmd.ExecuteNonQuery();
+
+            return true;
+        }
+
+        public static List<Modelos.Proveedor> getProveedores(String razonsocial, String cuit, String mail)
+        {
+            List<Modelos.Proveedor> proveedores = null;
+
+            setCmd("SELECT p.username, p.razon_social, p.telefono, p.mail, p.cuit, p.rubro, p.nombre_contacto, d.direccion, d.cp, d.piso, d.dpto, d.localidad, p.habilitado " +
+                    "FROM LOS_SINEQUI.Proveedores p " +
+                    "JOIN LOS_SINEQUI.Direcciones d ON p.id_direccion = d.id_direccion " +
+                    "WHERE " +
+                    "p.razon_social LIKE @razonsocial  AND " +
+                    "p.cuit = @cuit AND " +
+                    "p.mail LIKE @mail");
+
+            cmd.Parameters.AddWithValue("@razonsocial", "%" + razonsocial + "%");
+            cmd.Parameters.AddWithValue("@cuit", cuit);
+            cmd.Parameters.AddWithValue("@mail", "%" + mail + "%");
+
+            reader = cmd.ExecuteReader();
+
+            if (!reader.HasRows)
+            {
+                reader.Close();
+                return proveedores;
+            }
+
+            proveedores = new List<Modelos.Proveedor>();
+
+            while (reader.Read())
+            {
+                Modelos.Proveedor proveedor = new Modelos.Proveedor();
+                proveedor.Username = reader.GetString(0);
+                proveedor.RazonSocial = reader.GetString(1);
+                proveedor.Telefono = reader.GetInt32(2);
+                if (reader.IsDBNull(3))
+                    proveedor.Mail = "-";
+                else
+                    proveedor.Mail = reader.GetString(3);
+                proveedor.Cuit = reader.GetString(4);
+                proveedor.Rubro_Id = reader.GetInt32(5);
+                if (reader.IsDBNull(6))
+                    proveedor.NombreContacto = "-";
+                else
+                    proveedor.NombreContacto = reader.GetString(6);
+                if (reader.IsDBNull(7))
+                    proveedor.Direccion = "-";
+                else
+                    proveedor.Direccion = reader.GetString(7);
+                if (reader.IsDBNull(8))
+                    proveedor.Cp = "-";
+                else
+                    proveedor.Cp = reader.GetString(8);
+                if (reader.IsDBNull(9))
+                    proveedor.Piso = "-";
+                else
+                    proveedor.Piso = reader.GetString(9);
+                if (reader.IsDBNull(10))
+                    proveedor.Dpto = "-";
+                else
+                    proveedor.Dpto = reader.GetString(10);
+                if (reader.IsDBNull(11))
+                    proveedor.Localidad = "-";
+                else
+                    proveedor.Localidad = reader.GetString(11);
+                proveedor.habilitado = reader.GetBoolean(12);
+
+                proveedores.Add(proveedor);
+            }
+
+            reader.Close();
+            return proveedores;
+        }
+
+        public static List<Modelos.Proveedor> getProveedores(String cuit, String mail)
+        {
+            List<Modelos.Proveedor> proveedores = null;
+
+            setCmd("SELECT p.username, p.razon_social, p.telefono, p.mail, p.cuit, p.rubro, p.nombre_contacto, d.direccion, d.cp, d.piso, d.dpto, d.localidad, p.habilitado " +
+                    "FROM LOS_SINEQUI.Proveedores p " +
+                    "JOIN LOS_SINEQUI.Direcciones d ON p.id_direccion = d.id_direccion " +
+                    "WHERE " +
+                    "p.cuit = @cuit  AND " +
+                    "p.mail LIKE @mail");
+
+            cmd.Parameters.AddWithValue("@cuit", cuit);
+            cmd.Parameters.AddWithValue("@mail", "%" + mail + "%");
+
+            reader = cmd.ExecuteReader();
+
+            if (!reader.HasRows)
+            {
+                reader.Close();
+                return proveedores;
+            }
+
+            proveedores = new List<Modelos.Proveedor>();
+
+            while (reader.Read())
+            {
+                Modelos.Proveedor proveedor = new Modelos.Proveedor();
+                proveedor.Username = reader.GetString(0);
+                proveedor.RazonSocial = reader.GetString(1);
+                proveedor.Telefono = reader.GetInt32(2);
+                if (reader.IsDBNull(3))
+                    proveedor.Mail = "-";
+                else
+                    proveedor.Mail = reader.GetString(3);
+                proveedor.Cuit = reader.GetString(4);
+                proveedor.Rubro_Id = reader.GetInt32(5);
+                if (reader.IsDBNull(6))
+                    proveedor.NombreContacto = "-";
+                else
+                    proveedor.NombreContacto = reader.GetString(6);
+                if (reader.IsDBNull(7))
+                    proveedor.Direccion = "-";
+                else
+                    proveedor.Direccion = reader.GetString(7);
+                if (reader.IsDBNull(8))
+                    proveedor.Cp = "-";
+                else
+                    proveedor.Cp = reader.GetString(8);
+                if (reader.IsDBNull(9))
+                    proveedor.Piso = "-";
+                else
+                    proveedor.Piso = reader.GetString(9);
+                if (reader.IsDBNull(10))
+                    proveedor.Dpto = "-";
+                else
+                    proveedor.Dpto = reader.GetString(10);
+                if (reader.IsDBNull(11))
+                    proveedor.Localidad = "-";
+                else
+                    proveedor.Localidad = reader.GetString(11);
+                proveedor.habilitado = reader.GetBoolean(12);
+
+                proveedores.Add(proveedor);
+            }
+
+            reader.Close();
+            return proveedores;
+        }
+
+        public static List<Modelos.Proveedor> getProveedoresRSyE(String razonSocial, String mail)
+        {
+            List<Modelos.Proveedor> proveedores = null;
+
+            setCmd("SELECT p.username, p.razon_social, p.telefono, p.mail, p.cuit, p.rubro, p.nombre_contacto, d.direccion, d.cp, d.piso, d.dpto, d.localidad, p.habilitado " +
+                    "FROM LOS_SINEQUI.Proveedores p " +
+                    "JOIN LOS_SINEQUI.Direcciones d ON p.id_direccion = d.id_direccion " +
+                    "WHERE " +
+                    "p.razon_social LIKE @razonsocial  AND " +
+                    "p.mail LIKE @mail");
+
+            cmd.Parameters.AddWithValue("@razonsocial", "%" + razonSocial + "%");
+            cmd.Parameters.AddWithValue("@mail", "%" + mail + "%");
+
+            reader = cmd.ExecuteReader();
+
+            if (!reader.HasRows)
+            {
+                reader.Close();
+                return proveedores;
+            }
+
+            proveedores = new List<Modelos.Proveedor>();
+
+            while (reader.Read())
+            {
+                Modelos.Proveedor proveedor = new Modelos.Proveedor();
+                proveedor.Username = reader.GetString(0);
+                proveedor.RazonSocial = reader.GetString(1);
+                proveedor.Telefono = reader.GetInt32(2);
+                if (reader.IsDBNull(3))
+                    proveedor.Mail = "-";
+                else
+                    proveedor.Mail = reader.GetString(3);
+                proveedor.Cuit = reader.GetString(4);
+                proveedor.Rubro_Id = reader.GetInt32(5);
+                if (reader.IsDBNull(6))
+                    proveedor.NombreContacto = "-";
+                else
+                    proveedor.NombreContacto = reader.GetString(6);
+                if (reader.IsDBNull(7))
+                    proveedor.Direccion = "-";
+                else
+                    proveedor.Direccion = reader.GetString(7);
+                if (reader.IsDBNull(8))
+                    proveedor.Cp = "-";
+                else
+                    proveedor.Cp = reader.GetString(8);
+                if (reader.IsDBNull(9))
+                    proveedor.Piso = "-";
+                else
+                    proveedor.Piso = reader.GetString(9);
+                if (reader.IsDBNull(10))
+                    proveedor.Dpto = "-";
+                else
+                    proveedor.Dpto = reader.GetString(10);
+                if (reader.IsDBNull(11))
+                    proveedor.Localidad = "-";
+                else
+                    proveedor.Localidad = reader.GetString(11);
+                proveedor.habilitado = reader.GetBoolean(12);
+
+                proveedores.Add(proveedor);
+            }
+
+            reader.Close();
+            return proveedores;
+        }
+
+        public static List<Modelos.Proveedor> getProveedoresRSyC(String razonSocial, String cuit)
+        {
+            List<Modelos.Proveedor> proveedores = null;
+
+            setCmd("SELECT p.username, p.razon_social, p.telefono, p.mail, p.cuit, p.rubro, p.nombre_contacto, d.direccion, d.cp, d.piso, d.dpto, d.localidad, p.habilitado " +
+                    "FROM LOS_SINEQUI.Proveedores p " +
+                    "JOIN LOS_SINEQUI.Direcciones d ON p.id_direccion = d.id_direccion " +
+                    "WHERE " +
+                    "p.razon_social LIKE @razonsocial  AND " +
+                    "p.cuit = @cuit");
+
+            cmd.Parameters.AddWithValue("@razonsocial", "%" + razonSocial + "%");
+            cmd.Parameters.AddWithValue("@cuit", cuit);
+
+            reader = cmd.ExecuteReader();
+
+            if (!reader.HasRows)
+            {
+                reader.Close();
+                return proveedores;
+            }
+
+            proveedores = new List<Modelos.Proveedor>();
+
+            while (reader.Read())
+            {
+                Modelos.Proveedor proveedor = new Modelos.Proveedor();
+                proveedor.Username = reader.GetString(0);
+                proveedor.RazonSocial = reader.GetString(1);
+                proveedor.Telefono = reader.GetInt32(2);
+                if (reader.IsDBNull(3))
+                    proveedor.Mail = "-";
+                else
+                    proveedor.Mail = reader.GetString(3);
+                proveedor.Cuit = reader.GetString(4);
+                proveedor.Rubro_Id = reader.GetInt32(5);
+                if (reader.IsDBNull(6))
+                    proveedor.NombreContacto = "-";
+                else
+                    proveedor.NombreContacto = reader.GetString(6);
+                if (reader.IsDBNull(7))
+                    proveedor.Direccion = "-";
+                else
+                    proveedor.Direccion = reader.GetString(7);
+                if (reader.IsDBNull(8))
+                    proveedor.Cp = "-";
+                else
+                    proveedor.Cp = reader.GetString(8);
+                if (reader.IsDBNull(9))
+                    proveedor.Piso = "-";
+                else
+                    proveedor.Piso = reader.GetString(9);
+                if (reader.IsDBNull(10))
+                    proveedor.Dpto = "-";
+                else
+                    proveedor.Dpto = reader.GetString(10);
+                if (reader.IsDBNull(11))
+                    proveedor.Localidad = "-";
+                else
+                    proveedor.Localidad = reader.GetString(11);
+                proveedor.habilitado = reader.GetBoolean(12);
+
+                proveedores.Add(proveedor);
+            }
+
+            reader.Close();
+            return proveedores;
+        }
+        public static List<Modelos.Proveedor> getProveedoresRS(string razonSocial)
+        {
+            List<Modelos.Proveedor> proveedores = null;
+
+            setCmd("SELECT p.username, p.razon_social, p.telefono, p.mail, p.cuit, p.rubro, p.nombre_contacto, d.direccion, d.cp, d.piso, d.dpto, d.localidad, p.habilitado " +
+                    "FROM LOS_SINEQUI.Proveedores p " +
+                    "JOIN LOS_SINEQUI.Direcciones d ON p.id_direccion = d.id_direccion " +
+                    "WHERE " +
+                    "p.razon_social LIKE @razonsocial");
+
+            cmd.Parameters.AddWithValue("@razonsocial", "%" + razonSocial + "%");
+
+            reader = cmd.ExecuteReader();
+
+            if (!reader.HasRows)
+            {
+                reader.Close();
+                return proveedores;
+            }
+
+            proveedores = new List<Modelos.Proveedor>();
+
+            while (reader.Read())
+            {
+                Modelos.Proveedor proveedor = new Modelos.Proveedor();
+                proveedor.Username = reader.GetString(0);
+                proveedor.RazonSocial = reader.GetString(1);
+                proveedor.Telefono = reader.GetInt32(2);
+                if (reader.IsDBNull(3))
+                    proveedor.Mail = "-";
+                else
+                    proveedor.Mail = reader.GetString(3);
+                proveedor.Cuit = reader.GetString(4);
+                proveedor.Rubro_Id = reader.GetInt32(5);
+                if (reader.IsDBNull(6))
+                    proveedor.NombreContacto = "-";
+                else
+                    proveedor.NombreContacto = reader.GetString(6);
+                if (reader.IsDBNull(7))
+                    proveedor.Direccion = "-";
+                else
+                    proveedor.Direccion = reader.GetString(7);
+                if (reader.IsDBNull(8))
+                    proveedor.Cp = "-";
+                else
+                    proveedor.Cp = reader.GetString(8);
+                if (reader.IsDBNull(9))
+                    proveedor.Piso = "-";
+                else
+                    proveedor.Piso = reader.GetString(9);
+                if (reader.IsDBNull(10))
+                    proveedor.Dpto = "-";
+                else
+                    proveedor.Dpto = reader.GetString(10);
+                if (reader.IsDBNull(11))
+                    proveedor.Localidad = "-";
+                else
+                    proveedor.Localidad = reader.GetString(11);
+                proveedor.habilitado = reader.GetBoolean(12);
+
+                proveedores.Add(proveedor);
+            }
+
+            reader.Close();
+            return proveedores;
+        }
+
+        public static List<Modelos.Proveedor> getProveedoresE(string mail)
+        {
+            List<Modelos.Proveedor> proveedores = null;
+
+            setCmd("SELECT p.username, p.razon_social, p.telefono, p.mail, p.cuit, p.rubro, p.nombre_contacto, d.direccion, d.cp, d.piso, d.dpto, d.localidad, p.habilitado " +
+                    "FROM LOS_SINEQUI.Proveedores p " +
+                    "JOIN LOS_SINEQUI.Direcciones d ON p.id_direccion = d.id_direccion " +
+                    "WHERE " +
+                    "p.mail LIKE @mail");
+
+            cmd.Parameters.AddWithValue("@mail", "%" + mail + "%");
+
+            reader = cmd.ExecuteReader();
+
+            if (!reader.HasRows)
+            {
+                reader.Close();
+                return proveedores;
+            }
+
+            proveedores = new List<Modelos.Proveedor>();
+
+            while (reader.Read())
+            {
+                Modelos.Proveedor proveedor = new Modelos.Proveedor();
+                proveedor.Username = reader.GetString(0);
+                proveedor.RazonSocial = reader.GetString(1);
+                proveedor.Telefono = reader.GetInt32(2);
+                if (reader.IsDBNull(3))
+                    proveedor.Mail = "-";
+                else
+                    proveedor.Mail = reader.GetString(3);
+                proveedor.Cuit = reader.GetString(4);
+                proveedor.Rubro_Id = reader.GetInt32(5);
+                if (reader.IsDBNull(6))
+                    proveedor.NombreContacto = "-";
+                else
+                    proveedor.NombreContacto = reader.GetString(6);
+                if (reader.IsDBNull(7))
+                    proveedor.Direccion = "-";
+                else
+                    proveedor.Direccion = reader.GetString(7);
+                if (reader.IsDBNull(8))
+                    proveedor.Cp = "-";
+                else
+                    proveedor.Cp = reader.GetString(8);
+                if (reader.IsDBNull(9))
+                    proveedor.Piso = "-";
+                else
+                    proveedor.Piso = reader.GetString(9);
+                if (reader.IsDBNull(10))
+                    proveedor.Dpto = "-";
+                else
+                    proveedor.Dpto = reader.GetString(10);
+                if (reader.IsDBNull(11))
+                    proveedor.Localidad = "-";
+                else
+                    proveedor.Localidad = reader.GetString(11);
+                proveedor.habilitado = reader.GetBoolean(12);
+
+                proveedores.Add(proveedor);
+            }
+
+            reader.Close();
+            return proveedores;
+        }
+        public static List<Modelos.Proveedor> getProveedoresC(string cuit)
+        {
+            List<Modelos.Proveedor> proveedores = null;
+
+            setCmd("SELECT p.username, p.razon_social, p.telefono, p.mail, p.cuit, p.rubro, p.nombre_contacto, d.direccion, d.cp, d.piso, d.dpto, d.localidad, p.habilitado " +
+                    "FROM LOS_SINEQUI.Proveedores p " +
+                    "JOIN LOS_SINEQUI.Direcciones d ON p.id_direccion = d.id_direccion " +
+                    "WHERE " +
+                    "p.cuit = @cuit");
+
+            cmd.Parameters.AddWithValue("@cuit", cuit);
+
+            reader = cmd.ExecuteReader();
+
+            if (!reader.HasRows)
+            {
+                reader.Close();
+                return proveedores;
+            }
+
+            proveedores = new List<Modelos.Proveedor>();
+
+            while (reader.Read())
+            {
+                Modelos.Proveedor proveedor = new Modelos.Proveedor();
+                proveedor.Username = reader.GetString(0);
+                proveedor.RazonSocial = reader.GetString(1);
+                proveedor.Telefono = reader.GetInt32(2);
+                if (reader.IsDBNull(3))
+                    proveedor.Mail = "-";
+                else
+                    proveedor.Mail = reader.GetString(3);
+                proveedor.Cuit = reader.GetString(4);
+                proveedor.Rubro_Id = reader.GetInt32(5);
+                if (reader.IsDBNull(6))
+                    proveedor.NombreContacto = "-";
+                else
+                    proveedor.NombreContacto = reader.GetString(6);
+                if (reader.IsDBNull(7))
+                    proveedor.Direccion = "-";
+                else
+                    proveedor.Direccion = reader.GetString(7);
+                if (reader.IsDBNull(8))
+                    proveedor.Cp = "-";
+                else
+                    proveedor.Cp = reader.GetString(8);
+                if (reader.IsDBNull(9))
+                    proveedor.Piso = "-";
+                else
+                    proveedor.Piso = reader.GetString(9);
+                if (reader.IsDBNull(10))
+                    proveedor.Dpto = "-";
+                else
+                    proveedor.Dpto = reader.GetString(10);
+                if (reader.IsDBNull(11))
+                    proveedor.Localidad = "-";
+                else
+                    proveedor.Localidad = reader.GetString(11);
+                proveedor.habilitado = reader.GetBoolean(12);
+
+                proveedores.Add(proveedor);
+            }
+
+            reader.Close();
+            return proveedores;
+        }
+
+        public static List<Modelos.Rubro> getRubros()
+        {
+            setCmd("SELECT id_rubro, nombre FROM LOS_SINEQUI.Rubros WHERE habilitado = 1 ORDER BY 2");
+
+            reader = cmd.ExecuteReader();
+
+            if (!reader.HasRows)
+            {
+                MessageBox.Show("No hay ningun rubro habilitado en el sistema", "Proveedores", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                reader.Close();
+                return null;
+            }
+
+            List<Modelos.Rubro> rubros = new List<Modelos.Rubro>();
+
+            while (reader.Read())
+            {
+                Modelos.Rubro rubro = new Modelos.Rubro();
+
+                rubro.id_rubro = reader.GetInt32(0);
+                rubro.nombre = reader.GetString(1);
+
+                rubros.Add(rubro);
+            }
+
+            reader.Close();
+            return rubros;
+        }
+
+       
     }
 }

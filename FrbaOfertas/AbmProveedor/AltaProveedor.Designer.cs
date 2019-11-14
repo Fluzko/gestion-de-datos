@@ -1,6 +1,6 @@
-﻿namespace FrbaOfertas.AbmCliente
+﻿namespace FrbaOfertas.AbmProveedor
 {
-    partial class Alta
+    partial class AltaProveedor
     {
         /// <summary>
         /// Required designer variable.
@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.buttonFecha = new System.Windows.Forms.Button();
+            this.Rubro = new System.Windows.Forms.Label();
+            this.textNombreContacto = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.textFN = new System.Windows.Forms.TextBox();
             this.buttonVolver = new System.Windows.Forms.Button();
             this.buttonAlta = new System.Windows.Forms.Button();
             this.buttonLimpiar = new System.Windows.Forms.Button();
@@ -41,11 +41,9 @@
             this.label4 = new System.Windows.Forms.Label();
             this.textMail = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.textDNI = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.textApellido = new System.Windows.Forms.TextBox();
+            this.textCUIT = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.textNombre = new System.Windows.Forms.TextBox();
+            this.textRazonSocial = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.textCalle = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -57,12 +55,12 @@
             this.label12 = new System.Windows.Forms.Label();
             this.textLocalidad = new System.Windows.Forms.TextBox();
             this.textCP = new System.Windows.Forms.TextBox();
-            this.calendario = new System.Windows.Forms.MonthCalendar();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label14 = new System.Windows.Forms.Label();
             this.textContra = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.textUsuario = new System.Windows.Forms.TextBox();
+            this.ddRubros = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -70,9 +68,10 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.buttonFecha);
+            this.groupBox1.Controls.Add(this.ddRubros);
+            this.groupBox1.Controls.Add(this.Rubro);
+            this.groupBox1.Controls.Add(this.textNombreContacto);
             this.groupBox1.Controls.Add(this.label8);
-            this.groupBox1.Controls.Add(this.textFN);
             this.groupBox1.Controls.Add(this.buttonVolver);
             this.groupBox1.Controls.Add(this.buttonAlta);
             this.groupBox1.Controls.Add(this.buttonLimpiar);
@@ -82,57 +81,50 @@
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.textMail);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.textDNI);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.textApellido);
+            this.groupBox1.Controls.Add(this.textCUIT);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.textNombre);
+            this.groupBox1.Controls.Add(this.textRazonSocial);
             this.groupBox1.Controls.Add(this.groupBox2);
-            this.groupBox1.Controls.Add(this.calendario);
-            this.groupBox1.Location = new System.Drawing.Point(16, 167);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Location = new System.Drawing.Point(21, 144);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBox1.Size = new System.Drawing.Size(900, 384);
-            this.groupBox1.TabIndex = 1;
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBox1.Size = new System.Drawing.Size(900, 394);
+            this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Datos personales";
+            this.groupBox1.Text = "Datos proveedor";
             // 
-            // buttonFecha
+            // Rubro
             // 
-            this.buttonFecha.Location = new System.Drawing.Point(409, 133);
-            this.buttonFecha.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.buttonFecha.Name = "buttonFecha";
-            this.buttonFecha.Size = new System.Drawing.Size(100, 28);
-            this.buttonFecha.TabIndex = 30;
-            this.buttonFecha.Text = "Seleccionar";
-            this.buttonFecha.UseVisualStyleBackColor = true;
-            this.buttonFecha.Click += new System.EventHandler(this.buttonFecha_Click);
+            this.Rubro.AutoSize = true;
+            this.Rubro.Location = new System.Drawing.Point(346, 126);
+            this.Rubro.Name = "Rubro";
+            this.Rubro.Size = new System.Drawing.Size(51, 17);
+            this.Rubro.TabIndex = 30;
+            this.Rubro.Text = "Rubro:";
+            // 
+            // textNombreContacto
+            // 
+            this.textNombreContacto.Location = new System.Drawing.Point(155, 123);
+            this.textNombreContacto.Name = "textNombreContacto";
+            this.textNombreContacto.Size = new System.Drawing.Size(169, 22);
+            this.textNombreContacto.TabIndex = 9;
+            this.textNombreContacto.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textNombreContacto_KeyPress);
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(87, 139);
+            this.label8.Location = new System.Drawing.Point(21, 123);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(150, 17);
+            this.label8.Size = new System.Drawing.Size(127, 17);
             this.label8.TabIndex = 28;
-            this.label8.Text = "*Fecha de Nacimiento:";
-            // 
-            // textFN
-            // 
-            this.textFN.Location = new System.Drawing.Point(253, 135);
-            this.textFN.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.textFN.Name = "textFN";
-            this.textFN.ReadOnly = true;
-            this.textFN.Size = new System.Drawing.Size(147, 22);
-            this.textFN.TabIndex = 27;
-            this.textFN.TabStop = false;
+            this.label8.Text = "*Nombre Contacto:";
             // 
             // buttonVolver
             // 
             this.buttonVolver.Location = new System.Drawing.Point(8, 348);
-            this.buttonVolver.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonVolver.Margin = new System.Windows.Forms.Padding(4);
             this.buttonVolver.Name = "buttonVolver";
             this.buttonVolver.Size = new System.Drawing.Size(100, 28);
             this.buttonVolver.TabIndex = 26;
@@ -143,7 +135,7 @@
             // buttonAlta
             // 
             this.buttonAlta.Location = new System.Drawing.Point(792, 346);
-            this.buttonAlta.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonAlta.Margin = new System.Windows.Forms.Padding(4);
             this.buttonAlta.Name = "buttonAlta";
             this.buttonAlta.Size = new System.Drawing.Size(100, 28);
             this.buttonAlta.TabIndex = 25;
@@ -154,7 +146,7 @@
             // buttonLimpiar
             // 
             this.buttonLimpiar.Location = new System.Drawing.Point(685, 347);
-            this.buttonLimpiar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonLimpiar.Margin = new System.Windows.Forms.Padding(4);
             this.buttonLimpiar.Name = "buttonLimpiar";
             this.buttonLimpiar.Size = new System.Drawing.Size(100, 28);
             this.buttonLimpiar.TabIndex = 24;
@@ -175,7 +167,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(583, 91);
+            this.label5.Location = new System.Drawing.Point(531, 91);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(73, 17);
@@ -184,18 +176,18 @@
             // 
             // textTelefono
             // 
-            this.textTelefono.Location = new System.Drawing.Point(660, 86);
-            this.textTelefono.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.textTelefono.MaxLength = 11;
+            this.textTelefono.Location = new System.Drawing.Point(612, 91);
+            this.textTelefono.Margin = new System.Windows.Forms.Padding(4);
+            this.textTelefono.MaxLength = 8;
             this.textTelefono.Name = "textTelefono";
             this.textTelefono.Size = new System.Drawing.Size(213, 22);
             this.textTelefono.TabIndex = 8;
-            this.textTelefono.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textDNI_KeyPress);
+            this.textTelefono.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textTelefono_KeyPress);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(317, 91);
+            this.label4.Location = new System.Drawing.Point(264, 91);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(42, 17);
@@ -204,8 +196,8 @@
             // 
             // textMail
             // 
-            this.textMail.Location = new System.Drawing.Point(364, 86);
-            this.textMail.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textMail.Location = new System.Drawing.Point(314, 91);
+            this.textMail.Margin = new System.Windows.Forms.Padding(4);
             this.textMail.MaxLength = 255;
             this.textMail.Name = "textMail";
             this.textMail.Size = new System.Drawing.Size(209, 22);
@@ -214,42 +206,22 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(45, 91);
+            this.label3.Location = new System.Drawing.Point(21, 89);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(40, 17);
+            this.label3.Size = new System.Drawing.Size(48, 17);
             this.label3.TabIndex = 5;
-            this.label3.Text = "*DNI:";
+            this.label3.Text = "*CUIT:";
             // 
-            // textDNI
+            // textCUIT
             // 
-            this.textDNI.Location = new System.Drawing.Point(97, 86);
-            this.textDNI.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.textDNI.MaxLength = 8;
-            this.textDNI.Name = "textDNI";
-            this.textDNI.Size = new System.Drawing.Size(172, 22);
-            this.textDNI.TabIndex = 4;
-            this.textDNI.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textDNI_KeyPress);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(452, 52);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(67, 17);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "*Apellido:";
-            // 
-            // textApellido
-            // 
-            this.textApellido.Location = new System.Drawing.Point(528, 47);
-            this.textApellido.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.textApellido.MaxLength = 255;
-            this.textApellido.Name = "textApellido";
-            this.textApellido.Size = new System.Drawing.Size(345, 22);
-            this.textApellido.TabIndex = 2;
-            this.textApellido.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textNombre_KeyPress);
+            this.textCUIT.Location = new System.Drawing.Point(77, 88);
+            this.textCUIT.Margin = new System.Windows.Forms.Padding(4);
+            this.textCUIT.MaxLength = 11;
+            this.textCUIT.Name = "textCUIT";
+            this.textCUIT.Size = new System.Drawing.Size(172, 22);
+            this.textCUIT.TabIndex = 4;
+            this.textCUIT.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textCUIT_KeyPress);
             // 
             // label1
             // 
@@ -257,19 +229,18 @@
             this.label1.Location = new System.Drawing.Point(21, 52);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(67, 17);
+            this.label1.Size = new System.Drawing.Size(100, 17);
             this.label1.TabIndex = 1;
-            this.label1.Text = "*Nombre:";
+            this.label1.Text = "*Razon Social:";
             // 
-            // textNombre
+            // textRazonSocial
             // 
-            this.textNombre.Location = new System.Drawing.Point(97, 47);
-            this.textNombre.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.textNombre.MaxLength = 255;
-            this.textNombre.Name = "textNombre";
-            this.textNombre.Size = new System.Drawing.Size(345, 22);
-            this.textNombre.TabIndex = 0;
-            this.textNombre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textNombre_KeyPress);
+            this.textRazonSocial.Location = new System.Drawing.Point(127, 49);
+            this.textRazonSocial.Margin = new System.Windows.Forms.Padding(4);
+            this.textRazonSocial.MaxLength = 255;
+            this.textRazonSocial.Name = "textRazonSocial";
+            this.textRazonSocial.Size = new System.Drawing.Size(345, 22);
+            this.textRazonSocial.TabIndex = 3;
             // 
             // groupBox2
             // 
@@ -284,9 +255,9 @@
             this.groupBox2.Controls.Add(this.textLocalidad);
             this.groupBox2.Controls.Add(this.textCP);
             this.groupBox2.Location = new System.Drawing.Point(20, 169);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox2.Size = new System.Drawing.Size(860, 112);
             this.groupBox2.TabIndex = 23;
             this.groupBox2.TabStop = false;
@@ -295,11 +266,11 @@
             // textCalle
             // 
             this.textCalle.Location = new System.Drawing.Point(107, 37);
-            this.textCalle.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textCalle.Margin = new System.Windows.Forms.Padding(4);
             this.textCalle.MaxLength = 255;
             this.textCalle.Name = "textCalle";
-            this.textCalle.Size = new System.Drawing.Size(724, 22);
-            this.textCalle.TabIndex = 13;
+            this.textCalle.Size = new System.Drawing.Size(396, 22);
+            this.textCalle.TabIndex = 11;
             // 
             // label7
             // 
@@ -334,12 +305,12 @@
             // textPiso
             // 
             this.textPiso.Location = new System.Drawing.Point(107, 68);
-            this.textPiso.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textPiso.Margin = new System.Windows.Forms.Padding(4);
             this.textPiso.MaxLength = 2;
             this.textPiso.Name = "textPiso";
             this.textPiso.Size = new System.Drawing.Size(53, 22);
-            this.textPiso.TabIndex = 15;
-            this.textPiso.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textDNI_KeyPress);
+            this.textPiso.TabIndex = 13;
+            this.textPiso.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textTelefono_KeyPress);
             // 
             // label11
             // 
@@ -354,17 +325,16 @@
             // textDpto
             // 
             this.textDpto.Location = new System.Drawing.Point(233, 68);
-            this.textDpto.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textDpto.Margin = new System.Windows.Forms.Padding(4);
             this.textDpto.MaxLength = 2;
             this.textDpto.Name = "textDpto";
             this.textDpto.Size = new System.Drawing.Size(53, 22);
-            this.textDpto.TabIndex = 17;
-            this.textDpto.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textNombre_KeyPress);
+            this.textDpto.TabIndex = 14;
             // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(629, 73);
+            this.label12.Location = new System.Drawing.Point(526, 40);
             this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(99, 17);
@@ -374,32 +344,20 @@
             // textLocalidad
             // 
             this.textLocalidad.Location = new System.Drawing.Point(395, 68);
-            this.textLocalidad.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textLocalidad.Margin = new System.Windows.Forms.Padding(4);
             this.textLocalidad.MaxLength = 255;
             this.textLocalidad.Name = "textLocalidad";
             this.textLocalidad.Size = new System.Drawing.Size(208, 22);
-            this.textLocalidad.TabIndex = 19;
+            this.textLocalidad.TabIndex = 15;
             // 
             // textCP
             // 
-            this.textCP.Location = new System.Drawing.Point(743, 68);
-            this.textCP.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textCP.Location = new System.Drawing.Point(633, 38);
+            this.textCP.Margin = new System.Windows.Forms.Padding(4);
             this.textCP.MaxLength = 6;
             this.textCP.Name = "textCP";
             this.textCP.Size = new System.Drawing.Size(88, 22);
-            this.textCP.TabIndex = 21;
-            this.textCP.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textDNI_KeyPress);
-            // 
-            // calendario
-            // 
-            this.calendario.FirstDayOfWeek = System.Windows.Forms.Day.Sunday;
-            this.calendario.Location = new System.Drawing.Point(409, 126);
-            this.calendario.Margin = new System.Windows.Forms.Padding(12, 11, 12, 11);
-            this.calendario.Name = "calendario";
-            this.calendario.TabIndex = 23;
-            this.calendario.Visible = false;
-            this.calendario.DateSelected += new System.Windows.Forms.DateRangeEventHandler(this.calendario_DateSelected);
-            this.calendario.Leave += new System.EventHandler(this.calendario_Leave);
+            this.textCP.TabIndex = 12;
             // 
             // groupBox3
             // 
@@ -407,12 +365,12 @@
             this.groupBox3.Controls.Add(this.textContra);
             this.groupBox3.Controls.Add(this.label13);
             this.groupBox3.Controls.Add(this.textUsuario);
-            this.groupBox3.Location = new System.Drawing.Point(16, 15);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox3.Location = new System.Drawing.Point(21, 13);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox3.Size = new System.Drawing.Size(327, 123);
-            this.groupBox3.TabIndex = 2;
+            this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Usuario y contraseña";
             // 
@@ -429,12 +387,12 @@
             // textContra
             // 
             this.textContra.Location = new System.Drawing.Point(91, 80);
-            this.textContra.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textContra.Margin = new System.Windows.Forms.Padding(4);
             this.textContra.MaxLength = 255;
             this.textContra.Name = "textContra";
             this.textContra.PasswordChar = '*';
             this.textContra.Size = new System.Drawing.Size(209, 22);
-            this.textContra.TabIndex = 33;
+            this.textContra.TabIndex = 2;
             // 
             // label13
             // 
@@ -449,22 +407,31 @@
             // textUsuario
             // 
             this.textUsuario.Location = new System.Drawing.Point(91, 25);
-            this.textUsuario.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textUsuario.Margin = new System.Windows.Forms.Padding(4);
             this.textUsuario.MaxLength = 255;
             this.textUsuario.Name = "textUsuario";
             this.textUsuario.Size = new System.Drawing.Size(209, 22);
-            this.textUsuario.TabIndex = 31;
+            this.textUsuario.TabIndex = 1;
             // 
-            // Alta
+            // ddRubros
+            // 
+            this.ddRubros.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ddRubros.FormattingEnabled = true;
+            this.ddRubros.Location = new System.Drawing.Point(402, 123);
+            this.ddRubros.Name = "ddRubros";
+            this.ddRubros.Size = new System.Drawing.Size(121, 24);
+            this.ddRubros.TabIndex = 10;
+            // 
+            // AltaProveedor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(956, 566);
+            this.ClientSize = new System.Drawing.Size(935, 546);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.Name = "Alta";
-            this.Text = "Alta Cliente";
+            this.Name = "AltaProveedor";
+            this.Text = "Alta Proveedor";
+            this.Load += new System.EventHandler(this.AltaProveedor_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -478,9 +445,7 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button buttonFecha;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox textFN;
         private System.Windows.Forms.Button buttonVolver;
         private System.Windows.Forms.Button buttonAlta;
         private System.Windows.Forms.Button buttonLimpiar;
@@ -490,11 +455,9 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textMail;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textDNI;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textApellido;
+        private System.Windows.Forms.TextBox textCUIT;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textNombre;
+        private System.Windows.Forms.TextBox textRazonSocial;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.TextBox textCalle;
         private System.Windows.Forms.Label label7;
@@ -506,11 +469,13 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox textLocalidad;
         private System.Windows.Forms.TextBox textCP;
-        private System.Windows.Forms.MonthCalendar calendario;
+        private System.Windows.Forms.TextBox textNombreContacto;
+        private System.Windows.Forms.Label Rubro;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox textContra;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox textUsuario;
+        private System.Windows.Forms.ComboBox ddRubros;
     }
 }
