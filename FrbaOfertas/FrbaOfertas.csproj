@@ -115,6 +115,8 @@
     </Compile>
     <Compile Include="Decoracion.cs" />
     <Compile Include="ConectorDB.cs" />
+    <Compile Include="Modelos\ProveedorEstadistica1.cs" />
+    <Compile Include="Modelos\ProveedorEstadistica2.cs" />
     <Compile Include="Modelos\TipoPago.cs" />
     <Compile Include="Modelos\Tarjeta.cs" />
     <Compile Include="Modelos\Oferta.cs" />

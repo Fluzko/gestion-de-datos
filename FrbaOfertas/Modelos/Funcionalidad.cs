@@ -53,7 +53,7 @@ namespace FrbaOfertas.Modelos
                     break;
 
                 case 9:
-                    //(new ListadoEstadistico.ListadoEstadistico()).Show();
+                    (new ListadoEstadistico.ListadoEstadistico()).Show();
                     break;
 
                 default:

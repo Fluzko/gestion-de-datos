@@ -903,5 +903,97 @@ namespace FrbaOfertas
             return Decimal.ToDouble(credito);
          
         }
+
+        public static List<Modelos.ProveedorEstadistica1> getProveedoresFacturacion(String anio, int semestre) {
+
+            String query = "SELECT TOP 5 p.username, p.razon_social, sum(f.monto) as facturacion from Proveedores p JOIN"
+                                    + " Facturas f ON f.username = p.username"
+                                    + " WHERE YEAR(f.fecha) = @anio AND ";
+            if (semestre == 1)
+            {
+                query += "MONTH(f.fecha) <7";
+            }
+            else
+            {
+                query += "MONTH(f.fecha) >6";
+            }
+
+            query += " GROUP BY p.username, p.razon_social"
+            + " ORDER BY 3 DESC";
+           
+            setCmd(query);
+
+            cmd.Parameters.AddWithValue("@anio", anio);
+
+            reader = cmd.ExecuteReader();
+
+            List<Modelos.ProveedorEstadistica1> proveedores = new List<Modelos.ProveedorEstadistica1>();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    Modelos.ProveedorEstadistica1 proveedor = new Modelos.ProveedorEstadistica1(reader.GetString(0),
+                                                              reader.GetString(1),Decimal.ToDouble(reader.GetDecimal(2)));
+
+                    proveedores.Add(proveedor);
+                }
+                reader.Close();
+                return proveedores;
+            }
+            else
+            {
+                reader.Close();
+                return null;
+            }
+            
+        }
+
+        public static List<Modelos.ProveedorEstadistica2> getProveedoresPorcentajeOferta(String anio, int semestre)
+        {
+
+            String query = "SELECT TOP 5 p.username, p.razon_social, max(1 - (o.precio_rebajado/o.precio_lista)) as PorcentajeO from Proveedores p JOIN"
+                            +" Ofertas o ON o.username = p.username"
+                            + " WHERE YEAR(o.fecha_pub) = @anio AND ";
+            
+            if (semestre == 1)
+            {
+                query += "MONTH(o.fecha_pub) <7";
+            }
+            else
+            {
+                query += "MONTH(o.fecha_pub) >6";
+            }
+
+            query += " GROUP BY p.username, p.razon_social"
+            + " ORDER BY 3 DESC";
+
+            setCmd(query);
+
+            cmd.Parameters.AddWithValue("@anio", anio);
+
+            reader = cmd.ExecuteReader();
+
+            List<Modelos.ProveedorEstadistica2> proveedores = new List<Modelos.ProveedorEstadistica2>();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    Modelos.ProveedorEstadistica2 proveedor = new Modelos.ProveedorEstadistica2(reader.GetString(0),
+                                                              reader.GetString(1), Decimal.ToDouble(reader.GetDecimal(2)));
+
+                    proveedores.Add(proveedor);
+                }
+                reader.Close();
+                return proveedores;
+            }
+            else
+            {
+                reader.Close();
+                return null;
+            }
+
+        }
     }
 }
