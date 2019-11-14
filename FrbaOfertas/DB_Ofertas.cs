@@ -114,6 +114,91 @@ namespace FrbaOfertas
             }
         }
 
+        public static List<Modelos.Funcionalidad> getFuncionalidades()
+        {
+
+            setCmd("SELECT f.id_func,f.nombre, f.descripcion FROM LOS_SINEQUI.Funcionalidades f");
+
+            reader = cmd.ExecuteReader();
+
+            List<Modelos.Funcionalidad> funcionalidades = new List<Modelos.Funcionalidad>();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    funcionalidades.Add(new Modelos.Funcionalidad(reader.GetInt32(0), reader.GetString(1), reader.GetString(2)));
+                }
+                reader.Close();
+                return funcionalidades;
+            }
+            else
+            {
+                reader.Close();
+                return null;
+            }
+        }
+
+        public static int rolExiste(string nombreRol) {
+            setCmd("SELECT COUNT(id_rol) FROM LOS_SINEQUI.Roles " +
+                "WHERE nombre = @nombreRol");
+            cmd.Parameters.AddWithValue("@nombreRol", nombreRol);
+            reader = cmd.ExecuteReader();
+            reader.Read();
+            int exists = reader.GetInt32(0);
+            reader.Close();
+            return exists;
+        }
+
+        public static bool crearRol(string nombreRol, List<int> funcionalidades) {
+
+            if(String.IsNullOrEmpty(nombreRol) || String.IsNullOrWhiteSpace(nombreRol))
+            {
+                MessageBox.Show("Se debe ingresar un nombre para el rol", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            if (DB_Ofertas.rolExiste(nombreRol) == 1)
+            {
+                MessageBox.Show("El nombre ingresado ya esta en uso", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if(funcionalidades.Count == 0)
+            {
+                MessageBox.Show("Se debe seleccionar al menos una funcionalidad", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            
+            
+            setCmd("INSERT INTO LOS_SINEQUI.Roles(nombre, habilitado) " +
+                "VALUES (@nombreRol, 1)");
+            cmd.Parameters.AddWithValue("@nombreRol", nombreRol);
+            cmd.ExecuteNonQuery();
+
+            setCmd("SELECT id_rol FROM LOS_SINEQUI.Roles "+
+                "WHERE nombre = @nombreRol");
+            cmd.Parameters.AddWithValue("@nombreRol", nombreRol);
+            reader = cmd.ExecuteReader();
+            reader.Read();
+
+            int idrol = reader.GetInt32(0);
+
+            reader.Close();
+
+            foreach (int id in funcionalidades) {               
+                setCmd("INSERT INTO LOS_SINEQUI.Rol_Funcionalidad(id_rol, id_func) " +
+                    "VALUES(@idrol,@idfunc)");
+
+                cmd.Parameters.AddWithValue("@idrol", idrol);
+                cmd.Parameters.AddWithValue("@idfunc", id);
+
+                cmd.ExecuteNonQuery();
+            }
+
+            return true;
+        }
+
         public static bool altaCliente(String username, String contra, String nombre, String apellido, String mail, String telefono, DateTime fechaNac,
                                         String calle, String piso, String dpto, String localidad, String cp, String dni)
         {

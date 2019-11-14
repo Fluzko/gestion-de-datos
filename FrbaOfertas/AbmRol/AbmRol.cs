@@ -17,11 +17,6 @@ namespace FrbaOfertas.AbmRol
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void AbmRol_Load(object sender, EventArgs e)
         {
 
@@ -29,7 +24,21 @@ namespace FrbaOfertas.AbmRol
 
         private void btnNuevoRol_Click(object sender, EventArgs e)
         {
+            (new Alta()).Show();
+            this.Hide();
 
+        }
+
+        private void btnLista_Click(object sender, EventArgs e)
+        {
+            (new Listar()).Show();
+            this.Hide();
+        }
+
+        private void buttonVolver_Click(object sender, EventArgs e)
+        {
+            (new Login.Funcionalidad(Session.getRol())).Show();
+            this.Hide();
         }
     }
 }

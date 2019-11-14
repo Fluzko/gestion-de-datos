@@ -91,6 +91,7 @@ namespace FrbaOfertas.AbmProveedor
             this.buttonVolver.TabIndex = 3;
             this.buttonVolver.Text = "Volver";
             this.buttonVolver.UseVisualStyleBackColor = true;
+            this.buttonVolver.Click += new System.EventHandler(this.buttonVolver_Click);
             // 
             // AbmProveedores
             // 
@@ -114,5 +115,6 @@ namespace FrbaOfertas.AbmProveedor
             (new ModificarProveedor()).Show();
             this.Hide();
         }
+
     }
 }

@@ -10,10 +10,17 @@ namespace FrbaOfertas.Modelos
     {
         public int id_funcionalidad { get; set; }
         public String funcionalidad { get; set; }
+        public String descripcion { get; set; }
 
         public Funcionalidad(int id, String funcionalidad){
             id_funcionalidad = id;
             this.funcionalidad = funcionalidad;
+        }
+        public Funcionalidad(int id, String funcionalidad, String descripcion)
+        {
+            id_funcionalidad = id;
+            this.funcionalidad = funcionalidad;
+            this.descripcion = descripcion;
         }
 
 
