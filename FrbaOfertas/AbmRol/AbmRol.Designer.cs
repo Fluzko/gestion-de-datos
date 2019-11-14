@@ -32,18 +32,20 @@
             this.btnLista = new System.Windows.Forms.Button();
             this.btnNuevoRol = new System.Windows.Forms.Button();
             this.buttonVolver = new System.Windows.Forms.Button();
+            this.buttonEliminarRol = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.buttonEliminarRol);
             this.groupBox1.Controls.Add(this.btnLista);
             this.groupBox1.Controls.Add(this.btnNuevoRol);
             this.groupBox1.Location = new System.Drawing.Point(16, 15);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Size = new System.Drawing.Size(224, 135);
+            this.groupBox1.Size = new System.Drawing.Size(224, 187);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Acciones:";
@@ -72,7 +74,7 @@
             // 
             // buttonVolver
             // 
-            this.buttonVolver.Location = new System.Drawing.Point(80, 170);
+            this.buttonVolver.Location = new System.Drawing.Point(80, 235);
             this.buttonVolver.Margin = new System.Windows.Forms.Padding(4);
             this.buttonVolver.Name = "buttonVolver";
             this.buttonVolver.Size = new System.Drawing.Size(100, 28);
@@ -81,11 +83,21 @@
             this.buttonVolver.UseVisualStyleBackColor = true;
             this.buttonVolver.Click += new System.EventHandler(this.buttonVolver_Click);
             // 
+            // buttonEliminarRol
+            // 
+            this.buttonEliminarRol.Location = new System.Drawing.Point(15, 134);
+            this.buttonEliminarRol.Name = "buttonEliminarRol";
+            this.buttonEliminarRol.Size = new System.Drawing.Size(201, 28);
+            this.buttonEliminarRol.TabIndex = 2;
+            this.buttonEliminarRol.Text = "Eliminar Rol";
+            this.buttonEliminarRol.UseVisualStyleBackColor = true;
+            this.buttonEliminarRol.Click += new System.EventHandler(this.buttonEliminarRol_Click);
+            // 
             // AbmRol
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(268, 213);
+            this.ClientSize = new System.Drawing.Size(268, 285);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.buttonVolver);
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -103,5 +115,6 @@
         private System.Windows.Forms.Button btnLista;
         private System.Windows.Forms.Button btnNuevoRol;
         private System.Windows.Forms.Button buttonVolver;
+        private System.Windows.Forms.Button buttonEliminarRol;
     }
 }

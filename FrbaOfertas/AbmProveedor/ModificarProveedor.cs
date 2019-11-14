@@ -67,7 +67,6 @@ namespace FrbaOfertas.AbmProveedor
 
                 if (proveedores == null)
                 {
-                    Console.WriteLine(textCUITB.Text);
                     MessageBox.Show("No hay proveedores", "Modificar proveedor", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }

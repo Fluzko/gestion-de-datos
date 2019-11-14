@@ -98,17 +98,17 @@
     <Compile Include="AbmRol\AbmRol.Designer.cs">
       <DependentUpon>AbmRol.cs</DependentUpon>
     </Compile>
+    <Compile Include="AbmRol\Eliminar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmRol\Eliminar.Designer.cs">
+      <DependentUpon>Eliminar.cs</DependentUpon>
+    </Compile>
     <Compile Include="AbmRol\Modificar.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="AbmRol\Modificar.Designer.cs">
       <DependentUpon>Modificar.cs</DependentUpon>
-    </Compile>
-    <Compile Include="AbmRol\Listar.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AbmRol\Listar.Designer.cs">
-      <DependentUpon>Listar.cs</DependentUpon>
     </Compile>
     <Compile Include="AbmRol\Alta.cs">
       <SubType>Form</SubType>
@@ -218,11 +218,11 @@
     <EmbeddedResource Include="AbmRol\Alta.resx">
       <DependentUpon>Alta.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AbmRol\Eliminar.resx">
+      <DependentUpon>Eliminar.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AbmRol\Modificar.resx">
       <DependentUpon>Modificar.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AbmRol\Listar.resx">
-      <DependentUpon>Listar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ComprarOferta\ComprarOferta.resx">
       <DependentUpon>ComprarOferta.cs</DependentUpon>

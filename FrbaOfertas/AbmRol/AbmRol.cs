@@ -31,13 +31,19 @@ namespace FrbaOfertas.AbmRol
 
         private void btnLista_Click(object sender, EventArgs e)
         {
-            (new Listar()).Show();
+            (new Modificar()).Show();
             this.Hide();
         }
 
         private void buttonVolver_Click(object sender, EventArgs e)
         {
             (new Login.Funcionalidad(Session.getRol())).Show();
+            this.Hide();
+        }
+
+        private void buttonEliminarRol_Click(object sender, EventArgs e)
+        {
+            (new Eliminar()).Show();
             this.Hide();
         }
     }

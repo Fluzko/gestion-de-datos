@@ -57,6 +57,79 @@ namespace FrbaOfertas
             }
         }
 
+        public static int getIdRol(String nombreRol) {
+
+            setCmd("SELECT COUNT(id_rol) FROM LOS_SINEQUI.Roles WHERE nombre = @nombreRol");
+            cmd.Parameters.AddWithValue("@nombreRol", nombreRol);
+            reader = cmd.ExecuteReader();
+            reader.Read();
+            int existe = reader.GetInt32(0);
+            reader.Close();
+            if ( existe != 0)
+            {
+                setCmd("SELECT id_rol FROM LOS_SINEQUI.Roles WHERE nombre = @nombreRol");
+                cmd.Parameters.AddWithValue("@nombreRol", nombreRol);
+                reader = cmd.ExecuteReader();
+                reader.Read();
+                int idRol = reader.GetInt32(0);
+                reader.Close();
+                return idRol;
+            }
+            else
+                return 0;    
+        }
+
+        public static bool tieneFuncionalidad(string idFunc, int idRol) {
+            int id_func = int.Parse(idFunc);
+
+            setCmd("SELECT COUNT(id_rol) FROM LOS_SINEQUI.Rol_Funcionalidad WHERE id_rol = @idRol AND id_func = @idFunc");
+            cmd.Parameters.AddWithValue("@idRol", idRol);
+            cmd.Parameters.AddWithValue("@idFunc", id_func);
+
+            reader = cmd.ExecuteReader();
+            reader.Read();
+            int result = reader.GetInt32(0);
+            reader.Close();
+
+            if(result == 1)
+                return true;
+            else
+                return false;
+      
+        }
+
+        public static List<string> getAllRoles() {
+
+            setCmd("SELECT nombre FROM LOS_SINEQUI.Roles WHERE habilitado=1");
+            reader = cmd.ExecuteReader();
+
+            List<string> roles = new List<string>();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    string rol = reader.GetString(0);
+                    roles.Add(rol);
+                }
+                reader.Close();
+                return roles;
+            }
+            else
+            {
+                reader.Close();
+                return null;
+            } 
+        }
+
+        public static bool eliminarRol(string nombreRol)
+        {
+            setCmd("UPDATE LOS_SINEQUI.Roles SET habilitado=0 WHERE nombre=@nombreRol");
+            cmd.Parameters.AddWithValue("@nombreRol", nombreRol);
+            cmd.ExecuteNonQuery();
+
+            return true;
+        }
 
         public static List<Modelos.Rol> getRoles(String usuario)
         {
@@ -85,6 +158,7 @@ namespace FrbaOfertas
                 return null;
             }
         }
+
 
 
         public static List<Modelos.Funcionalidad> getFuncionalidades(int id_rol)
@@ -938,6 +1012,61 @@ namespace FrbaOfertas
             return;
         }
 
+        public static bool updateRol(String nombreRol, String nombreViejo, List<int> funcionalidades) {
+            if (String.IsNullOrEmpty(nombreRol) || String.IsNullOrWhiteSpace(nombreRol))
+            {
+                MessageBox.Show("Se debe ingresar un nombre para el rol", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if (nombreRol != nombreViejo)
+            {
+                if (DB_Ofertas.rolExiste(nombreRol) == 1)
+                {
+                    MessageBox.Show("El nombre ingresado ya esta en uso", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+            }
+            if (funcionalidades.Count == 0)
+            {
+                MessageBox.Show("Se debe seleccionar al menos una funcionalidad", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+
+            setCmd("UPDATE LOS_SINEQUI.Roles SET nombre = @nombreRol WHERE nombre = @nombreViejo" );
+            cmd.Parameters.AddWithValue("@nombreRol", nombreRol);
+            cmd.Parameters.AddWithValue("@nombreViejo", nombreViejo);
+            cmd.ExecuteNonQuery();
+
+            setCmd("SELECT id_rol FROM LOS_SINEQUI.Roles " +
+                "WHERE nombre = @nombreRol");
+            cmd.Parameters.AddWithValue("@nombreRol", nombreRol);
+            reader = cmd.ExecuteReader();
+            reader.Read();
+
+            int idrol = reader.GetInt32(0);
+
+            reader.Close();
+
+            setCmd("DELETE FROM LOS_SINEQUI.Rol_Funcionalidad WHERE id_rol = @idrol");
+            cmd.Parameters.AddWithValue("@idrol", idrol);
+            cmd.ExecuteNonQuery();
+
+            foreach (int id in funcionalidades)
+            {
+                setCmd("INSERT INTO LOS_SINEQUI.Rol_Funcionalidad(id_rol, id_func) " +
+                    "VALUES(@idrol,@idfunc)");
+
+                cmd.Parameters.AddWithValue("@idrol", idrol);
+                cmd.Parameters.AddWithValue("@idfunc", id);
+
+                cmd.ExecuteNonQuery();
+            }
+
+            return true;     
+        }
+
         public static void updateProveedor(Modelos.Proveedor proveedor)
         {
 
@@ -1221,6 +1350,7 @@ namespace FrbaOfertas
             reader.Close();
             return proveedores;
         }
+
         public static string nombreRubro(int id) {
 
             setCmd("select nombre from LOS_SINEQUI.Rubros where id_rubro = @id");
