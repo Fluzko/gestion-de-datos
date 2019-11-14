@@ -12,14 +12,31 @@ namespace FrbaOfertas.AbmProveedor
 {
     public partial class AltaProveedor : Form
     {
+        List<Modelos.Rubro> rubros;
+
         public AltaProveedor()
         {
             InitializeComponent();
+            listRubros();
         }
 
         private void buttonLimpiar_Click(object sender, EventArgs e)
         {
             this.cleanInputs();
+        }
+
+        private void listRubros()
+        {
+            rubros = DB_Ofertas.getRubros();
+
+            if (rubros.Count != 0)
+            {
+                ddRubros.Enabled = true;
+                ddRubros.DataSource = rubros;
+                ddRubros.DisplayMember = "nombre";
+                ddRubros.ValueMember = "id_rubro";
+                ddRubros.SelectedItem = rubros.First();
+            }
         }
 
         private void cleanInputs()
@@ -29,12 +46,14 @@ namespace FrbaOfertas.AbmProveedor
             this.textCUIT.Clear();
             this.textMail.Clear();
             this.textTelefono.Clear();
-            this.textRubro.Clear();
             this.textCalle.Clear();
             this.textPiso.Clear();
             this.textDpto.Clear();
             this.textLocalidad.Clear();
             this.textCP.Clear();
+            this.textUsuario.Clear();
+            this.textContra.Clear();
+            
             this.textNombreContacto.Clear();
         }
 
@@ -67,7 +86,7 @@ namespace FrbaOfertas.AbmProveedor
                                                 this.textMail.Text,
                                                 this.textTelefono.Text,
                                                 this.textNombreContacto.Text,
-                                                this.textRubro.Text,
+                                                this.ddRubros.Text,
                                                 this.textCalle.Text,
                                                 this.textPiso.Text,
                                                 this.textDpto.Text,
@@ -89,7 +108,7 @@ namespace FrbaOfertas.AbmProveedor
             this.textMail.Text,
             this.textTelefono.Text,
             this.textNombreContacto.Text,
-            this.textRubro.Text,
+           // this.ddRubros.SelectedText,
             this.textCalle.Text,
             //this.textPiso.Text,
             //this.textDpto.Text,
@@ -136,6 +155,11 @@ namespace FrbaOfertas.AbmProveedor
         private void textCUIT_KeyPress(object sender, KeyPressEventArgs e)
         {
             Validar.numerico(e);
+        }
+
+        private void AltaProveedor_Load(object sender, EventArgs e)
+        {
+
         }
 
     }

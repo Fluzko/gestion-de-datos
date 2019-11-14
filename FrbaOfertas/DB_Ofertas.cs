@@ -487,9 +487,43 @@ namespace FrbaOfertas
             return ofertas;
         }
 
-        public static bool crearOferta(string descripcion, decimal precioOferta, decimal precioLista, int stock, int cantMax, string razonProv)
-        { ///VER SI INSERTO EN CUPONES, OFERTA O AMBAS (CONSULTAR)
-            setCmd("INSERT INTO LOS_SINEQUI");
+        public static bool crearOferta(string descripcion, decimal precioOferta, decimal precioLista, int stock, int cantMax, DateTime fechaPublicacion, DateTime fechaVencimiento, String proveedor)
+        { 
+            setCmd("INSERT INTO LOS_SINEQUI.Ofertas (descripcion, fecha_pub, fecha_vec, username, precio_rebajado, precio_lista, stock, max_cliente)" +
+                "VALUES(@descripcion,@fechapub,@fechavec,@usuario,@preciooferta,@preciolista,@stock,@cantmax)");
+
+            cmd.Parameters.AddWithValue("@descripcion", descripcion);
+            cmd.Parameters.AddWithValue("@fechapub", fechaPublicacion);
+            cmd.Parameters.AddWithValue("@fechavec", fechaVencimiento);
+            cmd.Parameters.AddWithValue("@usuario", Session.getUser().getUsername());
+            cmd.Parameters.AddWithValue("@preciooferta", precioOferta);
+            cmd.Parameters.AddWithValue("@preciolista", precioLista);
+            cmd.Parameters.AddWithValue("@stock", stock);
+            cmd.Parameters.AddWithValue("@cantmax", cantMax);
+
+            Console.WriteLine(Session.getUser().getUsername());
+            cmd.ExecuteNonQuery();
+
+            return true;
+        }
+
+        public static bool esAdmin(String user) {
+            setCmd("SELECT id_rol FROM LOS_SINEQUI.Rol_Usuario WHERE username = @usuario");
+            cmd.Parameters.AddWithValue("@usuario", user);
+
+            reader = cmd.ExecuteReader();
+            int rol;
+
+            if (reader.HasRows)
+            {
+                reader.Read();
+                rol = reader.GetInt32(0);
+                reader.Close();
+                if (rol == 3 || rol == 4) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public static void comprarOferta(Modelos.Usuario usuario, Modelos.Oferta oferta, int cant, DateTime fecha)
@@ -891,8 +925,8 @@ namespace FrbaOfertas
             {
                 Modelos.Proveedor proveedor = new Modelos.Proveedor();
 
-                proveedor.username = reader.GetString(0);
-                proveedor.razonSocial = reader.GetString(1);
+                proveedor.Username = reader.GetString(0);
+                proveedor.RazonSocial = reader.GetString(1);
 
                 proveedores.Add(proveedor);
             }
@@ -949,7 +983,7 @@ namespace FrbaOfertas
             setCmd("INSERT INTO LOS_SINEQUI.Facturas (username, fecha) " +
                         "VALUES (@idProveedor, @fechaActual)");
 
-            cmd.Parameters.AddWithValue("@idProveedor", proveedor.username);
+            cmd.Parameters.AddWithValue("@idProveedor", proveedor.Username);
             cmd.Parameters.AddWithValue("@fechaActual", Properties.Settings.Default.Fecha);
 
             cmd.ExecuteNonQuery();
@@ -973,7 +1007,7 @@ namespace FrbaOfertas
                         "ORDER BY 1");
 
             cmd.Parameters.AddWithValue("@idFactura", idFactura);
-            cmd.Parameters.AddWithValue("@proveedor", proveedor.username);
+            cmd.Parameters.AddWithValue("@proveedor", proveedor.Username);
             cmd.Parameters.AddWithValue("@desde", desde);
             cmd.Parameters.AddWithValue("@hasta", hasta);
 
@@ -988,7 +1022,7 @@ namespace FrbaOfertas
                             "AND c.fecha_compra >= @desde " +
                             "AND c.fecha_compra <= @hasta ) as facturados " +
                             "WHERE facturados.id = Cupones.id_cupon ");
-            cmd.Parameters.AddWithValue("@proveedor", proveedor.username);
+            cmd.Parameters.AddWithValue("@proveedor", proveedor.Username);
             cmd.Parameters.AddWithValue("@desde", desde);
             cmd.Parameters.AddWithValue("@hasta", hasta);
 
@@ -1117,7 +1151,7 @@ namespace FrbaOfertas
             }
 
             //chequeo unicidad cuit y razonsocial
-            setCmd("select count(razon_social) from LOS_SINEQUI.Proveedores where razonsocial = @razon_social and cuit = @cuit");
+            setCmd("select count(razon_social) from LOS_SINEQUI.Proveedores where razon_social = @razon_social and cuit = @cuit");
 
             cmd.Parameters.AddWithValue("@razon_social", razonsocial);
             cmd.Parameters.AddWithValue("@cuit", cuit);
@@ -1171,8 +1205,19 @@ namespace FrbaOfertas
             int idDireccion = reader.GetInt32(0);
             reader.Close();
 
-            setCmd("insert into LOS_SINEQUI.Proveedores (username,razonsocial,telefono,mail,id_direccion,cuit,rubro,nombrecontacto,habilitado)" +
-                "values (@username, @razon_social, @telefono, @mail, @id_direccion, @cuit, @rubro, @nombre_contacto, @habilitado)");
+            Console.WriteLine(rubro);
+            Console.WriteLine("AVEEEEEERGA");
+
+            setCmd("select id_rubro from LOS_SINEQUI.Rubros where nombre = @rubro");
+            cmd.Parameters.AddWithValue("@rubro", rubro);
+
+            reader = cmd.ExecuteReader();
+            reader.Read();
+            int id_rubro = reader.GetInt32(0);
+            reader.Close();
+
+            setCmd("insert into LOS_SINEQUI.Proveedores (username,razon_social,telefono,mail,id_direccion,cuit,rubro,nombre_contacto,habilitado)" +
+                "values (@username, @razon_social, @telefono, @mail, @id_direccion, @cuit, @idrubro, @nombre_contacto, @habilitado)");
 
             cmd.Parameters.AddWithValue("@username", username);
             cmd.Parameters.AddWithValue("@razon_social", razonsocial);
@@ -1180,8 +1225,9 @@ namespace FrbaOfertas
             cmd.Parameters.AddWithValue("@mail", mail);
             cmd.Parameters.AddWithValue("@id_direccion", idDireccion);
             cmd.Parameters.AddWithValue("@cuit", cuit);
-            cmd.Parameters.AddWithValue("@rubro", rubro);
+            cmd.Parameters.AddWithValue("@idrubro", id_rubro);
             cmd.Parameters.AddWithValue("@nombre_contacto", nombrecontacto);
+            cmd.Parameters.AddWithValue("@habilitado", 1);
 
             cmd.ExecuteNonQuery();
 
@@ -1286,6 +1332,34 @@ namespace FrbaOfertas
             return proveedores;
         }
 
+        public static List<Modelos.Rubro> getRubros()
+        {
+            setCmd("SELECT id_rubro, nombre FROM LOS_SINEQUI.Rubros WHERE habilitado = 1 ORDER BY 2");
+
+            reader = cmd.ExecuteReader();
+
+            if (!reader.HasRows)
+            {
+                MessageBox.Show("No hay ningun rubro habilitado en el sistema", "Proveedores", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                reader.Close();
+                return null;
+            }
+
+            List<Modelos.Rubro> rubros = new List<Modelos.Rubro>();
+
+            while (reader.Read())
+            {
+                Modelos.Rubro rubro = new Modelos.Rubro();
+
+                rubro.id_rubro = reader.GetInt32(0);
+                rubro.nombre = reader.GetString(1);
+
+                rubros.Add(rubro);
+            }
+
+            reader.Close();
+            return rubros;
+        }
 
        
     }

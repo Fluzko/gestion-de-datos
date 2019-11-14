@@ -37,7 +37,7 @@ namespace FrbaOfertas.Modelos
                     break;
 
                 case 5:
-                    //(CrearOferta.CrearOferta()).Show();
+                    (new CrearOferta.PublicarOferta()).Show();
                     break;
 
                 case 6:

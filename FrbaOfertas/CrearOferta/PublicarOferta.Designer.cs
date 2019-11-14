@@ -57,7 +57,7 @@
             this.textDescripcion.Location = new System.Drawing.Point(129, 23);
             this.textDescripcion.Name = "textDescripcion";
             this.textDescripcion.Size = new System.Drawing.Size(263, 22);
-            this.textDescripcion.TabIndex = 23;
+            this.textDescripcion.TabIndex = 0;
             this.textDescripcion.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textDescripcion_KeyPress);
             // 
             // textStockDisp
@@ -65,7 +65,8 @@
             this.textStockDisp.Location = new System.Drawing.Point(130, 129);
             this.textStockDisp.Name = "textStockDisp";
             this.textStockDisp.Size = new System.Drawing.Size(262, 22);
-            this.textStockDisp.TabIndex = 22;
+            this.textStockDisp.TabIndex = 3;
+            this.textStockDisp.TextChanged += new System.EventHandler(this.textStockDisp_TextChanged);
             this.textStockDisp.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textStockDisp_KeyPress);
             // 
             // textPrecioLista
@@ -73,7 +74,7 @@
             this.textPrecioLista.Location = new System.Drawing.Point(130, 94);
             this.textPrecioLista.Name = "textPrecioLista";
             this.textPrecioLista.Size = new System.Drawing.Size(262, 22);
-            this.textPrecioLista.TabIndex = 21;
+            this.textPrecioLista.TabIndex = 2;
             this.textPrecioLista.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textPrecioLista_KeyPress);
             // 
             // textPrecioOferta
@@ -81,7 +82,7 @@
             this.textPrecioOferta.Location = new System.Drawing.Point(130, 57);
             this.textPrecioOferta.Name = "textPrecioOferta";
             this.textPrecioOferta.Size = new System.Drawing.Size(262, 22);
-            this.textPrecioOferta.TabIndex = 20;
+            this.textPrecioOferta.TabIndex = 1;
             this.textPrecioOferta.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textPrecioOferta_KeyPress);
             // 
             // label1
@@ -136,6 +137,8 @@
             this.calendarFechaPublicacion.Name = "calendarFechaPublicacion";
             this.calendarFechaPublicacion.TabIndex = 29;
             this.calendarFechaPublicacion.Visible = false;
+            this.calendarFechaPublicacion.DateChanged += new System.Windows.Forms.DateRangeEventHandler(this.calendarFechaPublicacion_DateChanged);
+            this.calendarFechaPublicacion.DateSelected += new System.Windows.Forms.DateRangeEventHandler(this.calendarFechaPublicacion_DateSelected);
             this.calendarFechaPublicacion.Leave += new System.EventHandler(this.calendarFechaPublicacion_Leave);
             // 
             // calendarFechaVencimiento
@@ -144,6 +147,7 @@
             this.calendarFechaVencimiento.Name = "calendarFechaVencimiento";
             this.calendarFechaVencimiento.TabIndex = 31;
             this.calendarFechaVencimiento.Visible = false;
+            this.calendarFechaVencimiento.DateSelected += new System.Windows.Forms.DateRangeEventHandler(this.calendarFechaVencimiento_DateSelected);
             this.calendarFechaVencimiento.Leave += new System.EventHandler(this.calendarFechaVencimiento_Leave);
             // 
             // label6
@@ -169,7 +173,7 @@
             this.textCantMax.Location = new System.Drawing.Point(189, 161);
             this.textCantMax.Name = "textCantMax";
             this.textCantMax.Size = new System.Drawing.Size(203, 22);
-            this.textCantMax.TabIndex = 33;
+            this.textCantMax.TabIndex = 4;
             this.textCantMax.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textCantMax_KeyPress);
             // 
             // label8
@@ -183,10 +187,11 @@
             // 
             // textProveedor
             // 
+            this.textProveedor.Enabled = false;
             this.textProveedor.Location = new System.Drawing.Point(189, 462);
             this.textProveedor.Name = "textProveedor";
             this.textProveedor.Size = new System.Drawing.Size(224, 22);
-            this.textProveedor.TabIndex = 35;
+            this.textProveedor.TabIndex = 7;
             // 
             // buttonPublicar
             // 
@@ -196,6 +201,7 @@
             this.buttonPublicar.TabIndex = 36;
             this.buttonPublicar.Text = "Publicar";
             this.buttonPublicar.UseVisualStyleBackColor = true;
+            this.buttonPublicar.Click += new System.EventHandler(this.buttonPublicar_Click);
             // 
             // buttonCerrar
             // 
@@ -205,13 +211,14 @@
             this.buttonCerrar.TabIndex = 37;
             this.buttonCerrar.Text = "Cerrar";
             this.buttonCerrar.UseVisualStyleBackColor = true;
+            this.buttonCerrar.Click += new System.EventHandler(this.buttonCerrar_Click);
             // 
             // textFechaPublicacion
             // 
             this.textFechaPublicacion.Location = new System.Drawing.Point(146, 209);
             this.textFechaPublicacion.Name = "textFechaPublicacion";
             this.textFechaPublicacion.ReadOnly = true;
-            this.textFechaPublicacion.Size = new System.Drawing.Size(100, 22);
+            this.textFechaPublicacion.Size = new System.Drawing.Size(132, 22);
             this.textFechaPublicacion.TabIndex = 38;
             // 
             // textFechaVencimiento
@@ -219,7 +226,7 @@
             this.textFechaVencimiento.Location = new System.Drawing.Point(473, 209);
             this.textFechaVencimiento.Name = "textFechaVencimiento";
             this.textFechaVencimiento.ReadOnly = true;
-            this.textFechaVencimiento.Size = new System.Drawing.Size(95, 22);
+            this.textFechaVencimiento.Size = new System.Drawing.Size(126, 22);
             this.textFechaVencimiento.TabIndex = 39;
             // 
             // buttonSelecFechaPub
@@ -227,7 +234,7 @@
             this.buttonSelecFechaPub.Location = new System.Drawing.Point(59, 250);
             this.buttonSelecFechaPub.Name = "buttonSelecFechaPub";
             this.buttonSelecFechaPub.Size = new System.Drawing.Size(159, 35);
-            this.buttonSelecFechaPub.TabIndex = 40;
+            this.buttonSelecFechaPub.TabIndex = 5;
             this.buttonSelecFechaPub.Text = "Seleccionar fecha";
             this.buttonSelecFechaPub.UseVisualStyleBackColor = true;
             this.buttonSelecFechaPub.Click += new System.EventHandler(this.buttonSelecFechaPub_Click);
@@ -237,7 +244,7 @@
             this.buttonSelecFechaVen.Location = new System.Drawing.Point(401, 250);
             this.buttonSelecFechaVen.Name = "buttonSelecFechaVen";
             this.buttonSelecFechaVen.Size = new System.Drawing.Size(150, 34);
-            this.buttonSelecFechaVen.TabIndex = 41;
+            this.buttonSelecFechaVen.TabIndex = 6;
             this.buttonSelecFechaVen.Text = "Seleccionar fecha";
             this.buttonSelecFechaVen.UseVisualStyleBackColor = true;
             this.buttonSelecFechaVen.Click += new System.EventHandler(this.buttonSelecFechaVen_Click);
@@ -246,7 +253,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(617, 554);
+            this.ClientSize = new System.Drawing.Size(640, 567);
             this.Controls.Add(this.buttonSelecFechaVen);
             this.Controls.Add(this.buttonSelecFechaPub);
             this.Controls.Add(this.textFechaVencimiento);
@@ -271,6 +278,7 @@
             this.Controls.Add(this.calendarFechaVencimiento);
             this.Name = "PublicarOferta";
             this.Text = "Publicar Ofertas";
+            this.Load += new System.EventHandler(this.PublicarOferta_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

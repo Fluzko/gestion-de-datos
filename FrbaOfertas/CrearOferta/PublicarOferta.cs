@@ -39,6 +39,8 @@ namespace FrbaOfertas.CrearOferta
                                                Convert.ToDecimal(this.textPrecioLista.Text),
                                                Convert.ToInt32(this.textStockDisp.Text),
                                                Convert.ToInt32(this.textCantMax.Text),
+                                               this.calendarFechaPublicacion.SelectionStart,
+                                               this.calendarFechaVencimiento.SelectionStart,
                                                this.textProveedor.Text);
                                        
             if (alta)
@@ -79,10 +81,18 @@ namespace FrbaOfertas.CrearOferta
         private void calendarFechaPublicacion_DateSelected(object sender, DateRangeEventArgs e)
         {
             textFechaPublicacion.Text = calendarFechaPublicacion.SelectionRange.Start.ToShortDateString();
+            calendarFechaPublicacion.Hide();
+           //esto no funciona, restriccion de fecha vencimiento posterior a publicacion
+            if (DateTime.Compare(calendarFechaVencimiento.SelectionStart, calendarFechaPublicacion.SelectionStart)<0)
+            { 
+                calendarFechaVencimiento.SelectionStart = calendarFechaPublicacion.SelectionStart;
+                textFechaVencimiento.Text = calendarFechaVencimiento.SelectionStart.ToShortDateString();
+            };
         }
         private void calendarFechaVencimiento_DateSelected(object sender, DateRangeEventArgs e)
         {
             textFechaVencimiento.Text = calendarFechaVencimiento.SelectionRange.Start.ToShortDateString();
+            calendarFechaVencimiento.Hide();
         }
 
       ///VALIDACIONES///
@@ -137,7 +147,34 @@ namespace FrbaOfertas.CrearOferta
             this.calendarFechaVencimiento.Hide();
         }
 
+        private void PublicarOferta_Load(object sender, EventArgs e)
+        {
+            calendarFechaPublicacion.MinDate = DateTime.Now;
+            bool admin = DB_Ofertas.esAdmin(Session.getUser().getUsername());
+            if (admin)
+            {
+                this.textProveedor.Enabled = true;
+            }
+            else {
+                this.textProveedor.Text = Session.getUser().getUsername();
+            }
+            
+        }
 
+        private void calendarFechaPublicacion_DateChanged(object sender, DateRangeEventArgs e)
+        {
+            calendarFechaVencimiento.MinDate = calendarFechaPublicacion.SelectionStart;
+        }
+
+        private void textStockDisp_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonCerrar_Click(object sender, EventArgs e)
+        {
+
+        }
 
     
     }

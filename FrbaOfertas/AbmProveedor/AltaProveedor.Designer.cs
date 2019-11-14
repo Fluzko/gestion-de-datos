@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.textRubro = new System.Windows.Forms.TextBox();
             this.Rubro = new System.Windows.Forms.Label();
             this.textNombreContacto = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -61,6 +60,7 @@
             this.textContra = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.textUsuario = new System.Windows.Forms.TextBox();
+            this.ddRubros = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -68,7 +68,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.textRubro);
+            this.groupBox1.Controls.Add(this.ddRubros);
             this.groupBox1.Controls.Add(this.Rubro);
             this.groupBox1.Controls.Add(this.textNombreContacto);
             this.groupBox1.Controls.Add(this.label8);
@@ -94,13 +94,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Datos proveedor";
             // 
-            // textRubro
-            // 
-            this.textRubro.Location = new System.Drawing.Point(400, 122);
-            this.textRubro.Name = "textRubro";
-            this.textRubro.Size = new System.Drawing.Size(223, 22);
-            this.textRubro.TabIndex = 31;
-            // 
             // Rubro
             // 
             this.Rubro.AutoSize = true;
@@ -115,7 +108,7 @@
             this.textNombreContacto.Location = new System.Drawing.Point(155, 123);
             this.textNombreContacto.Name = "textNombreContacto";
             this.textNombreContacto.Size = new System.Drawing.Size(169, 22);
-            this.textNombreContacto.TabIndex = 29;
+            this.textNombreContacto.TabIndex = 9;
             this.textNombreContacto.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textNombreContacto_KeyPress);
             // 
             // label8
@@ -185,7 +178,7 @@
             // 
             this.textTelefono.Location = new System.Drawing.Point(612, 91);
             this.textTelefono.Margin = new System.Windows.Forms.Padding(4);
-            this.textTelefono.MaxLength = 11;
+            this.textTelefono.MaxLength = 8;
             this.textTelefono.Name = "textTelefono";
             this.textTelefono.Size = new System.Drawing.Size(213, 22);
             this.textTelefono.TabIndex = 8;
@@ -224,7 +217,7 @@
             // 
             this.textCUIT.Location = new System.Drawing.Point(77, 88);
             this.textCUIT.Margin = new System.Windows.Forms.Padding(4);
-            this.textCUIT.MaxLength = 8;
+            this.textCUIT.MaxLength = 11;
             this.textCUIT.Name = "textCUIT";
             this.textCUIT.Size = new System.Drawing.Size(172, 22);
             this.textCUIT.TabIndex = 4;
@@ -247,7 +240,7 @@
             this.textRazonSocial.MaxLength = 255;
             this.textRazonSocial.Name = "textRazonSocial";
             this.textRazonSocial.Size = new System.Drawing.Size(345, 22);
-            this.textRazonSocial.TabIndex = 0;
+            this.textRazonSocial.TabIndex = 3;
             // 
             // groupBox2
             // 
@@ -277,7 +270,7 @@
             this.textCalle.MaxLength = 255;
             this.textCalle.Name = "textCalle";
             this.textCalle.Size = new System.Drawing.Size(396, 22);
-            this.textCalle.TabIndex = 13;
+            this.textCalle.TabIndex = 11;
             // 
             // label7
             // 
@@ -316,7 +309,7 @@
             this.textPiso.MaxLength = 2;
             this.textPiso.Name = "textPiso";
             this.textPiso.Size = new System.Drawing.Size(53, 22);
-            this.textPiso.TabIndex = 15;
+            this.textPiso.TabIndex = 13;
             this.textPiso.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textTelefono_KeyPress);
             // 
             // label11
@@ -336,7 +329,7 @@
             this.textDpto.MaxLength = 2;
             this.textDpto.Name = "textDpto";
             this.textDpto.Size = new System.Drawing.Size(53, 22);
-            this.textDpto.TabIndex = 17;
+            this.textDpto.TabIndex = 14;
             // 
             // label12
             // 
@@ -355,7 +348,7 @@
             this.textLocalidad.MaxLength = 255;
             this.textLocalidad.Name = "textLocalidad";
             this.textLocalidad.Size = new System.Drawing.Size(208, 22);
-            this.textLocalidad.TabIndex = 19;
+            this.textLocalidad.TabIndex = 15;
             // 
             // textCP
             // 
@@ -364,7 +357,7 @@
             this.textCP.MaxLength = 6;
             this.textCP.Name = "textCP";
             this.textCP.Size = new System.Drawing.Size(88, 22);
-            this.textCP.TabIndex = 21;
+            this.textCP.TabIndex = 12;
             // 
             // groupBox3
             // 
@@ -399,7 +392,7 @@
             this.textContra.Name = "textContra";
             this.textContra.PasswordChar = '*';
             this.textContra.Size = new System.Drawing.Size(209, 22);
-            this.textContra.TabIndex = 33;
+            this.textContra.TabIndex = 2;
             // 
             // label13
             // 
@@ -418,7 +411,16 @@
             this.textUsuario.MaxLength = 255;
             this.textUsuario.Name = "textUsuario";
             this.textUsuario.Size = new System.Drawing.Size(209, 22);
-            this.textUsuario.TabIndex = 31;
+            this.textUsuario.TabIndex = 1;
+            // 
+            // ddRubros
+            // 
+            this.ddRubros.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ddRubros.FormattingEnabled = true;
+            this.ddRubros.Location = new System.Drawing.Point(402, 123);
+            this.ddRubros.Name = "ddRubros";
+            this.ddRubros.Size = new System.Drawing.Size(121, 24);
+            this.ddRubros.TabIndex = 10;
             // 
             // AltaProveedor
             // 
@@ -429,6 +431,7 @@
             this.Controls.Add(this.groupBox1);
             this.Name = "AltaProveedor";
             this.Text = "Alta Proveedor";
+            this.Load += new System.EventHandler(this.AltaProveedor_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -467,12 +470,12 @@
         private System.Windows.Forms.TextBox textLocalidad;
         private System.Windows.Forms.TextBox textCP;
         private System.Windows.Forms.TextBox textNombreContacto;
-        private System.Windows.Forms.TextBox textRubro;
         private System.Windows.Forms.Label Rubro;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox textContra;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox textUsuario;
+        private System.Windows.Forms.ComboBox ddRubros;
     }
 }

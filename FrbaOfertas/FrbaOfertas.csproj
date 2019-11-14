@@ -77,11 +77,14 @@
     <Compile Include="AbmCliente\Alta.Designer.cs">
       <DependentUpon>Alta.cs</DependentUpon>
     </Compile>
-    <Compile Include="AbmProveedor\AbmProveedor.cs">
+    <Compile Include="AbmProveedor\AbmProveedores.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AbmProveedor\AbmProveedor.Designer.cs">
-      <DependentUpon>AbmProveedor.cs</DependentUpon>
+    <Compile Include="AbmProveedor\AltaProveedor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmProveedor\AltaProveedor.Designer.cs">
+      <DependentUpon>AltaProveedor.cs</DependentUpon>
     </Compile>
     <Compile Include="AbmProveedor\ModificarProveedor.cs">
       <SubType>Form</SubType>
@@ -122,6 +125,7 @@
     </Compile>
     <Compile Include="Decoracion.cs" />
     <Compile Include="ConectorDB.cs" />
+    <Compile Include="Modelos\Rubro.cs" />
     <Compile Include="Modelos\Oferta.cs" />
     <Compile Include="Facturar\Facturar.cs">
       <SubType>Form</SubType>
@@ -199,8 +203,11 @@
     <EmbeddedResource Include="AbmCliente\Modificar.resx">
       <DependentUpon>Modificar.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AbmProveedor\AbmProveedor.resx">
-      <DependentUpon>AbmProveedor.cs</DependentUpon>
+    <EmbeddedResource Include="AbmProveedor\AbmProveedores.resx">
+      <DependentUpon>AbmProveedores.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmProveedor\AltaProveedor.resx">
+      <DependentUpon>AltaProveedor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AbmProveedor\ModificarProveedor.resx">
       <DependentUpon>ModificarProveedor.cs</DependentUpon>
