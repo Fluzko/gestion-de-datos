@@ -816,6 +816,92 @@ namespace FrbaOfertas
             }
         }
 
-        
+        public static List<Modelos.Tarjeta> getTarjetasParaCliente(String username)
+        {
+            setCmd("SELECT t.numero, t.titular from Tarjetas t WHERE username = @username");
+            cmd.Parameters.AddWithValue("@username", username);
+
+            reader = cmd.ExecuteReader();
+
+            List<Modelos.Tarjeta> tarjetas = new List<Modelos.Tarjeta>();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    Modelos.Tarjeta tarjeta = new Modelos.Tarjeta(reader.GetString(0), reader.GetString(1));
+                    tarjetas.Add(tarjeta);
+                }
+                reader.Close();
+                return tarjetas;
+            }
+            else
+            {
+                reader.Close();
+                return null;
+            }
+        }
+
+        public static void agregarTarjetasParaCliente(String username, String numero, String titular, int mes, int anio, String codigo)
+        {
+            setCmd("INSERT INTO Tarjetas (username, numero, mesVencimiento, anioVencimiento, titular, codigo_verif) " +
+                            "VALUES (@idCliente, @numero, @mes, @anio, @titular, @codigo)");
+
+            cmd.Parameters.AddWithValue("@idCliente", username);
+            cmd.Parameters.AddWithValue("@numero", numero);
+            cmd.Parameters.AddWithValue("@mes", mes);
+            cmd.Parameters.AddWithValue("@anio", anio);
+            cmd.Parameters.AddWithValue("@titular", titular);
+            cmd.Parameters.AddWithValue("@codigo", codigo);
+
+            cmd.ExecuteNonQuery();
+        }
+
+        public static void generarCarga(String username, int tipoPago, DateTime fecha, double monto, string tarjetaNum)
+        {
+            if (tarjetaNum != null)
+            {
+                setCmd("INSERT INTO Cargas (username, tipo_pago, fecha, monto, tarjeta_num) " +
+                                   "VALUES (@idCliente, @tipoPago, @fecha, @monto, @tarjetaNum)");
+                cmd.Parameters.AddWithValue("@tarjetaNum", tarjetaNum);
+            }
+            else
+            {
+                setCmd("INSERT INTO Cargas (username, tipo_pago, fecha, monto) " +
+                                   "VALUES (@idCliente, @tipoPago, @fecha, @monto)");
+            }
+
+            cmd.Parameters.AddWithValue("@idCliente", username);
+            cmd.Parameters.AddWithValue("@tipoPago", tipoPago);
+            cmd.Parameters.AddWithValue("@fecha", fecha);
+            cmd.Parameters.AddWithValue("@monto", monto);       
+            
+            cmd.ExecuteNonQuery();
+        }
+
+        public static void actualizarMontoCliente(String username, double monto)
+        {
+            setCmd("UPDATE Clientes " +
+                            "SET credito = credito + @monto WHERE username = @idCliente");
+
+            cmd.Parameters.AddWithValue("@idCliente", username);
+            cmd.Parameters.AddWithValue("@monto", monto);            
+
+            cmd.ExecuteNonQuery();
+        }
+
+        public static double getCreditoCliente(String username)
+        {
+            setCmd("SELECT credito from Clientes WHERE username = @username");
+            cmd.Parameters.AddWithValue("@username", username);
+
+            reader = cmd.ExecuteReader();
+
+            reader.Read();
+            decimal credito = reader.GetDecimal(0);
+            reader.Close();
+            return Decimal.ToDouble(credito);
+         
+        }
     }
 }

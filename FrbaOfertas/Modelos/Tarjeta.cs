@@ -7,12 +7,14 @@ using System.Threading.Tasks;
 namespace FrbaOfertas.Modelos
 {
     class Tarjeta
-    {   
-        public String Numero { get; set; }
-        public String Vencimiento { get; set; }
+    {
         public String Titular { get; set; }
-        public DateTime FechaVencimiento { get; set; }
-        public String CodigoVerificacion { get; set; }
-
+        public String Numero { get; set; }
+      
+        public Tarjeta(String numero, String tit)
+        {
+            this.Titular = tit;
+            this.Numero = numero;
+         }
     }
 }

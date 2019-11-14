@@ -134,8 +134,10 @@ CREATE TABLE TiposPago (
 
 ----TARJETAS----
 CREATE TABLE Tarjetas (
+	username NVARCHAR(255) FOREIGN KEY REFERENCES Clientes NOT NULL,
 	numero NCHAR(16) PRIMARY KEY,
-	vencimiento DATE NOT NULL,
+	mesVencimiento INTEGER NOT NULL,
+	anioVencimiento INTEGER NOT NULL,
 	titular NCHAR(20) NOT NULL,
 	codigo_verif NCHAR(3) NOT NULL
 )
@@ -147,7 +149,7 @@ CREATE TABLE Cargas (
 	tipo_pago INTEGER FOREIGN KEY REFERENCES TiposPago NOT NULL,
 	fecha DATETIME NOT NULL,
 	monto DECIMAL(12,2) NOT NULL DEFAULT 0,
-	tarjeta_num NCHAR(16) FOREIGN KEY REFERENCES Tarjetas
+	tarjeta_num NCHAR(16) FOREIGN KEY REFERENCES Tarjetas NULL
 )
 
 ----OFERTAS----

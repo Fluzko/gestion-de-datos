@@ -13,31 +13,34 @@ namespace FrbaOfertas.CragaCredito
     public partial class CargaCredito : Form
     {
         List<Modelos.TipoPago> tiposPago;
+        Modelos.Tarjeta actual;
 
         public CargaCredito()
         {
             InitializeComponent();
             this.loadTiposDePago();
+            lblCredito.Text = DB_Ofertas.getCreditoCliente(Session.getUser().getUsername()).ToString();
+            
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void showTarjetas()            
         {
-
+            List<Modelos.Tarjeta> tarjetas = DB_Ofertas.getTarjetasParaCliente(Session.getUser().getUsername());
+            gridTarjetas.DataSource = tarjetas;
+            if (tarjetas != null)
+            {
+                gridTarjetas.Rows[0].Selected = true;
+                actual = getRow(0);
+            }
+            else
+            {
+                actual = null;
+            }
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void hideTarjetas()
         {
-
-        }
-
-        private void label1_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
+            gridTarjetas.DataSource = null;
         }
 
         private void btnVolver_Click(object sender, EventArgs e)
@@ -46,15 +49,11 @@ namespace FrbaOfertas.CragaCredito
             this.Hide();
         }
 
-        private void CargaCredito_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
             AgregarTarjeta at = new AgregarTarjeta();
             at.Show();
+            this.Hide();
         }
 
         private void loadTiposDePago()
@@ -74,5 +73,60 @@ namespace FrbaOfertas.CragaCredito
                 cbxTipoPago.SelectedItem = tiposPago.First();
             }
         }
+        private Modelos.Tarjeta getRow(int i)
+        {
+            DataGridViewRow selectedRow = gridTarjetas.Rows[i];
+            return (Modelos.Tarjeta)selectedRow.DataBoundItem;
+        }
+
+        private void cbxTipoPago_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbxTipoPago.Text != "Efectivo")
+            {
+                showTarjetas();
+            }
+            else
+            {
+                actual = null;
+                hideTarjetas();
+            }
+        }
+
+        private void btnCargar_Click(object sender, EventArgs e)
+        {
+            double monto = double.Parse(txtMonto.Text);
+            if (txtMonto.Text == "" || monto < 0) {
+                MessageBox.Show("Error en el monto", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (actual == null && cbxTipoPago.Text == "Crédito") {
+                MessageBox.Show("Seleccione una tarjeta o cambie el tipo de pago", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            DateTime localDate = DateTime.Now; //CAMBIAR
+
+            String tarjetaNum = null;
+            if (actual != null)
+            {
+                tarjetaNum = actual.Numero;
+            }     
+            
+            Modelos.TipoPago tp = tiposPago.Where(p => p.nombre == cbxTipoPago.Text).ToList().First();
+
+            DB_Ofertas.generarCarga(Session.getUser().getUsername(), tp.id_tipo, localDate, monto, tarjetaNum);
+            DB_Ofertas.actualizarMontoCliente(Session.getUser().getUsername(), monto);
+
+            MessageBox.Show("Credito actualizado con exito", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            txtMonto.Text = "";
+            lblCredito.Text = DB_Ofertas.getCreditoCliente(Session.getUser().getUsername()).ToString();
+        }
+
+        private void txtMonto_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validar.numerico(e);
+        }
+
     }
 }
