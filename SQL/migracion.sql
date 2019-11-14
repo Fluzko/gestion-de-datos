@@ -233,7 +233,9 @@ INSERT INTO LOS_SINEQUI.Usuarios (username, password, habilitado)
 INSERT INTO LOS_SINEQUI.Proveedores (username, razon_social, telefono, cuit, rubro, habilitado)
 	SELECT DISTINCT CONCAT(	SUBSTRING(Provee_CUIT,1, 2),
 							SUBSTRING(Provee_CUIT,4,8),
-							SUBSTRING(Provee_CUIT, 13,13)), Provee_RS, Provee_Telefono, Provee_CUIT, (SELECT id_rubro FROM LOS_SINEQUI.Rubros WHERE nombre = Provee_Rubro), 1
+							SUBSTRING(Provee_CUIT, 13,13)), Provee_RS, Provee_Telefono, CONCAT(	SUBSTRING(Provee_CUIT,1, 2),
+							SUBSTRING(Provee_CUIT,4,8),
+							SUBSTRING(Provee_CUIT, 13,13)), (SELECT id_rubro FROM LOS_SINEQUI.Rubros WHERE nombre = Provee_Rubro), 1
 		FROM gd_esquema.Maestra
 		WHERE Provee_CUIT IS NOT NULL
 

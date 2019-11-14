@@ -60,6 +60,7 @@ namespace FrbaOfertas.AbmProveedor
             this.buttonAltaProveedor.TabIndex = 0;
             this.buttonAltaProveedor.Text = "Dar de alta proveedor";
             this.buttonAltaProveedor.UseVisualStyleBackColor = true;
+            this.buttonAltaProveedor.Click += new System.EventHandler(this.buttonAltaProveedor_Click_1);
             // 
             // buttonModificarProveedor
             // 
@@ -69,6 +70,7 @@ namespace FrbaOfertas.AbmProveedor
             this.buttonModificarProveedor.TabIndex = 1;
             this.buttonModificarProveedor.Text = "Modificar proveedor";
             this.buttonModificarProveedor.UseVisualStyleBackColor = true;
+            this.buttonModificarProveedor.Click += new System.EventHandler(this.buttonModificarProveedor_Click_1);
             // 
             // groupBox1
             // 
@@ -99,6 +101,18 @@ namespace FrbaOfertas.AbmProveedor
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
 
+        }
+
+        private void buttonAltaProveedor_Click_1(object sender, EventArgs e)
+        {
+            (new AltaProveedor()).Show();
+            this.Hide();
+        }
+
+        private void buttonModificarProveedor_Click_1(object sender, EventArgs e)
+        {
+            (new ModificarProveedor()).Show();
+            this.Hide();
         }
     }
 }

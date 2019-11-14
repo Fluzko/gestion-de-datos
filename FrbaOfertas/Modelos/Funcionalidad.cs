@@ -29,7 +29,7 @@ namespace FrbaOfertas.Modelos
                     break;
 
                 case 3:
-                    (new AbmProveedor.AltaProveedor()).Show();
+                    (new AbmProveedor.AbmProveedores()).Show();
                     break;
 
                 case 4:

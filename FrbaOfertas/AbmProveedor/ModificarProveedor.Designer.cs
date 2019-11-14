@@ -51,7 +51,6 @@
             this.btnModificar = new System.Windows.Forms.Button();
             this.buttonCerrar = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.textRubro = new System.Windows.Forms.TextBox();
             this.textCalle = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -64,6 +63,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.comboHabilitado = new System.Windows.Forms.ComboBox();
+            this.ddRubros = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.proveedoresGrid)).BeginInit();
             this.SuspendLayout();
@@ -121,16 +121,17 @@
             // 
             this.textCUITB.Location = new System.Drawing.Point(109, 72);
             this.textCUITB.Margin = new System.Windows.Forms.Padding(4);
-            this.textCUITB.MaxLength = 255;
+            this.textCUITB.MaxLength = 11;
             this.textCUITB.Name = "textCUITB";
             this.textCUITB.Size = new System.Drawing.Size(235, 22);
             this.textCUITB.TabIndex = 5;
+            this.textCUITB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textCUITB_KeyPress);
             // 
             // textRazonSocialB
             // 
             this.textRazonSocialB.Location = new System.Drawing.Point(109, 31);
             this.textRazonSocialB.Margin = new System.Windows.Forms.Padding(4);
-            this.textRazonSocialB.MaxLength = 8;
+            this.textRazonSocialB.MaxLength = 255;
             this.textRazonSocialB.Name = "textRazonSocialB";
             this.textRazonSocialB.Size = new System.Drawing.Size(235, 22);
             this.textRazonSocialB.TabIndex = 4;
@@ -180,6 +181,8 @@
             this.proveedoresGrid.ReadOnly = true;
             this.proveedoresGrid.Size = new System.Drawing.Size(941, 249);
             this.proveedoresGrid.TabIndex = 60;
+            this.proveedoresGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.proveedoresGrid_CellClick);
+            this.proveedoresGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.proveedoresGrid_CellContentClick);
             // 
             // label16
             // 
@@ -313,13 +316,6 @@
             this.label3.TabIndex = 100;
             this.label3.Text = "Rubro";
             // 
-            // textRubro
-            // 
-            this.textRubro.Location = new System.Drawing.Point(570, 172);
-            this.textRubro.Name = "textRubro";
-            this.textRubro.Size = new System.Drawing.Size(345, 22);
-            this.textRubro.TabIndex = 101;
-            // 
             // textCalle
             // 
             this.textCalle.Enabled = false;
@@ -442,11 +438,21 @@
             this.comboHabilitado.Size = new System.Drawing.Size(160, 24);
             this.comboHabilitado.TabIndex = 112;
             // 
+            // ddRubros
+            // 
+            this.ddRubros.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ddRubros.FormattingEnabled = true;
+            this.ddRubros.Location = new System.Drawing.Point(568, 175);
+            this.ddRubros.Name = "ddRubros";
+            this.ddRubros.Size = new System.Drawing.Size(203, 24);
+            this.ddRubros.TabIndex = 114;
+            // 
             // ModificarProveedor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(993, 717);
+            this.Controls.Add(this.ddRubros);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.comboHabilitado);
             this.Controls.Add(this.label9);
@@ -459,7 +465,6 @@
             this.Controls.Add(this.label12);
             this.Controls.Add(this.textLoc);
             this.Controls.Add(this.textCP);
-            this.Controls.Add(this.textRubro);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.buttonCerrar);
             this.Controls.Add(this.btnModificar);
@@ -511,7 +516,6 @@
         private System.Windows.Forms.Button btnModificar;
         private System.Windows.Forms.Button buttonCerrar;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textRubro;
         private System.Windows.Forms.TextBox textCalle;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label5;
@@ -524,5 +528,6 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox comboHabilitado;
+        private System.Windows.Forms.ComboBox ddRubros;
     }
 }

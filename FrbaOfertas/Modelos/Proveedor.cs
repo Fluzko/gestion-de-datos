@@ -14,6 +14,7 @@ namespace FrbaOfertas.Modelos
         public String Mail { get; set; }
         public String Cuit { get; set; }
         public String Rubro { get; set; }
+        public Int32 Rubro_Id { get; set; }
         public String NombreContacto { get; set; }
         public String Direccion { get; set; }
         public String Cp { get; set; }
