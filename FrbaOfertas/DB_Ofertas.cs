@@ -38,7 +38,7 @@ namespace FrbaOfertas
             setCmd("SELECT username, password from LOS_SINEQUI.Usuarios WHERE username = @username AND password = @password AND habilitado = 1");
             cmd.Parameters.AddWithValue("@username", username);
             cmd.Parameters.AddWithValue("@password", Hash.GetHash(password));
-
+            //cmd.Parameters.AddWithValue("@password", password); DESCOMENTAR PARA LOGUEAR CON agusadmin - agus
 
             //password = hashbytes('SHA2_256', '" + password + "')
             reader = cmd.ExecuteReader();
@@ -495,16 +495,30 @@ namespace FrbaOfertas
             cmd.Parameters.AddWithValue("@descripcion", descripcion);
             cmd.Parameters.AddWithValue("@fechapub", fechaPublicacion);
             cmd.Parameters.AddWithValue("@fechavec", fechaVencimiento);
-            cmd.Parameters.AddWithValue("@usuario", Session.getUser().getUsername());
+            cmd.Parameters.AddWithValue("@usuario",proveedor);                   
             cmd.Parameters.AddWithValue("@preciooferta", precioOferta);
             cmd.Parameters.AddWithValue("@preciolista", precioLista);
             cmd.Parameters.AddWithValue("@stock", stock);
             cmd.Parameters.AddWithValue("@cantmax", cantMax);
 
-            Console.WriteLine(Session.getUser().getUsername());
             cmd.ExecuteNonQuery();
 
             return true;
+        }
+
+        public static bool usuarioEsProveedor(String user)
+        {
+            setCmd("SELECT username FROM LOS_SINEQUI.Rol_Usuario WHERE id_rol = 2 AND username = @user");
+            cmd.Parameters.AddWithValue("@user", user);
+
+            reader = cmd.ExecuteReader();
+            if (reader.HasRows)
+            {
+                reader.Close();
+                return true;
+            }
+            reader.Close();
+            return false;
         }
 
         public static bool esAdmin(String user) {

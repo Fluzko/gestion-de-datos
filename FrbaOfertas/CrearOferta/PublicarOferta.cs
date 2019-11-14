@@ -32,6 +32,15 @@ namespace FrbaOfertas.CrearOferta
                 return;
             }
 
+            if (DB_Ofertas.esAdmin(Session.getUser().getUsername())) {
+                if (!DB_Ofertas.usuarioEsProveedor(this.textProveedor.Text))
+                {
+                    MessageBox.Show("El usuario ingresado no es un proveedor", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+
+
             //valida proveedor
 
             bool alta = DB_Ofertas.crearOferta(this.textDescripcion.Text,
@@ -71,11 +80,10 @@ namespace FrbaOfertas.CrearOferta
             this.textDescripcion.Clear();
             this.textPrecioOferta.Clear();
             this.textPrecioLista.Clear();
-            this.textProveedor.Clear();
             this.textStockDisp.Clear();       
             this.textCantMax.Clear();
             this.textFechaPublicacion.Clear();
-            this.textFechaPublicacion.Clear();
+            this.textFechaVencimiento.Clear();
         }
 
         private void calendarFechaPublicacion_DateSelected(object sender, DateRangeEventArgs e)
@@ -83,10 +91,12 @@ namespace FrbaOfertas.CrearOferta
             textFechaPublicacion.Text = calendarFechaPublicacion.SelectionRange.Start.ToShortDateString();
             calendarFechaPublicacion.Hide();
            //esto no funciona, restriccion de fecha vencimiento posterior a publicacion
-            if (DateTime.Compare(calendarFechaVencimiento.SelectionStart, calendarFechaPublicacion.SelectionStart)<0)
-            { 
-                calendarFechaVencimiento.SelectionStart = calendarFechaPublicacion.SelectionStart;
-                textFechaVencimiento.Text = calendarFechaVencimiento.SelectionStart.ToShortDateString();
+            if (DateTime.Compare(calendarFechaVencimiento.SelectionEnd, calendarFechaPublicacion.SelectionEnd)<0)
+            {
+                if(textFechaVencimiento.Text!="")
+                    MessageBox.Show("La fecha de vencimiento no puede ser antes de la de publicacion", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                calendarFechaVencimiento.SelectionEnd = calendarFechaPublicacion.SelectionEnd;
+                textFechaVencimiento.Text = calendarFechaVencimiento.SelectionEnd.ToShortDateString();
             };
         }
         private void calendarFechaVencimiento_DateSelected(object sender, DateRangeEventArgs e)
@@ -173,7 +183,28 @@ namespace FrbaOfertas.CrearOferta
 
         private void buttonCerrar_Click(object sender, EventArgs e)
         {
-
+            DialogResult boton = MessageBox.Show("Si vuelve se borraran todos los datos ingresados", "Alerta", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+            if (boton == DialogResult.OK)
+            {
+                if (Session.isNull())
+                {
+                    Registro.Registro a = new Registro.Registro();
+                    a.Show();
+                    this.cleanInputs();
+                    this.Hide();
+                }
+                else
+                {
+                    Login.Funcionalidad a = new Login.Funcionalidad(Session.getRol());
+                    a.Show();
+                    this.cleanInputs();
+                    this.Hide();
+                }
+            }
+            else
+            {
+                //se deberia quedar en esta pantalla
+            }
         }
 
     
