@@ -135,8 +135,11 @@ CREATE TABLE LOS_SINEQUI.TiposPago (
 
 ----TARJETAS----
 CREATE TABLE LOS_SINEQUI.Tarjetas (
+
+  username NVARCHAR(255) FOREIGN KEY REFERENCES Clientes NOT NULL,
 	numero NCHAR(16) PRIMARY KEY,
-	vencimiento DATE NOT NULL,
+	mesVencimiento INTEGER NOT NULL,
+	anioVencimiento INTEGER NOT NULL,
 	titular NCHAR(20) NOT NULL,
 	codigo_verif NCHAR(3) NOT NULL
 )

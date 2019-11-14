@@ -2042,6 +2042,235 @@ namespace FrbaOfertas
             return rubros;
         }
 
-       
+        public static List<Modelos.Tarjeta> getTarjetasParaUsuario(Modelos.Cliente cliente){
+            /*setCmd("SELECT r.id_rol, r.nombre from Roles r JOIN Rol_Usuario ru ON ru.id_rol = r.id_rol WHERE ru.username = @usuario and r.habilitado = 1");
+
+            cmd.Parameters.AddWithValue("@usuario", usuario);
+
+            reader = cmd.ExecuteReader();
+
+            List<Modelos.Rol> roles = new List<Modelos.Rol>();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    Modelos.Rol rol = new Modelos.Rol(reader.GetInt32(0), reader.GetString(1));
+                    roles.Add(rol);
+                }
+                reader.Close();
+                return roles;
+            }
+            else
+            {
+                reader.Close();
+                return null;
+            }*/
+            return null;
+        }
+
+        public static List<Modelos.TipoPago> getTiposDePago() {
+            setCmd("SELECT t.id_tipo, t.nombre from TiposPago t");
+
+            reader = cmd.ExecuteReader();
+
+            List<Modelos.TipoPago> tiposPago = new List<Modelos.TipoPago>();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    Modelos.TipoPago tipoPago = new Modelos.TipoPago(reader.GetInt32(0), reader.GetString(1));
+                    tiposPago.Add(tipoPago);
+                }
+                reader.Close();
+                return tiposPago;
+            }
+            else
+            {
+                reader.Close();
+                return null;
+            }
+        }
+
+        public static List<Modelos.Tarjeta> getTarjetasParaCliente(String username)
+        {
+            setCmd("SELECT t.numero, t.titular from Tarjetas t WHERE username = @username");
+            cmd.Parameters.AddWithValue("@username", username);
+
+            reader = cmd.ExecuteReader();
+
+            List<Modelos.Tarjeta> tarjetas = new List<Modelos.Tarjeta>();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    Modelos.Tarjeta tarjeta = new Modelos.Tarjeta(reader.GetString(0), reader.GetString(1));
+                    tarjetas.Add(tarjeta);
+                }
+                reader.Close();
+                return tarjetas;
+            }
+            else
+            {
+                reader.Close();
+                return null;
+            }
+        }
+
+        public static void agregarTarjetasParaCliente(String username, String numero, String titular, int mes, int anio, String codigo)
+        {
+            setCmd("INSERT INTO Tarjetas (username, numero, mesVencimiento, anioVencimiento, titular, codigo_verif) " +
+                            "VALUES (@idCliente, @numero, @mes, @anio, @titular, @codigo)");
+
+            cmd.Parameters.AddWithValue("@idCliente", username);
+            cmd.Parameters.AddWithValue("@numero", numero);
+            cmd.Parameters.AddWithValue("@mes", mes);
+            cmd.Parameters.AddWithValue("@anio", anio);
+            cmd.Parameters.AddWithValue("@titular", titular);
+            cmd.Parameters.AddWithValue("@codigo", codigo);
+
+            cmd.ExecuteNonQuery();
+        }
+
+        public static void generarCarga(String username, int tipoPago, DateTime fecha, double monto, string tarjetaNum)
+        {
+            if (tarjetaNum != null)
+            {
+                setCmd("INSERT INTO Cargas (username, tipo_pago, fecha, monto, tarjeta_num) " +
+                                   "VALUES (@idCliente, @tipoPago, @fecha, @monto, @tarjetaNum)");
+                cmd.Parameters.AddWithValue("@tarjetaNum", tarjetaNum);
+            }
+            else
+            {
+                setCmd("INSERT INTO Cargas (username, tipo_pago, fecha, monto) " +
+                                   "VALUES (@idCliente, @tipoPago, @fecha, @monto)");
+            }
+
+            cmd.Parameters.AddWithValue("@idCliente", username);
+            cmd.Parameters.AddWithValue("@tipoPago", tipoPago);
+            cmd.Parameters.AddWithValue("@fecha", fecha);
+            cmd.Parameters.AddWithValue("@monto", monto);       
+            
+            cmd.ExecuteNonQuery();
+        }
+
+        public static void actualizarMontoCliente(String username, double monto)
+        {
+            setCmd("UPDATE Clientes " +
+                            "SET credito = credito + @monto WHERE username = @idCliente");
+
+            cmd.Parameters.AddWithValue("@idCliente", username);
+            cmd.Parameters.AddWithValue("@monto", monto);            
+
+            cmd.ExecuteNonQuery();
+        }
+
+        public static double getCreditoCliente(String username)
+        {
+            setCmd("SELECT credito from Clientes WHERE username = @username");
+            cmd.Parameters.AddWithValue("@username", username);
+
+            reader = cmd.ExecuteReader();
+
+            reader.Read();
+            decimal credito = reader.GetDecimal(0);
+            reader.Close();
+            return Decimal.ToDouble(credito);
+         
+        }
+
+        public static List<Modelos.ProveedorEstadistica1> getProveedoresFacturacion(String anio, int semestre) {
+
+            String query = "SELECT TOP 5 p.username, p.razon_social, sum(f.monto) as facturacion from Proveedores p JOIN"
+                                    + " Facturas f ON f.username = p.username"
+                                    + " WHERE YEAR(f.fecha) = @anio AND ";
+            if (semestre == 1)
+            {
+                query += "MONTH(f.fecha) <7";
+            }
+            else
+            {
+                query += "MONTH(f.fecha) >6";
+            }
+
+            query += " GROUP BY p.username, p.razon_social"
+            + " ORDER BY 3 DESC";
+           
+            setCmd(query);
+
+            cmd.Parameters.AddWithValue("@anio", anio);
+
+            reader = cmd.ExecuteReader();
+
+            List<Modelos.ProveedorEstadistica1> proveedores = new List<Modelos.ProveedorEstadistica1>();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    Modelos.ProveedorEstadistica1 proveedor = new Modelos.ProveedorEstadistica1(reader.GetString(0),
+                                                              reader.GetString(1),Decimal.ToDouble(reader.GetDecimal(2)));
+
+                    proveedores.Add(proveedor);
+                }
+                reader.Close();
+                return proveedores;
+            }
+            else
+            {
+                reader.Close();
+                return null;
+            }
+            
+        }
+
+        public static List<Modelos.ProveedorEstadistica2> getProveedoresPorcentajeOferta(String anio, int semestre)
+        {
+
+            String query = "SELECT TOP 5 p.username, p.razon_social, max(1 - (o.precio_rebajado/o.precio_lista)) as PorcentajeO from Proveedores p JOIN"
+                            +" Ofertas o ON o.username = p.username"
+                            + " WHERE YEAR(o.fecha_pub) = @anio AND ";
+            
+            if (semestre == 1)
+            {
+                query += "MONTH(o.fecha_pub) <7";
+            }
+            else
+            {
+                query += "MONTH(o.fecha_pub) >6";
+            }
+
+            query += " GROUP BY p.username, p.razon_social"
+            + " ORDER BY 3 DESC";
+
+            setCmd(query);
+
+            cmd.Parameters.AddWithValue("@anio", anio);
+
+            reader = cmd.ExecuteReader();
+
+            List<Modelos.ProveedorEstadistica2> proveedores = new List<Modelos.ProveedorEstadistica2>();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    Modelos.ProveedorEstadistica2 proveedor = new Modelos.ProveedorEstadistica2(reader.GetString(0),
+                                                              reader.GetString(1), Decimal.ToDouble(reader.GetDecimal(2)));
+
+                    proveedores.Add(proveedor);
+                }
+                reader.Close();
+                return proveedores;
+            }
+            else
+            {
+                reader.Close();
+                return null;
+            }
+
+        }
     }
 }
