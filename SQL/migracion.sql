@@ -25,7 +25,6 @@ IF OBJECT_ID('LOS_SINEQUI.Clientes', 'U') IS NOT NULL
 	DROP TABLE LOS_SINEQUI.Clientes
 IF OBJECT_ID('LOS_SINEQUI.Direcciones', 'U') IS NOT NULL
 	DROP TABLE LOS_SINEQUI.Direcciones
-
 IF OBJECT_ID('LOS_SINEQUI.Funcionalidades', 'U') IS NOT NULL
 	DROP TABLE LOS_SINEQUI.Funcionalidades
 IF OBJECT_ID('LOS_SINEQUI.Roles', 'U') IS NOT NULL
@@ -251,7 +250,7 @@ UPDATE LOS_SINEQUI.Clientes SET credito = montoF
 			ON Cargas.username = Clientes.username
 			GROUP BY Clientes.username
 	) Montos WHERE Clientes.username = Montos.username
-
+	
 
 INSERT INTO LOS_SINEQUI.Roles(nombre, habilitado)
 VALUES
