@@ -76,28 +76,11 @@ namespace FrbaOfertas.AbmRol
 
         private void button2_Click(object sender, EventArgs e)
         {
-            DialogResult boton = MessageBox.Show("Si vuelve se borraran todos los datos ingresados", "Alerta", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
-            if (boton == DialogResult.OK)
-            {
-                if (Session.isNull())
-                {
-                    Registro.Registro a = new Registro.Registro();
-                    a.Show();
-                    this.textNombre.Clear();
-                    this.Hide();
-                }
-                else
-                {
-                    AbmRol a = new AbmRol();
-                    a.Show();
-                    this.textNombre.Clear();
-                    this.Hide();
-                }
-            }
-            else
-            {
-                //se deberia quedar en esta pantalla
-            }
+             AbmRol a = new AbmRol();
+             a.Show();
+             this.textNombre.Clear();
+             this.Hide();
+
         }
     }
 }

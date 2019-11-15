@@ -1039,7 +1039,33 @@ namespace FrbaOfertas
             return;
         }
 
-        public static bool updateRol(String nombreRol, String nombreViejo, List<int> funcionalidades) {
+        public static bool quiereDeshabilitar(string nombrerol, bool habilitado) {
+            setCmd("SELECT habilitado FROM LOS_SINEQUI.Roles WHERE nombre = @nombrerol");
+            cmd.Parameters.AddWithValue("@nombrerol", nombrerol);
+            reader = cmd.ExecuteReader();
+            reader.Read();
+            bool habilitadoViejo = reader.GetBoolean(0);
+            reader.Close();
+            if (habilitadoViejo == true && habilitado == false)
+                return true;
+            else
+                return false;
+        
+        }
+
+        public static bool updateRol(String nombreRol, String nombreViejo, List<int> funcionalidades, bool habilitado) {
+            if (String.IsNullOrEmpty(nombreViejo) || String.IsNullOrWhiteSpace(nombreViejo))
+            {
+                MessageBox.Show("No se ha ingresado ningun rol a modificar", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            
+            if (quiereDeshabilitar(nombreViejo, habilitado))
+            {
+                MessageBox.Show("Para deshabilitar un rol ingrese a la seccion de Eliminar Rol", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            
             if (String.IsNullOrEmpty(nombreRol) || String.IsNullOrWhiteSpace(nombreRol))
             {
                 MessageBox.Show("Se debe ingresar un nombre para el rol", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1061,9 +1087,10 @@ namespace FrbaOfertas
             }
 
 
-            setCmd("UPDATE LOS_SINEQUI.Roles SET nombre = @nombreRol WHERE nombre = @nombreViejo" );
+            setCmd("UPDATE LOS_SINEQUI.Roles SET nombre = @nombreRol, habilitado = @habilitado WHERE nombre = @nombreViejo" );
             cmd.Parameters.AddWithValue("@nombreRol", nombreRol);
             cmd.Parameters.AddWithValue("@nombreViejo", nombreViejo);
+            cmd.Parameters.AddWithValue("@habilitado", habilitado);
             cmd.ExecuteNonQuery();
 
             setCmd("SELECT id_rol FROM LOS_SINEQUI.Roles " +
@@ -2273,5 +2300,17 @@ namespace FrbaOfertas
             }
 
         }
+
+        public static bool habilitado(int id_rol) {
+            setCmd("SELECT habilitado FROM LOS_SINEQUI.Roles WHERE id_rol = @id_rol");
+            cmd.Parameters.AddWithValue("@id_rol", id_rol);
+            reader = cmd.ExecuteReader();
+            reader.Read();
+            bool habilitado = reader.GetBoolean(0);
+            reader.Close();
+            return habilitado;
+        
+        }
+
     }
 }

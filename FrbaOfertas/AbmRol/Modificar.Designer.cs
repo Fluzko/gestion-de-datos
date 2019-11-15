@@ -29,20 +29,20 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.ddEstado = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.buttonGuardar = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.textNombreNuevo = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.tablaFuncionalidades = new System.Windows.Forms.DataGridView();
-            this.Elegir = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.buttonBuscar = new System.Windows.Forms.Button();
             this.buttonLimpiar = new System.Windows.Forms.Button();
             this.textNombreRol = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.buttonVolver = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.Elegir = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tablaFuncionalidades)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -50,7 +50,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.comboBox1);
+            this.groupBox1.Controls.Add(this.ddEstado);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.buttonGuardar);
             this.groupBox1.Controls.Add(this.label3);
@@ -66,6 +66,25 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Listado de Roles:";
+            // 
+            // ddEstado
+            // 
+            this.ddEstado.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ddEstado.FormattingEnabled = true;
+            this.ddEstado.Location = new System.Drawing.Point(157, 199);
+            this.ddEstado.Name = "ddEstado";
+            this.ddEstado.Size = new System.Drawing.Size(121, 24);
+            this.ddEstado.TabIndex = 11;
+            this.ddEstado.SelectedIndexChanged += new System.EventHandler(this.ddEstado_SelectedIndexChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(81, 202);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(56, 17);
+            this.label4.TabIndex = 10;
+            this.label4.Text = "Estado:";
             // 
             // buttonGuardar
             // 
@@ -117,14 +136,6 @@
             this.tablaFuncionalidades.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.tablaFuncionalidades.Size = new System.Drawing.Size(559, 256);
             this.tablaFuncionalidades.TabIndex = 5;
-            // 
-            // Elegir
-            // 
-            this.Elegir.FalseValue = "";
-            this.Elegir.HeaderText = "Elegir";
-            this.Elegir.IndeterminateValue = "";
-            this.Elegir.Name = "Elegir";
-            this.Elegir.TrueValue = "True";
             // 
             // groupBox2
             // 
@@ -192,23 +203,13 @@
             this.buttonVolver.UseVisualStyleBackColor = true;
             this.buttonVolver.Click += new System.EventHandler(this.buttonVolver_Click);
             // 
-            // label4
+            // Elegir
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(81, 202);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(56, 17);
-            this.label4.TabIndex = 10;
-            this.label4.Text = "Estado:";
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(157, 199);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 24);
-            this.comboBox1.TabIndex = 11;
+            this.Elegir.FalseValue = "False";
+            this.Elegir.HeaderText = "Elegir";
+            this.Elegir.IndeterminateValue = "False";
+            this.Elegir.Name = "Elegir";
+            this.Elegir.TrueValue = "True";
             // 
             // Modificar
             // 
@@ -220,6 +221,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Modificar";
             this.Text = "Modificar roles";
+            this.Load += new System.EventHandler(this.Modificar_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tablaFuncionalidades)).EndInit();
@@ -239,12 +241,12 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buttonVolver;
         private System.Windows.Forms.DataGridView tablaFuncionalidades;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Elegir;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textNombreNuevo;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button buttonGuardar;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox ddEstado;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Elegir;
     }
 }
