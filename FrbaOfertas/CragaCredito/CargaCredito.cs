@@ -95,8 +95,12 @@ namespace FrbaOfertas.CragaCredito
 
         private void btnCargar_Click(object sender, EventArgs e)
         {
+            if (txtMonto.Text == "") {
+                MessageBox.Show("Complete el campo credito", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             double monto = double.Parse(txtMonto.Text);
-            if (txtMonto.Text == "" || monto < 0) {
+            if (monto < 0) {
                 MessageBox.Show("Error en el monto", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -106,7 +110,7 @@ namespace FrbaOfertas.CragaCredito
                 return;
             }
 
-            DateTime localDate = DateTime.Now; //CAMBIAR
+            DateTime localDate = Properties.Settings.Default.Fecha; 
 
             String tarjetaNum = null;
             if (actual != null)
@@ -117,6 +121,7 @@ namespace FrbaOfertas.CragaCredito
             Modelos.TipoPago tp = tiposPago.Where(p => p.nombre == cbxTipoPago.Text).ToList().First();
 
             DB_Ofertas.generarCarga(Session.getUser().getUsername(), tp.id_tipo, localDate, monto, tarjetaNum);
+
             DB_Ofertas.actualizarMontoCliente(Session.getUser().getUsername(), monto);
 
             MessageBox.Show("Credito actualizado con exito", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -127,6 +132,15 @@ namespace FrbaOfertas.CragaCredito
         private void txtMonto_KeyPress(object sender, KeyPressEventArgs e)
         {
             Validar.numerico(e);
+        }
+
+        private void gridTarjetas_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int i = e.RowIndex;
+            if (i >= 0)
+            {
+                actual = getRow(i);               
+            }
         }
 
     }

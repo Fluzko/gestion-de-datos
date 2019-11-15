@@ -115,6 +115,7 @@
             this.gridTarjetas.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gridTarjetas.Size = new System.Drawing.Size(329, 109);
             this.gridTarjetas.TabIndex = 0;
+            this.gridTarjetas.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridTarjetas_CellClick);
             // 
             // btnAgregarTarjeta
             // 

@@ -48,6 +48,15 @@ namespace FrbaOfertas.CragaCredito
                 return;
             }
 
+            int mesActual = Properties.Settings.Default.Fecha.Month;
+            int anioActual = Properties.Settings.Default.Fecha.Year;
+
+            if ((2000 + intAnio) < anioActual || intMes < mesActual && (2000 + intAnio) == anioActual)
+            {
+                MessageBox.Show("Error, la tarjeta esta vencida", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
 
             DB_Ofertas.agregarTarjetasParaCliente(Session.getUser().getUsername(), txtNumero.Text, txtTitular.Text, intMes, int.Parse(txtAnio.Text), txtCodigo.Text);
             CargaCredito cc = new CargaCredito();

@@ -2131,7 +2131,15 @@ namespace FrbaOfertas
             cmd.Parameters.AddWithValue("@titular", titular);
             cmd.Parameters.AddWithValue("@codigo", codigo);
 
-            cmd.ExecuteNonQuery();
+            try
+            {
+                reader = cmd.ExecuteReader();
+                reader.Close();
+            }
+            catch (SqlException e)
+            {
+                MessageBox.Show(e.Message, "Comprar Ofertas", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         public static void generarCarga(String username, int tipoPago, DateTime fecha, double monto, string tarjetaNum)
@@ -2151,9 +2159,17 @@ namespace FrbaOfertas
             cmd.Parameters.AddWithValue("@idCliente", username);
             cmd.Parameters.AddWithValue("@tipoPago", tipoPago);
             cmd.Parameters.AddWithValue("@fecha", fecha);
-            cmd.Parameters.AddWithValue("@monto", monto);       
-            
-            cmd.ExecuteNonQuery();
+            cmd.Parameters.AddWithValue("@monto", monto);
+
+            try
+            {
+                reader = cmd.ExecuteReader();
+                reader.Close();
+            }
+            catch (SqlException e)
+            {
+                MessageBox.Show(e.Message, "Comprar Ofertas", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         public static void actualizarMontoCliente(String username, double monto)
@@ -2162,9 +2178,17 @@ namespace FrbaOfertas
                             "SET credito = credito + @monto WHERE username = @idCliente");
 
             cmd.Parameters.AddWithValue("@idCliente", username);
-            cmd.Parameters.AddWithValue("@monto", monto);            
+            cmd.Parameters.AddWithValue("@monto", monto);
 
-            cmd.ExecuteNonQuery();
+            try
+            {
+                reader = cmd.ExecuteReader();
+                reader.Close();
+            }
+            catch (SqlException e)
+            {
+                MessageBox.Show(e.Message, "Comprar Ofertas", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         public static double getCreditoCliente(String username)
