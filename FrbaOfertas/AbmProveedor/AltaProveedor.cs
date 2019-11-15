@@ -3,80 +3,59 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FrbaOfertas.AbmCliente
+namespace FrbaOfertas.AbmProveedor
 {
-    public partial class Alta : Form
+    public partial class AltaProveedor : Form
     {
+        List<Modelos.Rubro> rubros;
 
-        public Alta()
+        public AltaProveedor()
         {
             InitializeComponent();
             Decoracion.Reorganizar(this);
-            textNombre.CharacterCasing = CharacterCasing.Upper;
-            textApellido.CharacterCasing = CharacterCasing.Upper;
+            listRubros();
         }
-
-        private void buttonVolver_Click(object sender, EventArgs e)
-        {
-            DialogResult boton = MessageBox.Show("Si vuelve se borraran todos los datos ingresados", "Alerta", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
-            if (boton == DialogResult.OK){
-                if (Session.isNull())
-                {
-                    Registro.Registro a = new Registro.Registro();
-                    a.Show();
-                    this.cleanInputs();
-                    this.Hide();
-                }
-                else
-                {
-                    AbmCliente a = new AbmCliente();
-                    a.Show();
-                    this.cleanInputs();
-                    this.Hide();
-                }
-            }
-            else{
-                //se deberia quedar en esta pantalla
-            }
-        }
-
 
         private void buttonLimpiar_Click(object sender, EventArgs e)
         {
             this.cleanInputs();
         }
 
-        private void buttonFecha_Click(object sender, EventArgs e)
+        private void listRubros()
         {
-            this.calendario.Show();
-            this.calendario.BringToFront();
-            this.calendario.Select();  
-        }
+            rubros = DB_Ofertas.getRubros();
 
+            if (rubros.Count != 0)
+            {
+                ddRubros.Enabled = true;
+                ddRubros.DataSource = rubros;
+                ddRubros.DisplayMember = "nombre";
+                ddRubros.ValueMember = "id_rubro";
+                ddRubros.SelectedItem = rubros.First();
+            }
+        }
 
         private void cleanInputs()
         {
             //limpio todos los campos
-            this.textNombre.Clear();
-            this.textApellido.Clear();
+            this.textRazonSocial.Clear();
+            this.textCUIT.Clear();
             this.textMail.Clear();
             this.textTelefono.Clear();
-            this.textFN.Clear();
             this.textCalle.Clear();
             this.textPiso.Clear();
             this.textDpto.Clear();
             this.textLocalidad.Clear();
             this.textCP.Clear();
-            this.textDNI.Clear();
             this.textUsuario.Clear();
             this.textContra.Clear();
+            
+            this.textNombreContacto.Clear();
         }
 
         private void buttonAlta_Click(object sender, EventArgs e)
@@ -101,72 +80,88 @@ namespace FrbaOfertas.AbmCliente
             if (string.IsNullOrEmpty(textDpto.Text))
                 textDpto.Text = "-";
 
-            bool alta = DB_Ofertas.altaCliente( this.textUsuario.Text,
+            bool alta = DB_Ofertas.altaProveedor( this.textUsuario.Text,
                                                 this.textContra.Text,
-                                                this.textNombre.Text,
-                                                this.textApellido.Text,
+                                                this.textRazonSocial.Text,
+                                                this.textCUIT.Text,
                                                 this.textMail.Text,
                                                 this.textTelefono.Text,
-                                                Convert.ToDateTime(this.textFN.Text),
+                                                this.textNombreContacto.Text,
+                                                this.ddRubros.Text,
                                                 this.textCalle.Text,
                                                 this.textPiso.Text,
                                                 this.textDpto.Text,
                                                 this.textLocalidad.Text,
-                                                this.textCP.Text,
-                                                this.textDNI.Text);
+                                                this.textCP.Text);
 
             if (alta)
             {
-                MessageBox.Show("Usuario dado de alta correctamente", "Alta cliente", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Proveedor dado de alta correctamente", "Alta proveedor", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 cleanInputs();
             }
- 
         }
-
 
         private String[] loadInputs()
         {
             String[] i ={
-            this.textNombre.Text,
-            this.textApellido.Text,
+            this.textRazonSocial.Text,
+            this.textCUIT.Text,
             this.textMail.Text,
             this.textTelefono.Text,
-            this.textFN.Text,
+            this.textNombreContacto.Text,
+           // this.ddRubros.SelectedText,
             this.textCalle.Text,
             //this.textPiso.Text,
             //this.textDpto.Text,
             this.textLocalidad.Text,
             //this.textCP.Text,
-            this.textDNI.Text,
-            this.textUsuario.Text,
-            this.textContra.Text};
+           };
             return i;
         }
 
-        //campos tipo numerico
-        private void textDNI_KeyPress(object sender, KeyPressEventArgs e)
+        private void buttonVolver_Click(object sender, EventArgs e)
         {
-            Validar.numerico(e);
-            
+            DialogResult boton = MessageBox.Show("Si vuelve se borraran todos los datos ingresados", "Alerta", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+            if (boton == DialogResult.OK){
+                if (Session.isNull())
+                {
+                    Registro.Registro a = new Registro.Registro();
+                    a.Show();
+                    this.cleanInputs();
+                    this.Hide();
+                }
+                else
+                {
+                    AbmProveedores a = new AbmProveedores();
+                    a.Show();
+                    this.cleanInputs();
+                    this.Hide();
+                }
+            }
+            else{
+                //se deberia quedar en esta pantalla
+            }
         }
 
-        //campos string
-        private void textNombre_KeyPress(object sender, KeyPressEventArgs e)
+        private void textTelefono_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validar.numerico(e);
+        }
+
+        private void textNombreContacto_KeyPress(object sender, KeyPressEventArgs e)
         {
             Validar.letras(e);
         }
 
-        private void calendario_Leave(object sender, EventArgs e)
+        private void textCUIT_KeyPress(object sender, KeyPressEventArgs e)
         {
-            this.calendario.Hide();
+            Validar.numerico(e);
         }
 
-        private void calendario_DateSelected(object sender, DateRangeEventArgs e)
+        private void AltaProveedor_Load(object sender, EventArgs e)
         {
-            textFN.Text = calendario.SelectionRange.Start.ToShortDateString();
-            calendario.Hide();
-        }
 
+        }
 
     }
 }

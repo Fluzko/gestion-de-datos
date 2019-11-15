@@ -10,10 +10,17 @@ namespace FrbaOfertas.Modelos
     {
         public int id_funcionalidad { get; set; }
         public String funcionalidad { get; set; }
+        public String descripcion { get; set; }
 
         public Funcionalidad(int id, String funcionalidad){
             id_funcionalidad = id;
             this.funcionalidad = funcionalidad;
+        }
+        public Funcionalidad(int id, String funcionalidad, String descripcion)
+        {
+            id_funcionalidad = id;
+            this.funcionalidad = funcionalidad;
+            this.descripcion = descripcion;
         }
 
 
@@ -29,15 +36,15 @@ namespace FrbaOfertas.Modelos
                     break;
 
                 case 3:
-                    (new AbmProveedor.AbmProveedor()).Show();
+                    (new AbmProveedor.AbmProveedores()).Show();
                     break;
 
                 case 4:
-                    //(new CragaCredito.CargaCredito()).Show();
+                    (new CragaCredito.CargaCredito()).Show();
                     break;
 
                 case 5:
-                    //(CrearOferta.CrearOferta()).Show();
+                    (new CrearOferta.PublicarOferta()).Show();
                     break;
 
                 case 6:
@@ -53,7 +60,7 @@ namespace FrbaOfertas.Modelos
                     break;
 
                 case 9:
-                    //(new ListadoEstadistico.ListadoEstadistico()).Show();
+                    (new ListadoEstadistico.ListadoEstadistico()).Show();
                     break;
 
                 default:

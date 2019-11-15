@@ -134,8 +134,10 @@ CREATE TABLE LOS_SINEQUI.TiposPago (
 
 ----TARJETAS----
 CREATE TABLE LOS_SINEQUI.Tarjetas (
+	username NVARCHAR(255) FOREIGN KEY REFERENCES LOS_SINEQUI.Clientes NOT NULL,
 	numero NCHAR(16) PRIMARY KEY,
-	vencimiento DATE NOT NULL,
+	mesVencimiento INTEGER NOT NULL,
+	anioVencimiento INTEGER NOT NULL,
 	titular NCHAR(20) NOT NULL,
 	codigo_verif NCHAR(3) NOT NULL
 )
@@ -390,10 +392,22 @@ VALUES				 ('admin','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fd
 
 INSERT INTO LOS_SINEQUI.Rol_Usuario (id_rol,username,habilitado)
 VALUES					(4,'admin',1)
+
+
+/*son todos valores de prueba, para que simplemente funcione la prueba del tp, se entiende que esto en produccion no existe.*/
+INSERT INTO LOS_SINEQUI.Clientes (nombre,apellido,credito,dni,fecha_nac,habilitado,id_direccion,mail,telefono,username)
+VALUES							 ('admin','admin',0,00000000,CURRENT_TIMESTAMP,1,1,'admin@admin.com',0000000000,'admin')
+
+/*son todos valores de prueba, para que simplemente funcione la prueba del tp, se entiende que esto en produccion no existe.*/
+INSERT INTO LOS_SINEQUI.Proveedores (cuit,habilitado,id_direccion,mail,nombre_contacto,razon_social,rubro,telefono,username)
+VALUES								(0000000000000,1,null,'admin@admin.com','admin','rs_admin',1,0000000000,'admin')
+
 GO
+
 
 CREATE TRIGGER tr_actualizarStock ON LOS_SINEQUI.Cupones AFTER INSERT AS BEGIN TRANSACTION
 	UPDATE LOS_SINEQUI.Ofertas SET stock = stock - 1 WHERE id_oferta = (SELECT id_oferta FROM inserted)
 COMMIT
 GO
+
 

@@ -301,6 +301,11 @@ namespace FrbaOfertas.AbmCliente
 
         }
 
+        private void clientesGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
 
     }
 }

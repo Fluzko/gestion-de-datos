@@ -58,9 +58,9 @@ namespace FrbaOfertas.Facturar
             textMonto.Clear();
             textFacturaN.Clear();
 
-            proveedorSeleccionado = proveedores.Where(p => p.razonSocial == ddProveedor.Text).ToList().First();
+            proveedorSeleccionado = proveedores.Where(p => p.RazonSocial == ddProveedor.Text).ToList().First();
 
-            cupones = DB_Ofertas.getCupones(proveedorSeleccionado.username, dateTimeDesde.Value, dateTimeHasta.Value);
+            cupones = DB_Ofertas.getCupones(proveedorSeleccionado.Username, dateTimeDesde.Value, dateTimeHasta.Value);
 
             dataGridCupones.DataSource = cupones;
 
