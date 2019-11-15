@@ -18,6 +18,7 @@ namespace FrbaOfertas.AbmRol
             Decoracion.Reorganizar(this);
             ddEstado.Items.Add("Habilitado");
             ddEstado.Items.Add("Deshabilitado");
+
         }
 
         private void buttonLimpiar_Click(object sender, EventArgs e)

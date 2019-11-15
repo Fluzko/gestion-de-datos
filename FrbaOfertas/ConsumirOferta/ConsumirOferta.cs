@@ -51,7 +51,7 @@ namespace FrbaOfertas.ConsumirOferta
 
         private void btnBaja_Click(object sender, EventArgs e)
         {
-            DialogResult res = MessageBox.Show("¿Desea dar de baja el cupon n°" + current.Id + "?", "Consumir Ofertas", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+            DialogResult res = MessageBox.Show("¿Desea canjear el cupon n°" + current.Id + "?", "Consumir Ofertas", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
 
             if (res == DialogResult.OK)
             {
@@ -124,6 +124,17 @@ namespace FrbaOfertas.ConsumirOferta
                 MessageBox.Show("Usted no tiene cupones pendientes para dar de baja.", "Consumir Oferta", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Volver();
             }
+        }
+
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            this.txtCliente.Clear();
+            this.txtDescripcion.Clear();
+            this.txtIdCupon.Clear();
+            this.txtIdOferta.Clear();
+            List<Modelos.Cupon> cupones = DB_Ofertas.getCupones(Session.getUser().getUsername());
+            if (cupones != null ) 
+                showCupones(cupones);
         }
     }
 }

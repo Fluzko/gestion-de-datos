@@ -15,6 +15,7 @@ namespace FrbaOfertas.CrearOferta
         public PublicarOferta()
         {
             InitializeComponent();
+            Decoracion.Reorganizar(this);
         }
 
         private void label1_Click(object sender, EventArgs e)

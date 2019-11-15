@@ -15,6 +15,7 @@ namespace FrbaOfertas.AbmRol
         public AbmRol()
         {
             InitializeComponent();
+            Decoracion.Reorganizar(this);
         }
 
         private void AbmRol_Load(object sender, EventArgs e)

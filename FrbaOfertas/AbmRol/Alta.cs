@@ -15,6 +15,7 @@ namespace FrbaOfertas.AbmRol
         public Alta()
         {
             InitializeComponent();
+            Decoracion.Reorganizar(this);
         }
 
         private void buttonGuardar_Click(object sender, EventArgs e)

@@ -99,6 +99,7 @@ namespace FrbaOfertas.AbmProveedor
             this.Controls.Add(this.buttonVolver);
             this.Controls.Add(this.groupBox1);
             this.Name = "AbmProveedores";
+            this.Load += new System.EventHandler(this.AbmProveedores_Load);
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -114,6 +115,11 @@ namespace FrbaOfertas.AbmProveedor
         {
             (new ModificarProveedor()).Show();
             this.Hide();
+        }
+
+        private void AbmProveedores_Load(object sender, EventArgs e)
+        {
+
         }
 
     }

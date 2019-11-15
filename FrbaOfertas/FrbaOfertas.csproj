@@ -116,6 +116,17 @@
     <Compile Include="AbmRol\Alta.Designer.cs">
       <DependentUpon>Alta.cs</DependentUpon>
     </Compile>
+
+    <Compile Include="CragaCredito\AgregarTarjeta.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CragaCredito\AgregarTarjeta.Designer.cs">
+      <DependentUpon>AgregarTarjeta.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modelos\ProveedorEstadistica1.cs" />
+    <Compile Include="Modelos\ProveedorEstadistica2.cs" />
+    <Compile Include="Modelos\TipoPago.cs" />
+    <Compile Include="Modelos\Tarjeta.cs" />
     <Compile Include="Hash.cs" />
     <Compile Include="ConsumirOferta\ConsumirOferta.cs">
       <SubType>Form</SubType>
@@ -152,11 +163,11 @@
     <Compile Include="ComprarOferta\ComprarOferta.Designer.cs">
       <DependentUpon>ComprarOferta.cs</DependentUpon>
     </Compile>
-    <Compile Include="CragaCredito\Form1.cs">
+    <Compile Include="CragaCredito\CargaCredito.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CragaCredito\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="CragaCredito\CargaCredito.Designer.cs">
+      <DependentUpon>CargaCredito.cs</DependentUpon>
     </Compile>
     <Compile Include="CrearOferta\PublicarOferta.cs">
       <SubType>Form</SubType>
@@ -164,11 +175,11 @@
     <Compile Include="CrearOferta\PublicarOferta.Designer.cs">
       <DependentUpon>PublicarOferta.cs</DependentUpon>
     </Compile>
-    <Compile Include="ListadoEstadistico\Form1.cs">
+    <Compile Include="ListadoEstadistico\ListadoEstadistico.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ListadoEstadistico\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="ListadoEstadistico\ListadoEstadistico.Designer.cs">
+      <DependentUpon>ListadoEstadistico.cs</DependentUpon>
     </Compile>
     <Compile Include="Login\Funcionalidad.cs">
       <SubType>Form</SubType>
@@ -227,14 +238,26 @@
     <EmbeddedResource Include="ComprarOferta\ComprarOferta.resx">
       <DependentUpon>ComprarOferta.cs</DependentUpon>
     </EmbeddedResource>
+
+    <EmbeddedResource Include="CragaCredito\AgregarTarjeta.resx">
+      <DependentUpon>AgregarTarjeta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CragaCredito\CargaCredito.resx">
+      <DependentUpon>CargaCredito.cs</DependentUpon>
+    </EmbeddedResource>
+
     <EmbeddedResource Include="ConsumirOferta\ConsumirOferta.resx">
       <DependentUpon>ConsumirOferta.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CrearOferta\PublicarOferta.resx">
       <DependentUpon>PublicarOferta.cs</DependentUpon>
+
     </EmbeddedResource>
     <EmbeddedResource Include="Facturar\Facturar.resx">
       <DependentUpon>Facturar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListadoEstadistico\ListadoEstadistico.resx">
+      <DependentUpon>ListadoEstadistico.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login\Funcionalidad.resx">
       <DependentUpon>Funcionalidad.cs</DependentUpon>

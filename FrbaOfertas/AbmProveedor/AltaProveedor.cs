@@ -17,6 +17,7 @@ namespace FrbaOfertas.AbmProveedor
         public AltaProveedor()
         {
             InitializeComponent();
+            Decoracion.Reorganizar(this);
             listRubros();
         }
 

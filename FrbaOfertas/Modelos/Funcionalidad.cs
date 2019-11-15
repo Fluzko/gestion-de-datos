@@ -40,7 +40,7 @@ namespace FrbaOfertas.Modelos
                     break;
 
                 case 4:
-                    //(new CragaCredito.CargaCredito()).Show();
+                    (new CragaCredito.CargaCredito()).Show();
                     break;
 
                 case 5:
@@ -60,7 +60,7 @@ namespace FrbaOfertas.Modelos
                     break;
 
                 case 9:
-                    //(new ListadoEstadistico.ListadoEstadistico()).Show();
+                    (new ListadoEstadistico.ListadoEstadistico()).Show();
                     break;
 
                 default:
