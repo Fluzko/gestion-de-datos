@@ -15,13 +15,26 @@ namespace FrbaOfertas.AbmRol
         public Modificar()
         {
             InitializeComponent();
+            Decoracion.Reorganizar(this);
+            ddEstado.Items.Add("Habilitado");
+            ddEstado.Items.Add("Deshabilitado");
         }
 
         private void buttonLimpiar_Click(object sender, EventArgs e)
         {
             
         }
+        private String habilitadoToString(int id_rol)
+        {
+            if (DB_Ofertas.habilitado(id_rol)) return "Habilitado";
+            else return "Deshabilitado";
+        }
 
+        private bool habilitadoToBool(String habilitado)
+        {
+            if (habilitado == "Habilitado") return true;
+            else return false;
+        }
         private void buttonBuscar_Click(object sender, EventArgs e)
         {
 
@@ -35,8 +48,11 @@ namespace FrbaOfertas.AbmRol
             List<Modelos.Funcionalidad> funcionalidades = DB_Ofertas.getFuncionalidades();
             showFuncionalidades(funcionalidades,idRol);
             textNombreNuevo.Text = textNombreRol.Text;
+            ddEstado.SelectedIndex = ddEstado.FindString(habilitadoToString(idRol));
             return;
         }
+
+
         private void showFuncionalidades(List<Modelos.Funcionalidad> funcionalidades,int idRol)
         {
             tablaFuncionalidades.DataSource = funcionalidades;
@@ -45,9 +61,9 @@ namespace FrbaOfertas.AbmRol
             foreach (DataGridViewRow row in tablaFuncionalidades.Rows)
             {
                 if (DB_Ofertas.tieneFuncionalidad(row.Cells[1].Value.ToString(), idRol))
-                    row.Cells[0].Value = true;
+                    row.Cells[0].Value = "True";
                 else
-                    row.Cells[0].Value = false;
+                    row.Cells[0].Value = "False";
             }
         }
 
@@ -67,45 +83,42 @@ namespace FrbaOfertas.AbmRol
             }
             nombreViejoRol = textNombreRol.Text;
             nombreNuevoRol = textNombreNuevo.Text;
-            bool update = DB_Ofertas.updateRol(nombreNuevoRol, nombreViejoRol, funcionalidades);
+            bool habilitado = habilitadoToBool(ddEstado.Text);
+            bool update = DB_Ofertas.updateRol(nombreNuevoRol, nombreViejoRol, funcionalidades,habilitado);
 
             if (update) 
                 MessageBox.Show("Rol modificado correctamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            textNombreNuevo.Clear();
+            textNombreRol.Clear();
+            ddEstado.Items.Clear();
+            tablaFuncionalidades.DataSource = null;
 
         }
 
         private void buttonVolver_Click(object sender, EventArgs e)
         {
-            DialogResult boton = MessageBox.Show("Si vuelve se borraran todos los datos ingresados", "Alerta", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
-            if (boton == DialogResult.OK)
-            {
-                if (Session.isNull())
-                {
-                    Registro.Registro a = new Registro.Registro();
-                    a.Show();
-                    this.textNombreRol.Clear();
-                    this.textNombreNuevo.Clear();
-                    this.Hide();
-                }
-                else
-                {
-                    AbmRol a = new AbmRol();
-                    a.Show();
-                    this.textNombreRol.Clear();
-                    this.textNombreNuevo.Clear();
-                    this.Hide();
-                }
-            }
-            else
-            {
-                //se deberia quedar en esta pantalla
-            }
+               AbmRol a = new AbmRol();
+               a.Show();
+               this.textNombreRol.Clear();
+               this.textNombreNuevo.Clear();
+               this.Hide();
+    
         }
 
         private void buttonLimpiar_Click_1(object sender, EventArgs e)
         {
             this.textNombreRol.Clear();
             this.textNombreNuevo.Clear();
+        }
+
+        private void Modificar_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ddEstado_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
 
     }
